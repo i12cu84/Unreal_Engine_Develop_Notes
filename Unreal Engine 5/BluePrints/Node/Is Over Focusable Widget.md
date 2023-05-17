@@ -1,0 +1,1 @@
+WidgetInteraction组件对象引出 可以判断是否与3D UI(Widget 组件)进行了交互
