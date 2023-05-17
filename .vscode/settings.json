@@ -1,0 +1,78 @@
+{
+    "runInTerminal.clearBeforeRun": true,
+    "code-runner.runInTerminal": true,
+    "editor.fontLigatures": null,
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "off"
+    },
+    "editor.wordBasedSuggestions": false,
+    "editor.snippetSuggestions": "none",
+    "editor.suggestSelection": "first",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "editor.fontFamily": "'Source Code Pro',Consolas, 'Courier New', monospace",
+    "C_Cpp.intelliSenseEngine": "Disabled",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.formatOnPaste": true,
+    "files.autoSave": "afterDelay",
+    "explorer.confirmDelete": false,
+    "files.encoding": "utf8",
+    "workbench.colorTheme": "One Dark Pro",
+    "editor.fontSize": 24,
+    "explorer.confirmDragAndDrop": false,
+    "[cpp]": {
+        "editor.wordBasedSuggestions": false,
+        "editor.suggest.insertMode": "replace",
+        "editor.semanticHighlighting.enabled": true
+    },
+    "files.associations": {
+        "*.cpp": "cpp"
+    },
+    "editor.tabCompletion": "off",
+    "extensions.ignoreRecommendations": true,
+    "telemetry.enableCrashReporter": false,
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.suggest.showConstants": false,
+    "editor.suggest.showClasses": false,
+    "editor.suggest.showColors": false,
+    "editor.suggest.showConstructors": false,
+    "editor.suggest.showCustomcolors": false,
+    "editor.suggest.showEnumMembers": false,
+    "editor.suggest.showEnums": false,
+    "editor.suggest.showEvents": false,
+    "editor.suggest.showFields": false,
+    "editor.suggest.showFiles": false,
+    "editor.suggest.showFolders": false,
+    "editor.suggest.showFunctions": false,
+    "editor.suggest.showIcons": false,
+    "editor.suggest.showInlineDetails": false,
+    "editor.suggest.showInterfaces": false,
+    "editor.suggest.showIssues": false,
+    "editor.suggest.showMethods": false,
+    "editor.suggest.showModules": false,
+    "editor.suggest.showOperators": false,
+    "editor.suggest.showReferences": false,
+    "editor.suggest.showSnippets": false,
+    "editor.suggest.showStructs": false,
+    "editor.suggest.showTypeParameters": false,
+    "editor.suggest.showUnits": false,
+    "editor.suggest.showUsers": false,
+    "editor.suggest.showValues": false,
+    "editor.suggest.showVariables": false,
+    "editor.suggest.showWords": false,
+    //markdown setting
+    "workbench.editor.enablePreview": false,
+    //截图保存的文件夹路径
+    "pasteImage.path": "${projectRoot}/assets",
+    //截图显示的�相对路径URL
+    "pasteImage.basePath": "${currentFileDir}",
+    //分隔符标准
+    "pasteImage.forceUnixStyleSeparator": true,
+    //默认解码打开方式
+}

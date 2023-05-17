@@ -1,0 +1,7 @@
+{
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.terminal.clear",
+        "when": "terminalFocus"
+    }
+}
