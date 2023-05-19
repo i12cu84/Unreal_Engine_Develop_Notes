@@ -97,8 +97,31 @@ Allows Multiple Grips(是否允许多方抓取(多人联机))
 
 Drop的话 同理修改
 
-p5 组件化抓取方案HandSocketComponent
+p5 HandSocketComponent & SecondaryGrip -> 组件化抓取方案HandSocketComponent
 被抓取物体添加该组件后可以设定手的抓取效果
-蓝图类(HandSocketComponent)
+蓝图类(HandSocketComponent)手部抓取姿势蓝图(?)
+蓝图类(GrippableSkeletalMeshActor)被抓取的物体特例
+组件(HandSocketBase)手部显示效果组件(抓握物体之后的实质效果)
 
-2:45
+应用抓取后读取周围手部组件插槽(HandSocketBase)并实现抓握物体的效果
+![](../../assets/2023-05-18-14-24-09.png)
+
+通过判断处理抓取的效果
+![](../../assets/2023-05-18-14-33-22.png)
+
+HS相对位置计算
+![](../../assets/2023-05-18-14-39-06.png)
+
+读取双手参数以免有多方抓握冲突问题,并且可以做到双手同时抓握一个物体(需要在物体组件中加入两个HS组件)
+![](../../assets/2023-05-18-14-43-20.png)
+
+p6 HanSocketComponent & PossSnapshot -> 应用到骨骼网格体特性
+HS组件可修改
+编辑手部骨骼的具体效果
+![](../../assets/2023-05-18-14-47-22.png)
+
+左右手动画蓝图 7:53 (因为跟不了 暂且搁置)
+
+p7 全身IK & UBIKSlver
+UBIKSlver插件 用于显示VR双手与全身相接骨骼动画效果
+插件地址:https://github.com/JonasMolgaard/UBIKSolver
