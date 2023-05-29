@@ -1,0 +1,1 @@
+设定MediaPlayer 对象进行循环播放
