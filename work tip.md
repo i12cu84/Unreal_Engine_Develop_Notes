@@ -1,1 +1,0 @@
-switch has authority 多人局域网联机
