@@ -44,3 +44,13 @@ method:
 -> 右键 以管理员身份运行
 -> 关闭防火墙
 -> 检查VR设备串流以及激活问题
+
+problem:
+对创建的Widget以ViewportSize定义SetPositioninViewpot
+调试时UI的位置正常,但打包软件后调试会发现位置异常
+case:
+UI的位置并不会受屏幕像素所影响
+method:
+在UI蓝图中,添加Canvas Panel,在屏幕Panel中明确定义好UI的具体位置
+锚点可以与屏幕像素所关联
+注:注意UI的层级关系
