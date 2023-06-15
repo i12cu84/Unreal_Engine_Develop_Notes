@@ -54,3 +54,10 @@ method:
 在UI蓝图中,添加Canvas Panel,在屏幕Panel中明确定义好UI的具体位置
 锚点可以与屏幕像素所关联
 注:注意UI的层级关系
+
+problem:
+编辑器中运行发生的错误:如果需要移动,则.....的移动性必须为可移动性
+case:
+无移动效果,需要在StaticMeshComponent设置移动性(可移动)
+method:
+Node:Set Mobility
