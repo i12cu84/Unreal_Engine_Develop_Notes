@@ -60,4 +60,4 @@ problem:
 case:
 无移动效果,需要在StaticMeshComponent设置移动性(可移动)
 method:
-Node:Set Mobility
+Node:Set Mobility(设置为可移动)
