@@ -22,4 +22,4 @@ software_debug -> 目前遇到ue崩溃问题及其解决方案
 
 work tip -> 笔者自身后续开发的关键字提示
 
-work VR task -> 笔者目前的主要工作重心
+work task -> 笔者目前的主要工作重心
