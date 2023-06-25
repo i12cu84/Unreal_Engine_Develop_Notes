@@ -1,0 +1,1 @@
+设定Widget(image)控件的参数
