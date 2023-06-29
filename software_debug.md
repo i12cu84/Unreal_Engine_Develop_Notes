@@ -61,3 +61,18 @@ case:
 无移动效果,需要在StaticMeshComponent设置移动性(可移动)
 method:
 Node:Set Mobility(设置为可移动)
+
+problem:
+""无访问 正在尝试读取属性
+case:
+editor报错,出现未知效果
+method:
+加入IsValid节点判断是否有效(或者使用cast to [Type])
+
+problem:
+打开某些Widget时会与主窗口之间输入产生冲突
+case:
+透过Widget对主窗口操作
+method:
+加入Set Input Mode(UI Only/Game Only)
+
