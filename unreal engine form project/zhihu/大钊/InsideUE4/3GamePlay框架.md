@@ -1,210 +1,5 @@
 
 <details>
-<summary>目录</summary>
-    <pre><code>
-    https://zhuanlan.zhihu.com/p/22813908?refer=insideue4
-    UE4无疑是非常优秀的世界上最顶尖的引擎之一，性能和效果都非常出众，编辑器工作流也非常的出色，更难得宝贵的是完全的开源让我们有机会去从中吸取营养，学习世界上第一流游戏引擎的架构思想。
-    本系列教程《InsideUE4》，希望从最最底层的C++源码剖析，到最最上层的蓝图节点，力求解释清楚各个选项的内部运作机理。希望做到知其然，而更要知其所以然。UE4也是一个非常博大精深的引擎，分析透彻各个具体模块的运作机理无疑也是个艰巨的任务，因此书写周期不定，尽量周更。
-    计划（顺序不定）
-    开篇
-    基本概念
-    GamePlay架构
-    Actor 和 Component
-    Level和World
-    WorldContext，GameInstance，Engine
-    Pawn
-    Controller
-    PlayerController和AIController
-    GameMode和GameState
-    Player
-    GameInstance
-    总结
-    Subsystems
-    UObject （当前正在写作中……）
-    开篇
-    类型系统概述
-    类型系统设定和结构
-    类型系统代码生成
-    类型系统信息收集
-    类型系统代码生成重构-UE4CodeGen_Private
-    类型系统注册-第一个UClass
-    类型系统注册-CoreUObject模块加载
-    类型系统注册-InitUObject
-    类型系统构造-再次触发
-    类型系统构造-构造绑定链接
-    类型系统-总结
-    类型系统-反射实战
-    加载启动
-    模块机制
-    独立
-    编辑器
-    客户端
-    服务器
-    编译系统
-    链接第三方库
-    Game
-    Plugin
-    反射 UObject
-    UBT,UHT
-    蓝图系统
-    编译
-    加载
-    调用
-    网络
-    加入，事件
-    物理
-    碰撞处理，Overlap，Hit
-    布料
-    破坏
-    UI
-    Slate，UMG
-    渲染
-    流程
-    Viewport
-    相机管理，CameraManager
-    灯光，烘培
-    材质
-    PostProcess
-    模块
-    输入事件
-    骨骼动画，融合
-    Matinee,Cinematics
-    粒子系统
-    音频
-    AI,行为树，环境探测
-    地形
-    视频
-    Log
-    Profile
-    本地化
-    统计
-    Paper2D
-    资源管理
-    加载机制
-    uasset文件分析
-    Level Streaming
-    导入
-    打包
-    C++
-    字符串处理FString
-    Delegate
-    GC
-    序列化
-    SlowTask多线程
-    VR
-    配置，头显
-    扩展
-    资源更新
-    HotReload
-</code></pre>
-</details>
-
-<details>
-<summary>《InsideUE4》开篇</summary>
-<pre><code>
-https://zhuanlan.zhihu.com/p/22814051?refer=gameengine
-前言
-VR行业发展是越来越火热了，硬件设备上有HTC VIVE，Oculus rift，PS VR，各种魔镜；平台上有Steam VR，Gear VR，Google Daydream。而游戏引擎上则有两大阵营：Unreal Engine和Unity。Unity凭着先期的移动平台优势占领了一大部分移动平台的市场，所以目前上手机上的VR游戏也大部分是由Unity开发的。而PC平台上，Unreal Engine凭借着优异的性能，绚丽的渲染效果，源码开源的战略也抢占了目前大部分PC平台VR游戏的份额。参加一场ChinaJoy的VR游戏，会发现大部分也都是由UE4开发的。虽然UE4的授权分成费确实比Unity要昂贵一些，但也因为VR行业本身也还处以社会主义初级阶段，大家也都是在做Demo性质的产品，还没有形成非常客观的市场利润市场。所以盈利后的那些分成费在现阶段已经不太有所谓了。
-大名鼎鼎的的虚幻引擎，从1998开始，到我们知道的UE3,UDK，一直是高大上的3A游戏和端游的渲染器引擎。然后到2013年，UE4大刀阔斧的改革，干掉了UnrealScript，引进了Blueprint蓝图系统，直接让策划美术也可以拖线实现游戏逻辑。更大的改变的是竟然开源了，受益于社区的回馈，版本更新的速度更是丧心病狂。小版本更新几乎是一两个月就一版。在学习了Unity的Marketplace和插件系统后，更是如虎添翼，焕发了新的生命力。
-虽然官方一直非常努力的升级更新引擎，但UE4目前也存在了学习曲线陡峭，教程资源稀少的问题。笔者自己从事VR游戏开发，在学习UE4的过程中，基本上也只能硬啃官方文档，youtube上官方视频教程，还有一些寥寥的第三方的视频教程。而且更大的问题在于基本上所有的教程都是非常初级的，只是在教你怎么”用”这个引擎，所以一旦在使用过程中发现了问题，往往手足无措，不能高层建瓴的去解决问题。官方的文档虽然说已经挺详尽了，但大部分重点也只是在介绍表层的各种功能，对于引擎内部的结构和运作机理讳莫如深。如果把UE4当作Unity那样的一个黑盒子去用，在遇到Bug时也只能去各种试各种猜，那也无疑浪费了UE的一个大优势。
-UE4无疑是非常优秀的世界上最顶尖的引擎之一，性能和效果都非常出众，编辑器工作流也非常的出色，更难得宝贵的是完全的开源让我们有机会去从中吸取营养，学习世界上第一流游戏引擎的架构思想。
-源码面前，了无秘密 ——侯捷
-所以笔者决定开始该系列教程《Inside UE4》，从最最底层的C++源码剖析，到最最上层的蓝图节点，力求解释清楚各个选项的内部运作机理。希望做到知其然，而更要知其所以然。UE4也是一个非常博大精深的引擎，光源码下载下来也都有1~2G，分析透彻各个具体模块的运作机理无疑也是个艰巨的任务，但我们努力一分也至少有一分的收获，有一分的甜蜜。
-面向的读者：
-不满足于目前世面上教程深度的。已经大概知道了引擎功能并使用，但是仍然想要知道得更多的人。
-有一定的C++基础。UE4里的C++已经被Epic给魔改后又和C#厮混在一起，一方面得益于此，UE4里的C++实现了各种方便的功能，如反射，垃圾回收，编译系统等重量级的功能。一方面也加大了我们的阅读难度。所以需要你有良好的C++基础，至少看得懂各种C++模板，熟悉各种数据结构。
-有一点点的C#语言能力，在涉及UE4编译系统的时候，会谈到一些C#，还好不是很多，也还好C#作为一门非常优秀的语言非常易读，不过你要是已经掌握C#，那就更好了。
-了解3D游戏引擎的一些基础概念，如知道什么是材质，什么是骨骼动画融合等。所幸这些都是很容易知道的知识。
-有一些基本的图形学知识，知道Mesh,Shader,RenderTarget……等等一些基本的概念。本教程在开始某个专题的时候，会简单讲解一下背景知识，但它不会变成基础图形学教程。
-不适合的读者：
-希望通过该教程学习快速上手UE4引擎的人，不适合你。目前快速上手UE4的最佳途径依然是官方文档和视频教程。
-希望学习然后自己搭建具体游戏的，如FPS，VR游戏，样板间等。本系列教程不会教你从零开始搭建一个游戏示例，虽然会讲解VR的各种配置的内部机制原理。
-希望学习某个模块具体案例的，如用材质编辑器实现各种效果。本教程会透彻分析材质编辑器内部的实现机制，也会讲解各个材质节点的功能和原理，有时也会看需要通过一些非常直接简单的示例来讲解。但目标从来都是讲解原理，而不是实现结果。
-愿景和计划
-从C++源码层次上分析整个游戏引擎的架构。了解清楚各个模块之间是怎么协作的，如果有闲情雅致，也甚至会具体到谈一谈某个很小的点为何这么设计。如UE4里的Delegate，Pointers，TArray等。
-虽然源码剖析本来就是曲线陡峭的上升，但还是希望能尽量深入浅出的讲解，所以也会尽量结合实际的效果演示。
-因为UE4比较庞大，所以会逐渐的展开各个专题展开，在讲解一个专题的源码时，会暂时忽略其它跟它协作模块。
-虽然UE4也可以做移动平台的开发，但本教程还是主要专注于Windows的PC端游戏内容。
-计划是连载周更，虽说已经有预定的专题讲解列表计划，但并不妨碍你留言告知你最想了解的下一个专题。我会酌情改变优先级。
-本人也是才疏学浅，经验有限，如有错误纰漏之处，也请不吝赐教，共同学习进步，不胜感激。
-一些准备工作
-UnrealEngine官方Github地址
-虽说官方已经提供了简便的launcher，但还是推荐自己自己Clone源码编译，也方便时不时的Debug和查看源码知道Why。而且有些时候其实是直接更改引擎源码来得更为方便便利的。
-Clone下来之后先点 Setup.bat再点 GenerateProjectFiles.bat ，然后打开UE4.sln，按照默认选项DevelopmentEditor，等待最初半个小时的编译后，就可以开始源码之旅了。
-引擎版本紧跟Github最新release，目前最新4.14
-注意：因为UnrealEngine只是公开源码，但不是开源项目，依然是个私有项目。访问该Github地址，需要先链接你的Github到EpicGames的会员权限里，这个文档Linking your Github account说明了步骤。
-UnrealEngine官方文档
-本教程也会同时大量引用官方文档的内容，在官方文档简略的介绍的基础上，通过源码加深理解，再更加透彻的解释。
-UnrealEngine官方Youtube频道
-UnrealEngine官方优酷频道
-有条件的话，还是建议自搭梯子，youtube的视频教程更新是最快的，而且也有高清。
-一块大容量的SSD，UE用source build的话，特别是想调试引擎的话，一个配置编译出来都得耗用个好几个G，一个项目的编译20~30G轻轻松松。
-其他的无关的话：
-之前开源过一款自研的Medusa游戏引擎，一个人毕竟精力有限，也无法开工各种编辑器工作流。所以Medusa引擎目前只是作为自己的一个试验场，未来也会专注于2D游戏的一些探索。关于Medusa游戏引擎的内部架构，其实想讲的也挺多，希望以后在UE4的相关介绍后，得空顺便讲一些其他游戏引擎的架构思想，和C++的一些奇技淫巧。
-</code></pre>
-</details>
-
-<details>
-<summary>《InsideUE4》基础概念</summary>
-<pre><code>
-https://zhuanlan.zhihu.com/p/22814098
-创建测试项目
-接上文的准备工作，双击生成的UE4Editor.exe，选择创建测试C++空项目Hello（以后的源码分析都会基于该最简单的项目）
-项目文件结构
-VS项目和文件目录：
-可以看到，Config目录里带着3个最主要的配置，Editor,Engine,Game。代码方面自动生成了用于编译系统的3个.cs文件，C++代码方面生成了一个Hello "Game Module"，和HelloGameMode。
-文件目录：
-Binaries:存放编译生成的结果二进制文件。该目录可以gitignore,反正每次都会生成。
-Config:配置文件。
-Content:平常最常用到，所有的资源和蓝图等都放在该目录里。
-DerivedDataCache：“DDC”，存储着引擎针对平台特化后的资源版本。比如同一个图片，针对不同的平台有不同的适合格式，这个时候就可以在不动原始的uasset的基础上，比较轻易的再生成不同格式资源版本。gitignore。
-Intermediate：中间文件（gitignore），存放着一些临时生成的文件。有：
-Build的中间文件，.obj和预编译头等
-UHT预处理生成的.generated.h/.cpp文件
-VS.vcxproj项目文件，可通过.uproject文件生成编译生成的Shader文件。
-AssetRegistryCache：Asset Registry系统的缓存文件，Asset Registry可以简单理解为一个索引了所有uasset资源头信息的注册表。CachedAssetRegistry.bin文件也是如此。
-Saved：存储自动保存文件，其他配置文件，日志文件，引擎崩溃日志，硬件信息，烘培信息数据等。gitignore
-Source：代码文件。
-编译类型
-很多人在使用UE4的时候，往往只是依照默认的DevelopmentEditor，但实际上编译选项是非常重要的。
-UE4本身包含网络模式和编辑器，这意味着你的工程在部署的时候将包含Server和Client，而在开发的时候，也将有Editor和Stand-alone之分；同时你也可以单独选择是否为Engine和Game生成调试信息，接着你还可以选择是否在游戏里内嵌控制台等。
-依照官方介绍
-每种编译配置包含两种关键字。第一种表明了引擎以及游戏项目的状态。第二个关键字表明正在编译的目标。
-组合的各种情况：
-所以为了我们的调试代码方便，我们选择DebugEditor来加载游戏项目，当需要最简化流程的时候用Debug来运行独立版本。
-命名约定
-客观来说，相比其他引擎的源码，UE4的源码还是非常清晰的，模块组织也比较明了。但阅读源码的学习曲线依然陡峭，我想有以下原因：
-1. UE4包含的模块众多，拢共有几十个模块，虽然采用了Module架构来解耦，但难免还是要有依赖交叉的地方，在阅读的时候就很难理清各部分的关系。
-2. UE4的功能优秀，作为业界顶尖的成熟游戏引擎，在一些具体的模块内部实现上就脱离了简单粗暴，而是采用了各种设计模式和权衡。同时也需要阅读的人有相关的业务知识。比如材质编辑器编译生成Shader的过程就需要读者拥有至少差不多的图形学知识。
-3. 被魔改后的C++，UE4为了各平台的编译和其他考量（具体以后说到编译系统的时候再细讨论），对标准的C++和编译，进行了相当程度的改造，在UHT代码生成和各种宏的嵌套之后，读者就很难一下子看清背后的各种的机制了。
-但万丈高楼平地起，咱们也可以从最简单的一步步开始学起，直到了解掌握整个引擎的内部结构。
-在阅读代码之前，就必须去了解一下UE4的命名约定，具体的自己去查看官网文档，下面是一些基本需要知道的：
-模版类以T作为前缀，比如TArray,TMap,TSet UObject派生类都以U前缀
-AActor派生类都以A前缀
-SWidget派生类都以S前缀
-抽象接口以I前缀
-枚举以E开头
-bool变量以b前缀，如bPendingDestruction
-其他的大部分以F开头，如FString,FName
-typedef的以原型名前缀为准，如typedef TArray FArrayOfMyTypes;
-在编辑器里和C#里，类型名是去掉前缀过的
-UHT在工作的时候需要你提供正确的前缀，所以虽然说是约定，但你也得必须遵守。（编译系统怎么用到那些前缀，后续再讨论）
-基础概念
-和其他的3D引擎一样，UE4也有其特有的描述游戏世界的概念。在UE4中，几乎所有的对象都继承于UObject（跟Java,C#一样），UObject为它们提供了基础的垃圾回收，反射，元数据，序列化等，相应的，就有各种"UClass"的派生们定义了属性和行为的数据。
-跟Unity（GameObject-Component）有些像的是，UE4也采用了组件式的架构，但细品起来却又有些不一样。在UE中，3D世界是由Actors构建起来的，而Actor又拥有各种Component，之后又有各种Controller可以控制Actor（Pawn）的行为。Unity中的Prefab，在UE4中变成了BlueprintClass，其实Class的概念确实更加贴近C++的底层一些。
-Unity中，你可以为一个GameObject添加一个ScriptComponent，然后继承MonoBehaviour来编写游戏逻辑。在UE4中，你也可以为一个Actor添加一个蓝图或者C++ Component,然后实现它来直接组织逻辑。 UE4也支持各种插件。
-其他的下篇再一一细说。
-编译系统
-UE4支持众多平台，包括Windows,IOS，Android等，因此UE4为了方便你配置各个平台的参数和编译选项，简化编译流程,UE4实现了自己的一套编译系统，否则我们就得接受各个平台再单独配置一套项目之苦了。
-这套工具的编译流程结果，简单来说，就是你在VS里的运行，背后会运行UE4的一些命令行工具来完成编译，其他最重要的两个组件：
-UnrealBuildTool（UBT，C#）：UE4的自定义工具，来编译UE4的逐个模块并处理依赖等。我们编写的Target.cs，Build.cs都是为这个工具服务的。
-UnrealHeaderTool （UHT，C++）：UE4的C++代码解析生成工具，我们在代码里写的那些宏UCLASS等和#include "*.generated.h"都为UHT提供了信息来生成相应的C++反射代码。
-一般来说，UBT会先调用UHT会先负责解析一遍C++代码，生成相应其他代码。然后开始调用平台特定的编译工具(VisualStudio,LLVM)来编译各个模块。最后启动Editor或者是Game.
-更细的留待“编译系统”再细细讨论
-</code></pre>
-</details>
-
-<details>
 <summary>《InsideUE4》GamePlay架构（一）Actor和Component</summary>
 <pre><code>
 https://zhuanlan.zhihu.com/p/22833151
@@ -475,6 +270,7 @@ Level作为Actor的容器，同时也划分了World，一方面支持了Level的
 <details>
 <summary>《InsideUE4》GamePlay架构（三）WorldContext，GameInstance，Engine</summary>
 <pre><code>
+https://zhuanlan.zhihu.com/p/23167068
 引言
 前文提到说一个World管理多个Level，并负责它们的加载释放。那么，问题来了，一个游戏里是只有一个World吗？
 WorldContext
@@ -900,6 +696,227 @@ GameSession
 总结
 现在，我们也算讨论完了Level（World）层次的控制，对于一场游戏而言，我们最关心的是怎么协调好整个场景的表现（LevelBlueprint）和游戏玩法的编写（GameMode）。UE再次用Actor分化派生的思想，用同样套路的AGameMode和AGameState支持了玩法和表现的解耦分离和自由组合，并很好的支持了网络间状态的同步。同时也提供了一个逻辑的实体来负责创建关系内那些关键的Pawn和Controller们，在关卡切换（World）的时候，也有了一个负责对象来处理一些本游戏的特定情况处理。
 我们的逻辑之旅还没到终点，让我们继续爬升，下篇将介绍Player。
+修订
+在笔者书写本篇的同时（UE4.13.2），UE同时也完成了4.14的preview3的工作，roadmap里“GameMode Cleanup”的工作也已经完成了，第二天发现4.14正式发布了。因此为了紧跟UE最新潮流时尚，以后要是文章内容所涉及内容被UE修改完善优化的，也会采用修订的方式进行补充说明，之后不再特意作此声明。
+4.14 GameMode，GameState的清理
+根据搜索到的最早记录"[Request/Improvment] GameMode cleanup."(09-14-2014)，是有人抱怨当前的GameMode实现了太多的默认逻辑（例如多人的Match），虽然方便了一些人使用，但是也确实加大了理解的难度，并且有时候还得去屏蔽删除一些默认逻辑。然后顺便吐槽了一番AActor里的Damage，笔者也表示这确实不是AActor应该管的事情。
+言归正传，UE在2016-08-24的时候开始加进roadmap，并终于在4.14里实现完成了。如前所述，就是把GameMode和GameState的一些共同最基础部分抽到基类AGameModeBase和AGameStateBase里，并把现在的GameMode和GameState依然当作多人联机的默认实现。所以以后大家如果想实现一个比较简单的单机GameMode就可以直接从AGameModeBase里继承了。
+可以看到，其实就是把MatchState给往下拉了一层，并把一些多玩家控制的逻辑，合起来就是网络联机游戏的默认逻辑给抽离开了。同样的对于GameState也做了处理：
+把MatchState也抽离到了下层，并增加了几个方便的字段引用（如AuthorityGameMode）。总体功能职责架构上还是没有什么大变化的，吓死我了。
+引用
+GameMode
+GameState
+Travelling in Multiplayer
+UE4.13.2
+</code></pre>
+</details>
+
+<details>
+<summary>《InsideUE4》GamePlay架构（八）Player</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/23826859
+引言
+回顾上文，我们谈完了World和Level级别的逻辑操纵控制，如同分离组合的AController一样，UE在World的层次上也采用了一个分离的AGameMode来抽离了游戏关卡逻辑，从而支持了逻辑的组合。本篇我们继续上升一个层次，考虑在World之上，游戏还需要哪些逻辑控制？
+暂时不考虑别的功能系统（如社交系统，统计等各种），单从游戏性来讨论，现在闭上眼睛，想象我们已经藉着UE的伟力搭建了好了一个个LevelWorld，嗯，就像《西部世界》一样，场景已经搭建好了，世界规则故事也编写完善，现在需要干些什么？当然是开始派玩家进去玩啦！
+大家都是老玩家了，想想我们之前玩的游戏类型：
+玩家数目是单人还是多人
+网络环境是只本地还是联网
+窗口显示模式是单屏还是分屏
+输入模式是共用设备还是分开控制（比如各有手柄）
+也许还有别的不同
+假如你是个开发游戏引擎的，会怎么支持这些不同的模式？以笔者见识过的大部分游戏引擎，解决这个问题的思路就是不解决，要嘛是限制功能，要嘛就是美名其曰让开发者自己灵活控制。不过想了一下，这也不能怪他们，毕竟很少有引擎能像UE这样历史悠久同时又能得到足够多的游戏磨练，才会有功夫在GamePlay框架上雕琢。大部分引擎还是更关注于实现各种绚丽的功能，至于怎么在上面开展游戏逻辑，那就是开发者自己的事了。一个引擎的功能是否强大，是基础比拼指标；而GamePlay框架作为最高层直面用户的对接接口，是一个引擎的脸面。所以有兴趣游戏引擎研究的朋友们，区分一个引擎是否“优秀”，第二个指标是看它是否设计了一个优雅的游戏逻辑编写框架，一般只有基础功能已经做得差不多了的引擎开发者才会有精力去开发GamePlay框架，因为游戏引擎不止渲染！
+言归正传，按照软件工程的理念，没有什么问题是不能通过加一个间接层解决的，不行就加两层！所以既然我们在处理玩家模式的问题，理所当然的是加个间接层，将玩家这个概念抽象出来。
+那么什么是玩家呢？狭义的讲，玩家就是真实的你，和你身旁的小伙伴。广义来说，按照图灵测试理论，如果你无法分辨另一方是AI还是人，那他其实就跟玩家毫无区别，所以并不妨碍我们将网络另一端的一条狗当作玩家。那么在游戏引擎看来，玩家就是输入的发起者。游戏说白了，也只是接受输入产生输出的一个程序。所以有多少输入，这些输入归多少组，就有多少个玩家。这里的输入不止包括本地键盘手柄等输入设备的按键，也包括网线里传过来的信号，是广义的该游戏能接受到的外界输入。注意输出并不是玩家的必要属性，一个玩家并不一定需要游戏的输出，想象你闭上眼睛玩马里奥或者有个网络连接不断发送来控制信号但是从来不接收反馈，虽然看起来意义不大，但也确实不能说这就不是游戏。
+在UE的眼里，玩家也是如此广义的一个概念。本地的玩家是玩家，网络联机时虽然看不见对方，但是对方的网络连接也可以看作是个玩家。当然的，本地玩家和网络玩家毕竟还是差别很大，所以UE里也对二者进行了区分，才好更好的管理和应用到不同场景中去，比如网络玩家就跟本地设备的输入没多大关系了嘛。
+UPlayer
+让我们假装自己是UE，开始编写Player类吧。为了利用上UObject的那些现有特性，所以肯定是得从UObject继承了。那能否是AActor呢？Actor是必须在World中才能存在的，而Player却是比World更高一级的对象。玩游戏的过程中，LevelWorld在不停的切换，但是玩家的模式却是脱离不变的。另外，Player也不需要被摆放在Level中，也不需要各种Component组装，所以从AActor继承并不合适。那还是保持简单吧：
+如图可见，Player和一个PlayerController关联起来，因此UE引擎就可以把输入和PlayerController关联起来，这也符合了前文说过的PlayerController接受玩家输入的描述。因为不管是本地玩家还是远程玩家，都是需要控制一个玩家Pawn的，所以自然也就需要为每个玩家分配一个PlayerController，所以把PlayerController放在UPlayer基类里是合理的。
+ULocalPlayer
+然后是本地玩家，从Player中派生下来LocalPlayer类。对本地环境中，一个本地玩家关联着输入，也一般需要关联着输出（无输出的玩家毕竟还是非常少见）。玩家对象的上层就是引擎了，所以会在GameInstance里保存有LocalPlayer列表。
+UE4里的ULocalPlayer也如图所见，ULocalPlayer比UPlayer多了Viewport相关的配置（Viewport相关的内容在渲染章节讲述），也终于用SpawnPlayerActor实现了创建出PlayerController的功能。GameInstance里有LocalPlayers的信息之后，就可以方便的遍历访问，来实现跟本地玩家相关操作。
+关于游戏的详细加载流程目前不多讲述（按惯例在相应引擎流程章节讲述），现在简单了解一下LocalPlayer是怎么在游戏的引擎的各个环节发挥作用的。UE在初始化GameInstance的时候，会先默认创建出一个GameViewportClient，然后在内部再转发到GameInstance的CreateLocalPlayer：
+ULocalPlayer* UGameInstance::CreateLocalPlayer(int32 ControllerId, FString& OutError, bool bSpawnActor)
+{
+	ULocalPlayer* NewPlayer = NULL;
+	int32 InsertIndex = INDEX_NONE;
+	const int32 MaxSplitscreenPlayers = (GetGameViewportClient() != NULL) ? GetGameViewportClient()->MaxSplitscreenPlayers : 1;
+    //已略去错误验证代码，MaxSplitscreenPlayers默认为4
+	NewPlayer = NewObject<ULocalPlayer>(GetEngine(), GetEngine()->LocalPlayerClass);
+	InsertIndex = AddLocalPlayer(NewPlayer, ControllerId);
+	if (bSpawnActor && InsertIndex != INDEX_NONE && GetWorld() != NULL)
+	{
+		if (GetWorld()->GetNetMode() != NM_Client)
+		{
+			// server; spawn a new PlayerController immediately
+			if (!NewPlayer->SpawnPlayActor("", OutError, GetWorld()))
+			{
+				RemoveLocalPlayer(NewPlayer);
+				NewPlayer = NULL;
+			}
+		}
+		else
+		{
+			// client; ask the server to let the new player join
+			NewPlayer->SendSplitJoin();
+		}
+	}
+	return NewPlayer;
+}
+可以看到，如果是在Server模式，会直接创建出ULocalPlayer，然后创建出相应的PlayerController。而如果是Client（比如Play的时候选择NumberPlayer=2,则有一个为Client），则会先发送JoinSplit消息到服务器，在载入服务器上的Map之后，再为LocalPlayer创建出PlayerController。
+而在每个PlayerController创建的过程中，在其内部会调用InitPlayerState：
+void AController::InitPlayerState()
+{
+	if ( GetNetMode() != NM_Client )
+	{
+		UWorld* const World = GetWorld();
+		const AGameModeBase* GameMode = World ? World->GetAuthGameMode() : NULL;
+		//已省略其他验证和无关部分
+		if (GameMode != NULL)
+		{
+			FActorSpawnParameters SpawnInfo;
+			SpawnInfo.Owner = this;
+			SpawnInfo.Instigator = Instigator;
+			SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			SpawnInfo.ObjectFlags |= RF_Transient;	// We never want player states to save into a map
+			PlayerState = World->SpawnActor<APlayerState>(GameMode->PlayerStateClass, SpawnInfo );
+			// force a default player name if necessary
+			if (PlayerState && PlayerState->PlayerName.IsEmpty())
+			{
+				// don't call SetPlayerName() as that will broadcast entry messages but the GameMode hasn't had a chance
+				// to potentially apply a player/bot name yet
+				PlayerState->PlayerName = GameMode->DefaultPlayerName.ToString();
+			}
+		}
+	}
+}
+这样LocalPlayer最终就和PlayerState对应了起来。而网络联机时其他玩家的PlayerState是通过Replicated过来的。
+我们谈了那么久的玩家就是输入，体现在在每个PlayerController接受Player的时候：
+void APlayerController::SetPlayer( UPlayer* InPlayer )
+{
+    //[...]
+	// Set the viewport.
+	Player = InPlayer;
+	InPlayer->PlayerController = this;
+	// initializations only for local players
+	ULocalPlayer *LP = Cast<ULocalPlayer>(InPlayer);
+	if (LP != NULL)
+	{
+		// Clients need this marked as local (server already knew at construction time)
+		SetAsLocalPlayerController();
+		LP->InitOnlineSession();
+		InitInputSystem();
+	}
+	else
+	{
+		NetConnection = Cast<UNetConnection>(InPlayer);
+		if (NetConnection)
+		{
+			NetConnection->OwningActor = this;
+		}
+	}
+	UpdateStateInputComponents();
+	// notify script that we've been assigned a valid player
+	ReceivedPlayer();
+}
+可见，对于ULocalPlayer，APlayerController内部会开始InitInputSystem()，接着会创建相应的UPlayerInput，BuildInputStack等初始化出和Input相关的组件对象。现在先明白到LocalPlayer才是PlayerController产生的源头，也因此才有了Input就够了，特定的Input事件流程分析在后续章节再细述。
+思考：为何不在LocalPlayer里编写逻辑？
+作为游戏开发者，相信大家都有这么个体会，往往在游戏逻辑代码中总会有一个自己的Player类，里面放着这个玩家的相关数据和逻辑业务。可是在UE里为何就不见了这么个结构？也没见UE在文档里有描述推荐你怎么创建自己的Player。
+这个可能有两个原因，一是UE从FPS-Specify游戏起家，不像现在的各种手游有非常重的玩家系统，在UE的眼中，Level和World才是最应该关注的对象，因此UE的视角就在于怎么在Level中处理好Player的逻辑，而非在World之外的额外操作。二是因为在一个World中，上文提到其实已经有了Pawn-PlayerController和PlayerState的组合了，表示、逻辑和数据都齐备了，也就没必要再在Level掺和进Player什么事了。当然你也可以理解为PlayerController就是Player在Level中的话事人。
+凡事留一线，日后好相见。尽管如此，UE还是给了我们自定义ULocalPlayer子类的机会：
+//class UEngine：
+/** The class to use for local players. */
+UPROPERTY()
+TSubclassOf<class ULocalPlayer>  LocalPlayerClass;
+/** @todo document */
+UPROPERTY(globalconfig, noclear, EditAnywhere, Category=DefaultClasses, meta=(MetaClass="LocalPlayer", DisplayName="Local Player Class"))
+FStringClassReference LocalPlayerClassName;
+你可以在配置中写上LocalPlayer的子类名称，让UE为你生成你的子类。然后再在里面写上一些特定玩家的数据和逻辑也未尝不可，不过这部分额外扩展的功能就得用C++来实现了。
+UNetConnection
+非常耐人寻味的是，在UE里，一个网络连接也是个Player：
+包含Socket的IpConnection也是玩家，甚至对于一些平台的特定实现如OculusNet的连接也可以当作玩家，因为对于玩家，只要能提供输入信号，就可以当作一个玩家。
+追根溯源，UNetConnection的列表保存在UNetDriver，再到FWorldContext，最后也依然是UGameInstance，所以和LocalPlayer的列表一样，是在World上层的对象。
+本篇先前瞻一下结构，对于网络部分不再细述。
+总结
+本篇我们抽象出了Player的概念，并依据使用场景派生出了LocalPlayer和NetConnection这两个子类，从此Player就不再是一个虚无缥缈的概念，而是UE里的逻辑实体。UE可以根据生成的Player对象的数量和类型的不同，在此上实现出不同的玩家控制模式，LocalPlayer作为源头Spawn出PlayerController继而PlayerState就是实证之一。而在网络联机时，把一个网络连接看作是一个玩家这个概念，把在World之上的输入实体用Player统一了起来，从而可以实现出灵活的本地远程不同玩家模式策略。
+尽管如此，UPlayer却像是深藏在UE里的幕后功臣，UE也并不推荐直接在Player里编程，而是利用Player作为源头，来产生构建一系列相关的机制。但对于我们游戏开发者而言，知道并了解UE里的Player的概念，是把现实生活同游戏世界串联起来的很重要的纽带。我们在一个个World里向上仰望，还能清楚的看见一个个LocalPlayer或NetConnection仿佛在注视着这片大地，是他们为World注入了生机。
+已经到头了？并没有，我们继续向上逆风飞翔，终将得见游戏里的神：GameInstance。
+</code></pre>
+</details>
+
+<details>
+<summary>《InsideUE4》GamePlay架构（九）GameInstance</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/24005952
+引言
+上篇我们讲到了UE在World之上，继续抽象出了Player的概念，包含了本地的ULocalPlayer和网络的UNetConnection，并以此创建出了World中的PlayerController，从而实现了不同的玩家模式策略。一路向上，依照设计里一个最朴素的原理：自己是无法创建管理自身的，所以Player也需要一个创建管理和存储的地方。另一方面，上文提到Player固然可以负责一些跟玩家相关的业务逻辑，但是对于World之上协调管理的逻辑却也仍然无处安放。
+如果是有一定的游戏开发实战经验的朋友也一定能体会到，在自己开发的游戏中，往往除了我们上文提到的Player类，常常会创建一个Game类，比如BattleGame、WarGame或HappyGame等等。Game之前的名词往往都是游戏的开发代号。这倒不是因为我们如此热衷创建各种Manager类，而是确实需要一个大管家来干一些协调的活。一般的游戏引擎都只会暴露给你它自己引擎的管理类，如Director，Engine或Application之类的，但是却不会主动在Game类的创建管理上为你提供方便。游戏引擎的出现，最开始其实只是因为一些人发现游戏做着做着，有一大部分功能是可以复用的，于是就把它抽离了出来方便做下一款游戏。在那个时候，人们对游戏还是处于开荒探索的阶段，游戏引擎只是一大堆功能的复合体，就像叮当猫的口袋一样，互相比谁掏出的工具最强大。然而即使到了现代，绝大部分的引擎的思想却还停留在上个世纪，仍然执着于罗列Feature列表，却忘了真正的游戏开发人员天天面对的游戏业务逻辑编写，没有思考在那方面如何也下一番功夫去帮助开发者。人们对比UE和其他游戏引擎时，也会常常说出的一句话是：“别忘了Epic自己也是做游戏的”（虚幻竞技场，战争机器，无尽之剑……）。从这一点也可以看出，UE很大的得益于Epic实战游戏开发的反哺，这一方面Unity就有点吃亏了，没有自己亲自下手干脏活累活，就不懂得急人民群众之所急。所以如果一个游戏引擎能把GamePlay也做好了，那就不止是口袋了，而是知你懂你的叮当猫本身。
+GameInstance
+简单的事情就不用多讲了，UE提供的方案是一以贯之的，为我们提供了一个GameInstance类。为了受益于UObject的反射创建能力，直接继承于UObject，这样就可以依据一个Class直接动态创建出来具体的GameInstance子类。
+我并不想罗列所有的接口，UGameInstance里的接口大概有4类：
+1. 引擎的初始化加载，Init和ShutDown等（在引擎流程章节会详细叙述）
+2. Player的创建，如CreateLocalPlayer，GetLocalPlayers之类的。
+3. GameMode的重载修改，这是从4.14新增加进来改进，本来你只能为特定的某个Map配置好GameModeClass，但是现在GameInstance允许你重载它的PreloadContentForURL、CreateGameModeForURL和OverrideGameModeClass方法来hook改变这一流程。
+4. OnlineSession的管理，这部分逻辑跟网络的机制有关（到时候再详细介绍），目前可以简单理解为有一个网络会话的管理辅助控制类。
+而GameInstance是在GameEngine里创建的（先不谈UEditorEngine）：
+void UGameEngine::Init(IEngineLoop* InEngineLoop)
+{
+    //[...]
+	// Create game instance.  For GameEngine, this should be the only GameInstance that ever gets created.
+	{
+		FStringClassReference GameInstanceClassName = GetDefault<UGameMapsSettings>()->GameInstanceClass;
+		UClass* GameInstanceClass = (GameInstanceClassName.IsValid() ? LoadObject<UClass>(NULL, *GameInstanceClassName.ToString()) : UGameInstance::StaticClass());
+		if (GameInstanceClass == nullptr)
+		{
+			UE_LOG(LogEngine, Error, TEXT("Unable to load GameInstance Class '%s'. Falling back to generic UGameInstance."), *GameInstanceClassName.ToString());
+			GameInstanceClass = UGameInstance::StaticClass();
+		}
+		GameInstance = NewObject<UGameInstance>(this, GameInstanceClass);
+		GameInstance->InitializeStandalone();
+	}
+	//[...]
+ }
+//在BaseEngine.ini或DefaultEngine.init里你可以配置GameInstanceClass
+[/Script/EngineSettings.GameMapsSettings]
+GameInstanceClass=/Script/Engine.GameInstance
+先从配置中取出GameInstanceClass，然后动态创建，一目了然。
+思考：GameInstance只有一个吗？
+一般而言，是的。对于我们自己开发的游戏而言，我们始终只需要关注自己的一亩三分地，那么你可以认为你子类化的那个GameInstance就像个单件一样，全局唯一只有一个，从游戏的开始到结束。但既然是本系列文章的读者，自然也是不甘于只了解这么多的。
+正如把网络连接也当作Player这个概念一样，我们此时也需要重新审视一下Game这个概念。什么是一个Game?对于玩家而言，Game就是从打开到关闭的这整个过程说展现的内容。但是对于开发者来说，这个概念就需要扩充一下了。假设有个引擎支持双击图标一下子开出4个窗口来让4个玩家独立运行，你能说得清这是一个Game还是4个Game在运行吗？哪一种说法都能自圆其说，但关键是哪一种概念划分能更好的让我们管理组织结构。因此针对这种情况，如果是这4个窗口一点都不互相关联，或者只是单独的共用地图资源，那么用4个Game的概念来管理就更为合适。如果这4个窗口里运行的内容，实际上只是在同一个关卡里本地对战，内存里互相直接通信，那用一个Game加上4个Player的概念就会变得更合适。所以针对这点，你可以把Game理解为就像进程一样，进程可以在同一个exe上多开，Game也可以在同一份游戏资源上开出多个运行实例；进程之间可以互相通信协作，Game的不同实例也可以互相沟通，不管是内存中直接在Engine的协调下完成，还是通过Socket通信。
+另一方面，一般游戏引擎都只是服务于游戏本身，而对于其配套的各种编辑器就像是对待外来的打工者一样，编辑器往往只负责最终输出游戏资源。由于应用场景的不同，编辑器的架构也常常根据相应平台而定，五花八门，有用Qt，MFC，WPF等各种平台UI框架。而对于另一些有大志向的引擎，比如Unity和UE，其编辑器就是采用引擎自绘的方案（其优劣暂不分析，以后聊到UI框架再细说）。所以游戏引擎这个时候，就更加的拔高了一个层次，就不再只是个“游戏”引擎了，而是个“程序”引擎了。因此UE本身的这套框架不光要服务游戏，还要服务编辑器，甚至是另外一些辅助程序。所以，Game的概念也就扩充到了更上层的“程序”，变得更广义了。
+言归正传，因为UE的这套Editor自绘机制，还有PIE（PlayInEditor），进程里其实是可以同时有多个GameInstance的，如正在编辑的EditorWorld所属于的，和Play之后的World属于的。我想，这也就是为何UE把它叫做GameInstance而不是简单的Game的含义，其名字中就隐含了多个Instance的深意。我们现在再次回顾一下(GamePlay架构（三）WorldContext，GameInstance，Engine)最后的结构图，了解一下GameInstance又是被谁管理的：
+当初我们是以数据的视角，在考察WorldContext的从属的时候讨论过这个结构。现在以逻辑的角度，明白了GameInstance也会被上层的Engine实例出来多个，就会有更深的理解了。
+再扩充一下，在Engine之下允许同时运行多个GameInstance，还会有许多其他好处，就像操作系统允许一份资源运行多个进程实例一样，Engine就可以站在更高的层次上管理协调多个Game，同时也能更加的深入到Game内部去得到更多的优化。比如未来要实现游戏本地的host多开并管理，或者在Server同时Host一个Map的多个实例(现在只能一个……还是有很多工作要做啊)，这对于开发MMO网游是非常需要的功能，虽然目前UE在这一块的具体工作还有些薄弱，但至少可扩展的可能性是已经保证了的（动手能力强的高手可以在此基础上定制）。一般而言，间接多一层，就多了一层的灵活性，所以很多引擎其实就是把Game和Engine揉在了一块没有为了GamePlay框架而分开。
+思考：哪些逻辑应该放在GameInstance？
+第二个惯例的问题是，这一层应该写些什么逻辑。顾名思义，既然是作为游戏中全局唯一的长者，我们就应该给他全局的控制权。在逻辑层面，GameInstance往下看是：
+1. Worlds，Level的切换实际发生地是Engine，而GameInstance可以说是UE之神其下的唯一代言人，所以GameInstance也可以代之管理World的切换等。我们可以在GameInstance里实现各种逻辑最后调用Engine的OpenLevel等接口。
+2. Players，虽然一般来说我们直接控制Players的机会不多，都是配置好了就行。但要是到了需要的时候，GameInstance也实现了许多的接口可以让你动态的添加删除Players。
+3. UI，UE的UI是另一套World之外的系统，虽然同属于Viewport的显示之下，但是控制结构跟Actor们并不一样。所以我们常常会需要控制UI各种切换的业务逻辑，虽然在Widget的Graph里也可以写些简单的切换，但是要想复用某些切换逻辑的时候，在特定的Wdiget里就不合适了，而GameMode一方面局限于Level，另一方面又只存在于Server；PlayerController也是会切换掉的，同时又只存在于World中，所以最后比较合适的就剩下GameInstance了，以后当然有可能了可能会扩展出个UI的业务逻辑Manger类，不过那是后话了。
+4. 全局的配置，也常常需要根据平台改变一些游戏的配置，Execute一些ConsoleCommand，GameInstance也是这些命令的存放地。
+5. 游戏的额外第三方逻辑，如果你的游戏需要其他一些控制，比如自己写的网络通信、自定义的配置文件或者自己的一些程序算法，如果简单的话，GameInstance也可以一放，等复杂起来了，也可以把GameInstance当作一个模块容器，你可以在里面再扩展出来其他的子逻辑模块。当然如果是插件的话，还是在自己的插件Module里面自行管理逻辑，然后把协调工作交给GameInstance来做。
+而在数据层面上，我们层层上来，已经有了针对一个Player的Contoller的PlayerState，也有了针对World的GameMode的GameState，到了更全局之上，自然的GameInstance就应该存储一些全局的状态数据。所以你可以在GameInstance的成员变量中添加一些全局的状态，或者是那些想要在Level之外持续存在的对象。不过需要注意的一点是，GameInstance成员变量中最好只保存那些“临时”的数据，而对于那些想要持久序列化保存的数据，我们就需要接下来的SaveGame了。把持久的数据直接放在SaveGame，用的时候直接读取出来，之后再直接在其上更新，好处是只用维护一份，省得要保存的时候，还去想到底要选GameInstance的哪些成员变量中来保存，一开始就设计选好，以后就方便了。
+SaveGame
+UE连玩家存档都帮你做了！得益于UObject的序列化机制，现在你只需要继承于USaveGame，并添加你想要的那些属性字段，然后这个结构就可以序列化保存下来的。玩家存档也是游戏中一个非常常见的功能，差的引擎一般就只提供给你读写文件的接口，好一点的会继续给你一些序列化机制，而更好的则会服务得更加周到。UE为我们在蓝图里提供了SaveGame的统一接口，让你只用关心想序列化的数据。
+USaveGame其实就是为了提供给UE一个UObject对象，本身并不需要其他额外的控制，所以它的类是如此的简单以至于我能直接把它的全部声明展示出来：
+UCLASS(abstract, Blueprintable, BlueprintType)
+class ENGINE_API USaveGame : public UObject
+{
+	/**
+	 *	@see UGameplayStatics::CreateSaveGameObject
+	 *	@see UGameplayStatics::SaveGameToSlot
+	 *	@see UGameplayStatics::DoesSaveGameExist
+	 *	@see UGameplayStatics::LoadGameFromSlot
+	 *	@see UGameplayStatics::DeleteGameInSlot
+	 */
+	GENERATED_UCLASS_BODY()
+};
+而UGameplayStatics作为暴露给蓝图的接口实现部分，其内部的实现是：
+先在内存中写入一些SavegameFileVersion之类的控制文件头，然后再序列化USaveGame对象，接着会找到ISaveGameSystem接口，最后交于真正的子类实现文件的保存。目前的默认实现是FGenericSaveGameSystem，其内部也只是转发到直接的文件读写接口上去。但你也可以实现自己的SaveGameSystem，不管是写文件或者是网络传输，保存到不同的地方去。或者是内部调用OnlineSubsystem的Storage接口，直接把玩家存档保存到Steam云存储中也可以。
+因此可见，单单是玩家存档这件边角的小事，UE作为一个深受游戏开发淬炼过的引擎，为了方便自己，也同时造福我们广大开发者，已经实现了这么一套完善的机制。
+关于存档数据关联的逻辑，再重复几句，对于那些需要直接在全局处理的数据逻辑，也可以直接在SaveGame中写方法来实现。比如实现AddCoin接口，对外隐藏实现，对内可以自定义附加一些逻辑。USaveGame可以看作是一个全局持久数据的业务逻辑类。跟GameInstance里的数据区分就是，GameInstance里面的是临时的数据，SaveGame里是持久的。清晰这一点区分，到时就不会纠结哪些属性放在哪里，哪些方法实现在哪里了。
+注意一下，SaveGameToSlot里的SlotName可以理解为存档的文件名，UserIndex是用来标识是哪个玩家在存档。UserIndex是预留的，在目前的UE实现里并没有用到，只是预留给一些平台提供足够的信息。你也可以利用这个信息来为多个不同玩家生成不同的最后文件名什么的。而ISaveGameSystem是IPlatformFeaturesModule提供的模块接口，关于模块的机制，等引擎流程章节再说吧，目前可以简单理解为一个单件对象里提供了一些平台相关的接口对象。
+总结
+至此，我们可以说已经介绍完了GamePlay下半部分——逻辑控制。在蓝图层，UE并不向BP直接暴露Engine概念，即使在C++层，在实现GamePlay业务时也是很少需要真正直接操纵Engine的时候。如果GamePlay已经足够好，那么Engine自然就可以隐居幕后了。UE用GameInstance实现了全局的控制，并支持多GameInstance来实现编辑器，最后在存档的时候还可以用到SaveGame的方便的接口。
+下篇，就是GamePlay章节的最终章，我们将会对GamePlay架构的（一到九）篇进行回顾归纳总结巩固，以一个承上启下总览的眼光，再来重新审视一下UE的整套GamePlay框架，下个章节见。
 </code></pre>
 </details>
 
@@ -909,33 +926,3 @@ GameSession
 System.out.println("Hello to see U!");
 </code></pre>
 </details>
-
-<details>
-<summary>展开查看</summary>
-<pre><code>
-System.out.println("Hello to see U!");
-</code></pre>
-</details>
-
-<details>
-<summary>展开查看</summary>
-<pre><code>
-System.out.println("Hello to see U!");
-</code></pre>
-</details>
-
-<details>
-<summary>展开查看</summary>
-<pre><code>
-System.out.println("Hello to see U!");
-</code></pre>
-</details>
-
-<details>
-<summary>展开查看</summary>
-<pre><code>
-System.out.println("Hello to see U!");
-</code></pre>
-</details>
-
-注:本节来自于"zhihu"作者"大钊",仅作笔记内容浏览,侵权请联系删除
