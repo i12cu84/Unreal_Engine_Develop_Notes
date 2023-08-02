@@ -189,9 +189,1153 @@ public:
 </details>
 
 <details>
-<summary>展开查看</summary>
+<summary>《InsideUE4》UObject（三）类型系统设定和结构</summary>
 <pre><code>
-System.out.println("Hello to see U!");
+https://zhuanlan.zhihu.com/p/24790386
+引言
+上篇我们谈到了为何设计一个Object系统要从类型系统开始做起，并探讨了C#的实现，以及C++中各种方案的对比，最后得到的结论是UE采用UHT的方式搜集并生成反射所需代码。接下来我们就应该开始着手设计真正的类型系统结构。
+在之后的叙述中，我会同时用两个视角来考察UE的这套Object系统：
+一是以一个通用的游戏引擎开发者角度来从零开始设计，设想我们正在自己实现一套游戏引擎（或者别的需要Object系统的框架），在体悟UE的Object系统的同时，思考哪些是真正的核心部分，哪些是后续的锦上添花。踏出一条重建Object系统的路来。
+二是以当前UE4的现状来考量。UE的Object系统从UE3时代就已经存在了（再远的UE3有知道的前辈还望告知），历经风雨，修修补补，又经过UE4的大改造，所以一些代码读起来很是诘屈聱牙，笔者也并不敢说通晓每一行代码写成那样的原由，只能尽量从UE的角度去思考这么写有什么用意和作用。同时我们也要记得UE是很博大精深没错，但并不代表每一行代码都完美。整体结构上很优雅完善，但也同样有很多小漏洞和缺陷，也并不是所有的实现都是最优的。所以也支持读者们在了解的基础上进行源码改造，符合自己本身的开发需求。
+PS：类型系统不可避免的谈到UHT（Unreal Header Tool，一个分析源码标记并生成代码的工具），但本专题不会详细叙述UHT的具体工作流程和原理，只假定它万事如我心意，UHT的具体分析后续会有特定章节讨论。
+设定
+先假定我们已经接受了UE的设定：
+在c++写的class（struct一样，只是默认public而已）的头上加宏标记，在其成员变量和成员函数也同样加上宏标记，大概就是类似C#Attribute的语法。在宏的参数可以按照我们自定的语法写上内容。在UE里我们就可以看到这些宏标记：
+#define UPROPERTY(...)
+#define UFUNCTION(...)
+#define USTRUCT(...)
+#define UMETA(...)
+#define UPARAM(...)
+#define UENUM(...)
+#define UDELEGATE(...)
+#define UCLASS(...) BODY_MACRO_COMBINE(CURRENT_FILE_ID,_,__LINE__,_PROLOG)
+#define UINTERFACE(...) UCLASS()
+真正编译的时候，大体上都是一些空宏。UCLASS有些特殊，一般情况下最后也都是空宏，另外一些情况下会生成一些特定的事件参数声明等等。不过这暂时跟本文的重点无关。这里重点有两点，一是我们可以通过给类、枚举、属性、函数加上特定的宏来标记更多的元数据；二是在有必要的时候这些标记宏甚至也可以安插进生成的代码来合成编译。
+我们也暂时不用管UHT到底应该怎么实现，就也先假定有那么一个工具会在每次编译前扫描我们的代码，获知那些标记宏的位置和内容，并紧接着分析下一行代码的声明含义，最后生成我们所需要的代码。
+还有两个小问题是：
+为何是生成代码而不是数据文件？
+毕竟C++平台和C#平台不一样，同时在引用1里的UnrealPropertySystem(Reflection)里也提到了最重要的区分之处：
+One of the major benefits of storing the reflection data as generated C++ code is that it is guaranteed to be in sync with the binary. You can never load stale or out of date reflection data since it’s compiled in with the rest of the engine code, and it computes member offsets/etc… at startup using C++ expressions, rather than trying to reverse engineer the packing behavior of a particular platform/compiler/optimization combo. UHT is also built as a standalone program that doesn’t consume any generated headers, so it avoids the chicken-and-egg issues that were a common complaint with the script compiler in UE3.
+简单来说就是避免了不一致性，否则又得有机制去保证数据文件和代码能匹配上。同时跨平台需求也很难保证结构间的偏移在各个平台编译器优化的不同导致得差异。所以还不如简单生成代码文件一起编译进去得了。
+如果标记应该分析哪个文件？
+既然是C++了，那么生成的代码自然也差不多是.h.cpp的组合。假设我们为类A生成了A.generated.h和A.generated.cpp（按照UE习俗，名字无所谓）。此时A.h一般也都需要Include "A.generated.h"，比如类A的宏标记生成的代码如果想跟A.generated.h里我们生成的代码来个里应外合的话。另一方面，用户对背后的代码生成应该是保持最小惊讶的，用户写下了A.h，他在使用的时候自然也会想include "A.h"，所以这个时候我们的A.generated.h就得找个方式一起安插进来，最方便的方式莫过于直接让A.h include A.generated.h了。那既然每个需要分析的文件最后都会include这么一个*.generated.h，那自然就可以把它本身就当作一种标记了。所以UE目前的方案是每个要分析的文件加上该Include并且规定只能当作最后一个include，因为他也担心会有各种宏定义顺序产生的问题。
+#include "FileName.generated.h"
+如果你一开始想的是给每个文件也标记个空宏，其实倒也无不可，只不过没有UE这么简洁。但是比如说你想控制你的代码分析工具在分析某个特定文件的时候专门定制化一些逻辑，那这种像是C#里AssemblyAttribute的文件宏标记就显示出作用了。UHT目前不需要所以没做罢了。
+结构
+在接受了设定之后，是不是觉得本来这个写法有点怪的Hello类看起来也有点可爱呢？
+#include "Hello.generated.h"
+UClass()
+class Hello
+{
+public:
+    UPROPERTY()
+    int Count;
+    UFUNCTION()
+    void Say();
+};
+先什么都不管，假装UHT已经为我们搜集了完善的信息，然后这些信息在代码里应该怎么储存？这就要谈到一些基本的程序结构了。一个程序，简单来说，可以认为是由众多的类型和函数嵌套组成的，类型有基础类型，枚举，类；类里面能够再定义字段和函数，甚至是子类型；函数有输入和输出，其内部也依然可以定义子类型。这是C++的规则，但你在支持的时候就可以在上面进行缩减，比如你就可以不支持函数内定义的类型。
+先来看看UE里形成的结构：
+C++有声明和定义之分，图中黄色的的都可以看作是声明，而绿色的UProperty可以看作是字段的定义。在声明里，我们也可以把类型分为可聚合其他成员的类型和“原子”类型。
+聚合类型（UStruct）：
+UFunction，只可包含属性作为函数的输入输出参数
+UScriptStruct，只可包含属性，可以理解为C++中的POD struct，在UE里，你可以看作是一种“轻量”UObject，拥有和UObject一样的反射支持，序列化，复制等。但是和普通UObject不同的是，其不受GC控制，你需要自己控制内存分配和释放。
+UClass，可包含属性和函数，是我们平常接触到最多的类型
+原子类型：
+UEnum，支持普通的枚举和enum class。
+int，FString等基础类型没必要特别声明，因为可以简单的枚举出来，可以通过不同的UProperty子类来支持。
+把聚合类型们统一起来，就形成了UStruct基类，可以把一些通用的添加属性等方法放在里面，同时可以实现继承。UStruct这个名字确实比较容易引起歧义，因为实际上C++中USTRUCT宏生成了类型数据是用UScriptStruct来表示的。
+还有个类型比较特殊，那就是接口，可以继承多个接口。跟C++中的虚类一样，不同的是UE中的接口只可以包含函数。一般来说，我们自己定义的普通类要继承于UObject，特殊一点，如果是想把这个类当作一个接口，则需要继承于UInterface。但是记得，生成的类型数据依然用UClass存储。从“#define UINTERFACE(...) UCLASS()”就可以看出来，Interface其实就是一个特殊点的类。UClass里通过保存一个TArray<FImplementedInterface> Interfaces数组，其子项又包含UClass* Class来支持查询当前类实现了那些接口。
+最后是定义，在UE里是UProperty，可以理解为用一个类型定义个字段“type instance;”。UE有Property，其Property有子类，子类之多，一屏列不下。实际深入代码的话，会发现UProperty通过模板实例化出特别多的子类，简单的如UBoolProperty、UStrProperty，复杂的如UMapProperty、UDelegateProperty、UObjectProperty。后续再一一展开。
+元数据UMetaData其实就是个TMap<FName, FString>的键值对，用于为编辑器提供分类、友好名字、提示等信息，最终发布的时候不会包含此信息。
+为了加深一下概念，我列举一些UE里的用法，把图和代码加解释一起关联起来理解的会更深刻些：
+#include "Hello.generated.h"
+UENUM()
+namespace ESearchCase
+{
+	enum Type
+	{
+		CaseSensitive,
+		IgnoreCase,
+	};
+}
+UENUM(BlueprintType)
+enum class EMyEnum : uint8
+{
+	MY_Dance 	UMETA(DisplayName = "Dance"),
+	MY_Rain 	UMETA(DisplayName = "Rain"),
+	MY_Song		UMETA(DisplayName = "Song")
+};
+USTRUCT()
+struct HELLO_API FMyStruct
+{
+	GENERATED_USTRUCT_BODY()
+	UPROPERTY(BlueprintReadWrite)
+	float Score;
+};
+UCLASS()
+class HELLO_API UMyClass : public UObject
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite, Category = "Hello")
+	float Score;
+	UFUNCTION(BlueprintCallable, Category = "Hello")
+	void CallableFuncTest();
+	UFUNCTION(BlueprintCallable, Category = "Hello")
+	void OutCallableFuncTest(float& outParam);
+	UFUNCTION(BlueprintCallable, Category = "Hello")
+	void RefCallableFuncTest(UPARAM(ref) float& refParam);
+	UFUNCTION(BlueprintNativeEvent, Category = "Hello")
+	void NativeFuncTest();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Hello")
+	void ImplementableFuncTest();
+};
+UINTERFACE()
+class UMyInterface : public UInterface
+{
+	GENERATED_UINTERFACE_BODY()
+};
+class IMyInterface
+{
+	GENERATED_IINTERFACE_BODY()
+	UFUNCTION(BlueprintImplementableEvent)
+	void BPFunc() const;
+	virtual void SelfFunc() const {}
+};
+先不用去管宏里面参数的含义，目前先形成大局的印象。但是注意，我这里没有提到蓝图里可以创建的枚举、接口、结构、类等。它们也都是相应的从各自UEnum、UScriptStruct、UClass再派生出来。这个留待之后再讲。读者们需要明白的是，一旦我们能够用数据来表达类型了，我们就可以自定义出不同的数据来动态创建出不同的其他类型。
+思考：为什么还需要基类UField？
+UStruct好理解，表示聚合类型。那为什么不直接UProperty、UStruct、UEnum继承于UObject？在笔者看来，主要有三点：
+为了统一所有的类型数据，如果所有的类型数据类都有个基类的话，那么我们就很容易用一个数组把所有的类型数据都引用起来，可以方便的遍历。另外也关乎到一个顺序的问题，比如在类型A里定义了P1、F1、P2、F2，属性和函数交叉着定义，在生成类型A的类型数据UClass内部就也可以是以同样的顺序，以后要是想回溯出来一份定义，也可以跟原始的代码顺序一致，如果是用属性和函数分开保存的话，就会麻烦一些。
+如上图可见，所有的不管是声明还是定义（UProperty、UStruct、UEnum），都可以附加一份额外元数据UMetaData，所以应该在它们的基类里保存。
+方便添加一些额外的方法，比如加个Print方法打印出各个字段的声明，就可以在UField里加上虚方法，然后在子类里重载实现。
+UField名字顾名思义，就是不管是声明还是定义，都可以看作是类型系统里的一个字段，或者叫领域也行，术语不同，但能理解到一个更抽象统一的意思就行。
+思考：为什么UField要继承于UObject？
+这问题，其实也是在问，为什么类型数据也要同样继承于UObject？反过来问，如果不继承会怎么样？把继承链断开，类型数据自成一派，其实也未尝不可。我们来列举一下UObject身上有哪些功能，看看哪些是类型系统所需要的。
+GC，可有可无，类型数据一开始分配了就可以不释放，当前GC也是利用了类型系统来支持对象引用遍历
+反射，略
+编辑器集成，也可以没有，编辑器就是利用类型数据来进行集成编辑的，当然当我们在蓝图里创建函数变量等操作其实也可以看作就是在编辑类型数据。
+CDO，不需要，每个类型的类型数据一般只有一份，CDO是用在对象身上的
+序列化，必须有，类型数据当然需要保存下来，比如蓝图创建的类型。
+Replicate，用处不大，因为目前网络间的复制也是利用了类型数据来进行的，类型数据本身的字段的改变复制想来好像没有什么应用场景
+RPC，也无所谓
+自动属性更新，也不需要，类型数据一般不会那么频繁变动
+统计，可有可无
+总结下来，发现序列化是最重要的功能，GC和其他一些功能算是锦上添花。所以归结起来可有可无再加上一些必要功能，本着统一的思想，就让所有类型数据也都继承于UObject了，这样序列化等操作也不需要写两套。虽然这看起来不是那么的纯粹，但是总体上来说利大于弊。
+在对象上，你可以用Instance->GetClass()来获得UClass对象，在UClass本身上调用GetClass()返回的是自己本身，这样可以用来区分对象和类型数据。
+总结
+UE的这套类型数据组织架构，以我目前的了解和知识，私以为优雅程度有80/100分。大体上可用，没什么问题，从UE3时代修修改改过来，我觉得已经很不容易了。只是很多地方从技术角度上来说，不是那么的纯粹，比如接口的类型数据也依然是UClass，但是却又不允许包含属性，这个从结构上就没有做限制，只能通过UHT检查和代码中类型判断来区分；又比如UStruct里包含的是UField链表，其实隐含的意思就是UStruct里既可以有嵌套类型又可以有属性，灵活的同时也少了限制，嵌套类型目前是没有了，但是UFunction也只能包含属性，UScriptStruct只有属性而不能有函数；还有UStruct里用UStruct* SuperStruct指向继承的基类。但是UFunction的基Function是什么意义？所以之后如有含糊之时，读者朋友们可以用下面这个图结构来清醒一下：
+可以简单理解这就是UE想表达的真正含义。UMetaData虽然在UPackage里用TMap<UObject*，TMap<FName, FString>>来映射，但是实际上也只有UField里有GetMetaData的接口，所以一般UMetaData也只是跟UField关联罢了。UStruct包含UProperty，UClass和UScriptStruct又包含UFunction，这才是一般实操时用到的数据关联。
+含糊之处当然无伤大雅，只不过如果读者作为一个通用引擎研究开发者而言，也要认识到UE的系统的不足之处，不可一一照抄。读者如果自己想要实现的话，左右有两种方向，一种是向着类型单一，但是更多用逻辑来控制，比如C#的类型系统，一个Type之下可以获得各种FieldInfo、MethodInfo等；另一种是向着类型细分，用结构来限制，比如增加UScriptInterface来表达Interface的元数据，把包含属性和函数的功能封装成PropertyMap和FunctionMap，然后让UScriptStruct、UFunction、UClass拥有PropertyMap，让UClass，UScriptInterface拥有FunctionMap。都有各自的利弊和灵活度不同，这里就不展开一一细说了，读者们可以自己思考权衡。
+我们当前更关注是如何理解UE这套类型系统（也叫属性系统，为了和图形里的反射作区分），所以下篇我们将继续深入，了解UE里怎么开始开始构建这个结构。
+</code></pre>
+</details>
+
+<details>
+<summary>《InsideUE4》UObject（四）类型系统代码生成</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/25098685
+引言
+上文讲到了UE的类型系统结构，以及UHT分析源码的一些宏标记设定。在已经进行了类型系统整体的设计之后，本文将开始讨论接下来的步骤。暂时不讨论UHT的细节，假设UHT已经分析得到了足够的类型元数据信息，下一步就是利用这个信息在程序内存中构建起前文的类型系统结构，这个过程我们称之为注册。同一般程序的构建流程需要经过预处理、编译、汇编、链接一样，UE为了在内存中模拟构建的过程，在概念上也需要以下几个阶段：生成，收集，注册，链接。总体的流程比较繁杂，因此本文首先开始介绍第一阶段，生成。在生成阶段，UHT分析我们的代码，并生成类型系统的相关代码。
+Note1：生成的代码和注册的过程会因为HotReload功能的开启与否有些不一样，因此为了最简化流程阐述，我们先关闭HotReload，关闭的方式是在Hello.Build.cs里加上一行：Definitions.Add("WITH_HOT_RELOAD_CTORS=0");
+Note2：本文开始及后续会简单的介绍一些用到的C++基础知识，但只是点到为止，不做深入探讨。
+C++ Static Lazy初始化模式
+一种我们常用，也是UE中常用的单件懒惰初始化模式是：
+Hello* StaticGetHello()
+{
+    static Hello* obj=nullptr;
+    if(!obj)
+    {
+        obj=...
+    }
+    return obj;
+}
+或者
+Hello& StaticGetHello()
+{
+    static Hello obj(...);
+    return obj;
+}
+前者非常简单，也没考虑多线程安全，但是在单线程环境下足够用了。用指针的原因是，有一些情况，这些对象的生命周期是由别的地方来管理的，比如UE里的GC，因此这里只static化一个指针。否则的话，还是后者更加简洁和安全。
+UHT代码生成
+在C++程序中的预处理是用来对源代码进行宏展开，预编译指令处理，注释删除等操作。同样的，一旦我们采用了宏标记的方法，不管是怎么个标记语法，我们都需要进行简单或复杂的词法分析，提取出有用的信息，然后生成所需要的代码。在引擎里创建一个空C++项目命名为Hello，然后创建个不继承的MyClass类。编译，UHT就会为我们生成以下4个文件（位于Hello\Intermediate\Build\Win64\Hello\Inc\Hello）
+HelloClasses.h：目前无用
+MyClass.generated.h：MyClass的生成头文件
+Hello.generated.dep.h：Hello.generated.cpp的依赖头文件，也就是顺序包含上述的MyClass.h而已
+Hello.generated.cpp：该项目的实现编译单元。
+其生成的文件初看起来很多很复杂，但其实比较简单，不过就是一些宏替换而已。生成的函数大都也以Z_开头，笔者开始也在猜想Z_前缀的缩写含义，感谢NetFly向Epic的人求证之后的回答：
+The 'Z_' prefix is not part of any official naming convention, and it
+doesn't really mean anything. Some generated functions were named this way
+to avoid name collisions and so that these functions will appear together at the
+bottom of intelisense lists.
+简而言之，没什么特别含义，就是简单为了避免命名冲突，用Z是为了字母排序总是出现在智能感知的最下面，尽量隐藏起来。
+接下来，请读者们紧跟着我的步伐，开始进行这趟剖析之旅。
+UCLASS的生成代码剖析
+先从一个最简单的UMyClass的开始，总览分析生成的代码结构，接着再继而观察其他UEnum、UStruct、UInterface、UProperty、UFunction的代码生成样式。
+MyClass.h
+首先是我们自己编写或者引擎帮我们生成的文件样式：
+// Fill out your copyright notice in the Description page of Project Settings.
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyClass.generated.h"
+UCLASS()
+class HELLO_API UMyClass : public UObject
+{
+	GENERATED_BODY()
+};
+第5行：#include "UObject/NoExportTypes.h" 通过查看文件内容，发现这个文件在编译的时候就是Include了其他一些更基础的头文件，比如#include "Math/Vector.h"，因此你才能在MyClass里不用include就引用这些类。当然，还有一些内容是专门供UHT使用来生成蓝图类型的，现在暂时不需要管。
+第6行：#include "MyClass.generated.h"，就是为了引用生成的头文件。这里请注意的是，该文件include位置在类声明的前面，之后谈到宏处理的时候会用到该信息。
+第11行：GENERATED_BODY()，该宏是重中之重，其他的UCLASS宏只是提供信息，不参与编译，而GENERATED_BODY正是把声明和元数据定义关联到一起的枢纽。继续查看宏定义：
+#define BODY_MACRO_COMBINE_INNER(A,B,C,D) A##B##C##D
+#define BODY_MACRO_COMBINE(A,B,C,D) BODY_MACRO_COMBINE_INNER(A,B,C,D)
+#define GENERATED_BODY(...) BODY_MACRO_COMBINE(CURRENT_FILE_ID,_,__LINE__,_GENERATED_BODY)
+会发现GENERATED_BODY最终其实只是生成另外一个宏的名称，因为：
+CURRENT_FILE_ID的定义是在MyClass.generated.h的89行：\#define CURRENT_FILE_ID Hello_Source_Hello_MyClass_h，这是UHT通过分析文件得到的信息。
+__LINE__标准宏指向了该宏使用时候的的函数，这里是11。加了一个__LINE__宏的目的是为了支持在同一个文件内声明多个类，比如在MyClass.h里接着再声明UMyClass2，就可以支持生成不同的宏名称。
+因此总而生成的宏名称是Hello_Source_Hello_MyClass_h_11_GENERATED_BODY，而这个宏就是定义在MyClass.generated.h的77行。值得一提的是，如果MyClass类需要UMyClass(const FObjectInitializer& ObjectInitializer)的构造函数自定义实现，则需要用GENERATED_UCLASS_BODY宏来让最终生成的宏指向Hello_Source_Hello_MyClass_h_11_GENERATED_BODY_LEGACY（MyClass.generated.h的66行），其最终展开的内容会多一个构造函数的内容实现。
+MyClass.generated.h
+UHT分析生成的文件内容如下：
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+#ifdef HELLO_MyClass_generated_h
+#error "MyClass.generated.h already included, missing '#pragma once' in MyClass.h"
+#endif
+#define HELLO_MyClass_generated_h
+#define Hello_Source_Hello_MyClass_h_11_RPC_WRAPPERS    //先忽略
+#define Hello_Source_Hello_MyClass_h_11_RPC_WRAPPERS_NO_PURE_DECLS  //先忽略
+#define Hello_Source_Hello_MyClass_h_11_INCLASS_NO_PURE_DECLS \
+	private: \
+	static void StaticRegisterNativesUMyClass(); \
+	friend HELLO_API class UClass* Z_Construct_UClass_UMyClass(); \
+	public: \
+	DECLARE_CLASS(UMyClass, UObject, COMPILED_IN_FLAGS(0), 0, TEXT("/Script/Hello"), NO_API) \
+	DECLARE_SERIALIZER(UMyClass) \
+	/** Indicates whether the class is compiled into the engine */ \
+	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
+#define Hello_Source_Hello_MyClass_h_11_INCLASS \
+	private: \
+	static void StaticRegisterNativesUMyClass(); \
+	friend HELLO_API class UClass* Z_Construct_UClass_UMyClass(); \
+	public: \
+	DECLARE_CLASS(UMyClass, UObject, COMPILED_IN_FLAGS(0), 0, TEXT("/Script/Hello"), NO_API) \
+	DECLARE_SERIALIZER(UMyClass) \
+	/** Indicates whether the class is compiled into the engine */ \
+	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
+#define Hello_Source_Hello_MyClass_h_11_STANDARD_CONSTRUCTORS \
+	/** Standard constructor, called after all reflected properties have been initialized */ \
+	NO_API UMyClass(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMyClass) \
+	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMyClass); \
+DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMyClass); \
+private: \
+	/** Private move- and copy-constructors, should never be used */ \
+	NO_API UMyClass(UMyClass&&); \
+	NO_API UMyClass(const UMyClass&); \
+public:
+#define Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS \
+	/** Standard constructor, called after all reflected properties have been initialized */ \
+	NO_API UMyClass(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; \
+private: \
+	/** Private move- and copy-constructors, should never be used */ \
+	NO_API UMyClass(UMyClass&&); \
+	NO_API UMyClass(const UMyClass&); \
+public: \
+	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMyClass); \
+DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMyClass); \
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMyClass)
+#define Hello_Source_Hello_MyClass_h_11_PRIVATE_PROPERTY_OFFSET     //先忽略
+#define Hello_Source_Hello_MyClass_h_8_PROLOG   //先忽略
+#define Hello_Source_Hello_MyClass_h_11_GENERATED_BODY_LEGACY \ //两个重要的定义
+PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+public: \
+	Hello_Source_Hello_MyClass_h_11_PRIVATE_PROPERTY_OFFSET \
+	Hello_Source_Hello_MyClass_h_11_RPC_WRAPPERS \
+	Hello_Source_Hello_MyClass_h_11_INCLASS \
+	Hello_Source_Hello_MyClass_h_11_STANDARD_CONSTRUCTORS \
+public: \
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+#define Hello_Source_Hello_MyClass_h_11_GENERATED_BODY \    //两个重要的定义
+PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+public: \
+	Hello_Source_Hello_MyClass_h_11_PRIVATE_PROPERTY_OFFSET \
+	Hello_Source_Hello_MyClass_h_11_RPC_WRAPPERS_NO_PURE_DECLS \
+	Hello_Source_Hello_MyClass_h_11_INCLASS_NO_PURE_DECLS \
+	Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS \
+private: \
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+#undef CURRENT_FILE_ID
+#define CURRENT_FILE_ID Hello_Source_Hello_MyClass_h    //前文说过的定义
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+该文件都是宏定义，因为宏定义是有前后顺序的，因此咱们从尾向前看，请读者此时和上文的代码对照着看。
+首先最底下是CURRENT_FILE_ID的定义
+接着是两个上文说过的GENERATED_BODY定义，先从最简单的结构开始，不管那些PRIVATE_PROPERTY_OFFSET和PROLOG，以后会慢慢介绍到。这两个宏接着包含了4个声明在上面的其他宏。目前来说Hello_Source_Hello_MyClass_h_11_INCLASS和Hello_Source_Hello_MyClass_h_11_INCLASS_NO_PURE_DECLS的定义一模一样，而Hello_Source_Hello_MyClass_h_11_STANDARD_CONSTRUCTORS和Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS的宏，如果读者仔细查看对照的话，会发现二者只差了“: Super(ObjectInitializer) { }; ”构造函数的默认实现。
+我们继续往上，以Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS为例：
+#define Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS \
+	/** Standard constructor, called after all reflected properties have been initialized */ \
+	NO_API UMyClass(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; \   //默认的构造函数实现
+private: \  //禁止掉C++11的移动和拷贝构造
+	/** Private move- and copy-constructors, should never be used */ \
+	NO_API UMyClass(UMyClass&&); \
+	NO_API UMyClass(const UMyClass&); \
+public: \
+	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMyClass); \     //因为WITH_HOT_RELOAD_CTORS关闭，展开是空宏
+    DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMyClass); \   //同理，空宏
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMyClass)
+继续查看DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL的定义：
+#define DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(TClass) \
+	static void __DefaultConstructor(const FObjectInitializer& X) { new((EInternal*)X.GetObj())TClass(X); }
+声明定义了一个构造函数包装器。需要这么做的原因是，在根据名字反射创建对象的时候，需要调用该类的构造函数。可是类的构造函数并不能用函数指针指向，因此这里就用一个static函数包装一下，变成一个"平凡"的函数指针，而且所有类的签名一致，就可以在UClass里用一个函数指针里保存起来。见引擎里Class.h的声明：
+class COREUOBJECT_API UClass : public UStruct
+...
+{
+    ...
+	typedef void (*ClassConstructorType) (const FObjectInitializer&);
+	ClassConstructorType ClassConstructor;
+	...
+}
+当然，如果读者需要自己实现一套反射框架的时候也可以采用更简洁的模式，采用模板实现也是异曲同工。
+template<class TClass>
+void MyConstructor( const FObjectInitializer& X )
+{ 
+	new((EInternal*)X.GetObj())TClass(X);
+}
+再继续往上：
+#define Hello_Source_Hello_MyClass_h_11_INCLASS \
+	private: \
+	static void StaticRegisterNativesUMyClass(); \  //定义在cpp中，目前都是空实现
+	friend HELLO_API class UClass* Z_Construct_UClass_UMyClass(); \ //一个构造该类UClass对象的辅助函数
+	public: \
+	DECLARE_CLASS(UMyClass, UObject, COMPILED_IN_FLAGS(0), 0, TEXT("/Script/Hello"), NO_API) \   //声明该类的一些通用基本函数
+	DECLARE_SERIALIZER(UMyClass) \  //声明序列化函数
+	/** Indicates whether the class is compiled into the engine */ \
+	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};   //这个标记指定了该类是C++Native类，不能动态再改变，跟蓝图里构造的动态类进行区分。
+可以说DECLARE_CLASS是最重要的一个声明，对照着定义：DECLARE_CLASS(UMyClass, UObject, COMPILED_IN_FLAGS(0), 0, TEXT("/Script/Hello"), NO_API)
+TClass：类名 TSuperClass：基类名字
+TStaticFlags：类的属性标记，这里是0，表示最默认，不带任何其他属性。读者可以查看EClassFlags枚举来查看其他定义。
+TStaticCastFlags：指定了该类可以转换为哪些类，这里为0表示不能转为那些默认的类，读者可以自己查看EClassCastFlags声明来查看具体有哪些默认类转换。
+TPackage：类所处于的包名，所有的对象都必须处于一个包中，而每个包都具有一个名字，可以通过该名字来查找。这里是"/Script/Hello"，指定是Script下的Hello，Script可以理解为用户自己的实现，不管是C++还是蓝图，都可以看作是引擎外的一种脚本，当然用这个名字也肯定有UE3时代UnrealScript的影子。Hello就是项目名字，该项目下定义的对象处于该包中。Package的概念涉及到后续Object的组织方式，目前可以简单理解为一个大的Object包含了其他子Object。
+TRequiredAPI：就是用来Dll导入导出的标记，这里是NO_API，因为是最终exe，不需要导出。
+#define DECLARE_CLASS( TClass, TSuperClass, TStaticFlags, TStaticCastFlags, TPackage, TRequiredAPI  ) \
+private: \
+    TClass& operator=(TClass&&);   \
+    TClass& operator=(const TClass&);   \
+	TRequiredAPI static UClass* GetPrivateStaticClass(const TCHAR* Package); \
+public: \
+	/** Bitwise union of #EClassFlags pertaining to this class.*/ \
+	enum {StaticClassFlags=TStaticFlags}; \
+	/** Typedef for the base class ({{ typedef-type }}) */ \
+	typedef TSuperClass Super;\
+	/** Typedef for {{ typedef-type }}. */ \
+	typedef TClass ThisClass;\
+	/** Returns a UClass object representing this class at runtime */ \
+	inline static UClass* StaticClass() \
+	{ \
+		return GetPrivateStaticClass(TPackage); \
+	} \
+	/** Returns the StaticClassFlags for this class */ \
+	inline static EClassCastFlags StaticClassCastFlags() \
+	{ \
+		return TStaticCastFlags; \
+	} \
+	DEPRECATED(4.7, "operator new has been deprecated for UObjects - please use NewObject or NewNamedObject instead") \
+	inline void* operator new( const size_t InSize, UObject* InOuter=(UObject*)GetTransientPackage(), FName InName=NAME_None, EObjectFlags InSetFlags=RF_NoFlags ) \
+	{ \
+		return StaticAllocateObject( StaticClass(), InOuter, InName, InSetFlags ); \
+	} \
+	/** For internal use only; use StaticConstructObject() to create new objects. */ \
+	inline void* operator new(const size_t InSize, EInternal InInternalOnly, UObject* InOuter = (UObject*)GetTransientPackage(), FName InName = NAME_None, EObjectFlags InSetFlags = RF_NoFlags) \
+	{ \
+		return StaticAllocateObject(StaticClass(), InOuter, InName, InSetFlags); \
+} \
+	/** For internal use only; use StaticConstructObject() to create new objects. */ \
+	inline void* operator new( const size_t InSize, EInternal* InMem ) \
+	{ \
+		return (void*)InMem; \
+	}
+大部分都是不言自明的，这里的StaticClass就是我们最经常用到的函数，其内部调用了GetPrivateStaticClass，而其实现正是在Hello.generated.cpp里的。
+Hello.generated.cpp
+而整个Hello项目会生成一个Hello.generated.cpp
+#include "Hello.h"      //包含该项目的头文件，继而包含Engine.h
+#include "GeneratedCppIncludes.h"   //包含UObject模块里一些必要头文件
+#include "Hello.generated.dep.h"    //引用依赖文件，继而include了MyClass.h
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+void EmptyLinkFunctionForGeneratedCode1Hello() {}   //先忽略
+	void UMyClass::StaticRegisterNativesUMyClass()  //说是静态注册，但现在都是为空，先忽略
+	{
+	}
+	IMPLEMENT_CLASS(UMyClass, 899540749);   //重要！！！
+#if USE_COMPILED_IN_NATIVES //该宏编译的时候会打开
+// Cross Module References
+	COREUOBJECT_API class UClass* Z_Construct_UClass_UObject(); //引用CoreUObject里的函数，主要是为了得到UObject本身对应的UClass
+	HELLO_API class UClass* Z_Construct_UClass_UMyClass_NoRegister();   //构造UMyClass对应的UClass对象，区别是没有后续的注册过程
+	HELLO_API class UClass* Z_Construct_UClass_UMyClass();  //构造UMyClass对应的UClass对象
+	HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello(); //构造Hello本身的UPackage对象
+	UClass* Z_Construct_UClass_UMyClass_NoRegister()
+	{
+		return UMyClass::StaticClass(); //直接通过访问来获取UClass对象
+	}
+	UClass* Z_Construct_UClass_UMyClass()   //构造并注册
+	{
+		static UClass* OuterClass = NULL;   //static lazy模式
+		if (!OuterClass)
+		{
+			Z_Construct_UClass_UObject();   //确保UObject本身的UClass已经注册生成
+			Z_Construct_UPackage__Script_Hello();   //确保当前Hello项目的UPackage已经创建，因为后续在生成UMyClass的UClass*对象时需要保存在这个UPacage中
+			OuterClass = UMyClass::StaticClass();   //访问获得UClass*
+			if (!(OuterClass->ClassFlags & CLASS_Constructed))  //防止重复注册
+			{
+				UObjectForceRegistration(OuterClass);   //提取信息注册自身
+				OuterClass->ClassFlags |= 0x20100080;   //增加CLASS_Constructed|CLASS_RequiredAPI标记
+				OuterClass->StaticLink();   //“静态”链接，后续解释
+#if WITH_METADATA   //编辑器模式下开始
+				UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();    //获取关联到的UPackage其身上的元数据映射，并增加元数据信息
+				MetaData->SetValue(OuterClass, TEXT("IncludePath"), TEXT("MyClass.h"));
+				MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+			}
+		}
+		check(OuterClass->GetClass());
+		return OuterClass;
+	}
+	static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);    //延迟注册，注入信息，在启动的时候调用
+	DEFINE_VTABLE_PTR_HELPER_CTOR(UMyClass);    //HotReload相关，先忽略
+	UPackage* Z_Construct_UPackage__Script_Hello()  //构造Hello的UPackage
+	{
+		static UPackage* ReturnPackage = NULL;
+		if (!ReturnPackage)
+		{
+			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), NULL, FName(TEXT("/Script/Hello")), false, false));//注意的是这里只是做一个查找，真正的CreatePackage是在UObjectBase::DeferredRegister里调用的，后续在流程里会讨论到
+			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);//设定标记和Guid
+			FGuid Guid;
+			Guid.A = 0x79A097CD;
+			Guid.B = 0xB58D8B48;
+			Guid.C = 0x00000000;
+			Guid.D = 0x00000000;
+			ReturnPackage->SetGuid(Guid);
+		}
+		return ReturnPackage;
+	}
+#endif
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+大部分简单的都注释说明了，本文件的关键点在于IMPLEMENT_CLASS的分析，和上文.h中的DECLARE_CLASS对应，其声明如下：
+对照着定义IMPLEMENT_CLASS(UMyClass, 899540749);
+#define IMPLEMENT_CLASS(TClass, TClassCrc) \
+	static TClassCompiledInDefer<TClass> AutoInitialize##TClass(TEXT(#TClass), sizeof(TClass), TClassCrc); \   //延迟注册
+	UClass* TClass::GetPrivateStaticClass(const TCHAR* Package) \   //.h里声明的实现，StaticClas()内部就是调用该函数
+	{ \
+		static UClass* PrivateStaticClass = NULL; \ //又一次static lazy
+		if (!PrivateStaticClass) \
+		{ \
+			/* this could be handled with templates, but we want it external to avoid code bloat */ \
+			GetPrivateStaticClassBody( \    //该函数就是真正创建UClass*,以后
+				Package, \  //Package名字
+				(TCHAR*)TEXT(#TClass) + 1 + ((StaticClassFlags & CLASS_Deprecated) ? 11 : 0), \//类名，+1去掉U、A、F前缀，+11去掉_Deprecated前缀
+				PrivateStaticClass, \   //输出引用
+				StaticRegisterNatives##TClass, \
+				sizeof(TClass), \
+				TClass::StaticClassFlags, \
+				TClass::StaticClassCastFlags(), \
+				TClass::StaticConfigName(), \
+				(UClass::ClassConstructorType)InternalConstructor<TClass>, \
+				(UClass::ClassVTableHelperCtorCallerType)InternalVTableHelperCtorCaller<TClass>, \
+				&TClass::AddReferencedObjects, \
+				&TClass::Super::StaticClass, \
+				&TClass::WithinClass::StaticClass \
+			); \
+		} \
+		return PrivateStaticClass; \
+	}
+内容也比较简单，就是把该类的信息传进去给GetPrivateStaticClassBody函数。
+最后展开结果
+通过人肉预处理展开一下生成的文件，应该会看得更加清楚一些：
+MyClass.h展开
+#pragma once
+#include "UObject/NoExportTypes.h"
+class HELLO_API UMyClass : public UObject
+{
+private:
+	static void StaticRegisterNativesUMyClass();
+	friend HELLO_API class UClass* Z_Construct_UClass_UMyClass();
+private:
+	UMyClass& operator=(UMyClass&&);
+	UMyClass& operator=(const UMyClass&);
+	NO_API static UClass* GetPrivateStaticClass(const TCHAR* Package);
+public:
+	/** Bitwise union of #EClassFlags pertaining to this class.*/
+	enum {StaticClassFlags = CLASS_Intrinsic};
+	/** Typedef for the base class ({{ typedef-type }}) */
+	typedef UObject Super;
+	/** Typedef for {{ typedef-type }}. */
+	typedef UMyClass ThisClass;
+	/** Returns a UClass object representing this class at runtime */
+	inline static UClass* StaticClass()
+	{
+		return GetPrivateStaticClass(TEXT("/Script/Hello"));
+	}
+	/** Returns the StaticClassFlags for this class */
+	inline static EClassCastFlags StaticClassCastFlags()
+	{
+		return 0;
+	}
+	DEPRECATED(4.7, "operator new has been deprecated for UObjects - please use NewObject or NewNamedObject instead")
+	inline void* operator new(const size_t InSize, UObject* InOuter = (UObject*)GetTransientPackage(), FName InName = NAME_None, EObjectFlags InSetFlags = RF_NoFlags)
+	{
+		return StaticAllocateObject(StaticClass(), InOuter, InName, InSetFlags);
+	}
+	/** For internal use only; use StaticConstructObject() to create new objects. */
+	inline void* operator new(const size_t InSize, EInternal InInternalOnly, UObject* InOuter = (UObject*)GetTransientPackage(), FName InName = NAME_None, EObjectFlags InSetFlags = RF_NoFlags)
+	{
+		return StaticAllocateObject(StaticClass(), InOuter, InName, InSetFlags);
+	}
+	/** For internal use only; use StaticConstructObject() to create new objects. */
+	inline void* operator new(const size_t InSize, EInternal* InMem)
+	{
+		return (void*)InMem;
+	}
+	friend FArchive &operator<<(FArchive& Ar, UMyClass*& Res)
+	{
+		return Ar << (UObject*&)Res;
+	}
+	/** Indicates whether the class is compiled into the engine */
+	enum { IsIntrinsic = COMPILED_IN_INTRINSIC };
+	/** Standard constructor, called after all reflected properties have been initialized */
+	NO_API UMyClass(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { };
+private:
+	/** Private move- and copy-constructors, should never be used */
+	NO_API UMyClass(UMyClass&&);
+	NO_API UMyClass(const UMyClass&);
+public:
+	static void __DefaultConstructor(const FObjectInitializer& X) { new((EInternal*)X.GetObj())UMyClass(X); }
+};
+Hello.generated.cpp展开
+//#include "Hello.h"
+#include "Engine.h"	
+//#include "GeneratedCppIncludes.h"
+#include "CoreUObject.h"
+#include "UObject/Object.h"
+#include "UObject/Class.h"
+#include "UObject/Package.h"
+#include "UObject/MetaData.h"
+#include "UObject/UnrealType.h"
+//#include "Hello.generated.dep.h"
+#include "MyClass.h"
+void EmptyLinkFunctionForGeneratedCode1Hello() {}
+void UMyClass::StaticRegisterNativesUMyClass()
+{
+}
+static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);
+UClass* UMyClass::GetPrivateStaticClass(const TCHAR* Package)
+{
+	static UClass* PrivateStaticClass = NULL;
+	if (!PrivateStaticClass)
+	{
+		/* this could be handled with templates, but we want it external to avoid code bloat */
+		GetPrivateStaticClassBody(
+			Package,
+			(TCHAR*)TEXT("UMyClass") + 1 + ((StaticClassFlags & CLASS_Deprecated) ? 11 : 0),
+			PrivateStaticClass,
+			StaticRegisterNativesUMyClass,
+			sizeof(UMyClass),
+			UMyClass::StaticClassFlags,
+			UMyClass::StaticClassCastFlags(),
+			UMyClass::StaticConfigName(),
+			(UClass::ClassConstructorType)InternalConstructor<UMyClass>,
+			(UClass::ClassVTableHelperCtorCallerType)InternalVTableHelperCtorCaller<UMyClass>,
+			&UMyClass::AddReferencedObjects,
+			&UMyClass::Super::StaticClass,
+			&UMyClass::WithinClass::StaticClass
+		);
+	}
+	return PrivateStaticClass;
+}
+// Cross Module References
+COREUOBJECT_API class UClass* Z_Construct_UClass_UObject();
+HELLO_API class UClass* Z_Construct_UClass_UMyClass_NoRegister();
+HELLO_API class UClass* Z_Construct_UClass_UMyClass();
+HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello();
+UClass* Z_Construct_UClass_UMyClass_NoRegister()
+{
+	return UMyClass::StaticClass();
+}
+UClass* Z_Construct_UClass_UMyClass()
+{
+	static UClass* OuterClass = NULL;
+	if (!OuterClass)
+	{
+		Z_Construct_UClass_UObject();
+		Z_Construct_UPackage__Script_Hello();
+		OuterClass = UMyClass::StaticClass();
+		if (!(OuterClass->ClassFlags & CLASS_Constructed))
+		{
+			UObjectForceRegistration(OuterClass);
+			OuterClass->ClassFlags |= 0x20100080;
+			OuterClass->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
+			MetaData->SetValue(OuterClass, TEXT("IncludePath"), TEXT("MyClass.h"));
+			MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+		}
+	}
+	check(OuterClass->GetClass());
+	return OuterClass;
+}
+static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);
+UPackage* Z_Construct_UPackage__Script_Hello()
+{
+	static UPackage* ReturnPackage = NULL;
+	if (!ReturnPackage)
+	{
+		ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), NULL, FName(TEXT("/Script/Hello")), false, false));
+		ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
+		FGuid Guid;
+		Guid.A = 0x79A097CD;
+		Guid.B = 0xB58D8B48;
+		Guid.C = 0x00000000;
+		Guid.D = 0x00000000;
+		ReturnPackage->SetGuid(Guid);
+	}
+	return ReturnPackage;
+}
+这样.h的声明和.cpp的定义就全都有了。不管定义了多少函数，要记得注册的入口就是那两个static对象在程序启动的时候登记信息，才有了之后的注册。
+UENUM的生成代码剖析
+接着是相对简单的Enum，我们测试的Enum如下：
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyEnum.generated.h"
+UENUM(BlueprintType)
+enum class EMyEnum : uint8
+{
+	MY_Dance 	UMETA(DisplayName = "Dance"),
+	MY_Rain 	UMETA(DisplayName = "Rain"),
+	MY_Song		UMETA(DisplayName = "Song")
+};
+生成的MyEnum.generated.h为：
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+#ifdef HELLO_MyEnum_generated_h
+#error "MyEnum.generated.h already included, missing '#pragma once' in MyEnum.h"
+#endif
+#define HELLO_MyEnum_generated_h
+#undef CURRENT_FILE_ID
+#define CURRENT_FILE_ID Hello_Source_Hello_MyEnum_h
+#define FOREACH_ENUM_EMYENUM(op) \  //定义一个遍历枚举值的宏，只是为了方便使用
+	op(EMyEnum::MY_Dance) \
+	op(EMyEnum::MY_Rain) \
+	op(EMyEnum::MY_Song) 
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+因此Enum也非常简单，所以发现生成的其实也没有什么重要的信息。同样的，生成的Hello.genrated.cpp中：
+#include "Hello.h"
+#include "GeneratedCppIncludes.h"
+#include "Hello.generated.dep.h"
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+void EmptyLinkFunctionForGeneratedCode1Hello() {}
+static class UEnum* EMyEnum_StaticEnum()    //定义一个获取UEnum便利函数，会在延迟注册的时候被用到
+{
+	extern HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello();
+	static class UEnum* Singleton = NULL;
+	if (!Singleton)
+	{
+		extern HELLO_API class UEnum* Z_Construct_UEnum_Hello_EMyEnum();
+		Singleton = GetStaticEnum(Z_Construct_UEnum_Hello_EMyEnum, Z_Construct_UPackage__Script_Hello(), TEXT("EMyEnum"));
+	}
+	return Singleton;
+}
+static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EMyEnum(EMyEnum_StaticEnum, TEXT("/Script/Hello"), TEXT("EMyEnum"), false, nullptr, nullptr);   //延迟注册
+#if USE_COMPILED_IN_NATIVES
+	HELLO_API class UEnum* Z_Construct_UEnum_Hello_EMyEnum();
+	HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello();
+	UEnum* Z_Construct_UEnum_Hello_EMyEnum()    //构造EMyEnum关联的UEnum*
+	{
+		UPackage* Outer=Z_Construct_UPackage__Script_Hello();
+		extern uint32 Get_Z_Construct_UEnum_Hello_EMyEnum_CRC();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EMyEnum"), 0, Get_Z_Construct_UEnum_Hello_EMyEnum_CRC(), false);
+		if (!ReturnEnum)
+		{
+			ReturnEnum = new(EC_InternalUseOnlyConstructor, Outer, TEXT("EMyEnum"), RF_Public|RF_Transient|RF_MarkAsNative) UEnum(FObjectInitializer());//直接创建该UEnum对象
+			TArray<TPair<FName, uint8>> EnumNames;//设置枚举里的名字和值
+			EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_Dance")), 0));
+			EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_Rain")), 1));
+			EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_Song")), 2));
+			EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_MAX")), 3));   //添加一个默认的MAX字段
+			ReturnEnum->SetEnums(EnumNames, UEnum::ECppForm::EnumClass);
+			ReturnEnum->CppType = TEXT("EMyEnum");
+#if WITH_METADATA   //设置元数据
+			UMetaData* MetaData = ReturnEnum->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnEnum, TEXT("BlueprintType"), TEXT("true"));
+			MetaData->SetValue(ReturnEnum, TEXT("ModuleRelativePath"), TEXT("MyEnum.h"));
+			MetaData->SetValue(ReturnEnum, TEXT("MY_Dance.DisplayName"), TEXT("Dance"));
+			MetaData->SetValue(ReturnEnum, TEXT("MY_Rain.DisplayName"), TEXT("Rain"));
+			MetaData->SetValue(ReturnEnum, TEXT("MY_Song.DisplayName"), TEXT("Song"));
+#endif
+		}
+		return ReturnEnum;
+	}
+	uint32 Get_Z_Construct_UEnum_Hello_EMyEnum_CRC() { return 2000113000U; }
+	UPackage* Z_Construct_UPackage__Script_Hello()  //设置Hello项目的Package属性
+	{
+		...略
+	}
+#endif
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+观察发现EMyEnum_StaticEnum其实并没有比Z_Construct_UEnum_Hello_EMyEnum实现更多的其他的功能。GetStaticEnum目前的实现内部也只是非常简单的调用Z_Construct_UEnum_Hello_EMyEnum返回结果。所以保留着这个EMyEnum_StaticEnum或许只是为了和UClass的结构保持一致。
+USTRUCT的生成代码剖析
+因为USTRUCT标记的类内部并不能定义函数，因此测试的Struct如下：
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyStruct.generated.h"
+USTRUCT(BlueprintType)
+struct HELLO_API FMyStruct
+{
+	GENERATED_USTRUCT_BODY()
+	UPROPERTY(BlueprintReadWrite)
+	float Score;
+};
+生成的MyStruct.generated.h如下：
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+#ifdef HELLO_MyStruct_generated_h
+#error "MyStruct.generated.h already included, missing '#pragma once' in MyStruct.h"
+#endif
+#define HELLO_MyStruct_generated_h
+#define Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY \
+	friend HELLO_API class UScriptStruct* Z_Construct_UScriptStruct_FMyStruct(); \  //给予全局方法友元权限
+	static class UScriptStruct* StaticStruct(); //静态函数返回UScriptStruct*
+#undef CURRENT_FILE_ID
+#define CURRENT_FILE_ID Hello_Source_Hello_MyStruct_h
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+同理，根据GENERATED_USTRUCT_BODY的定义，最终会替换成Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY宏。我们发现其实作用只是在内部定义了一个StaticStruct函数，因为FMyStruct并不继承于UObject，所以结构也非常的简单。
+再接着是Hello.genrated.cpp：
+#include "Hello.h"
+#include "GeneratedCppIncludes.h"
+#include "Hello.generated.dep.h"
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+void EmptyLinkFunctionForGeneratedCode1Hello() {}
+class UScriptStruct* FMyStruct::StaticStruct()//实现了静态获取UScriptStruct*
+{
+	extern HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello();
+	static class UScriptStruct* Singleton = NULL;
+	if (!Singleton)
+	{
+		extern HELLO_API class UScriptStruct* Z_Construct_UScriptStruct_FMyStruct();
+		extern HELLO_API uint32 Get_Z_Construct_UScriptStruct_FMyStruct_CRC();
+		Singleton = GetStaticStruct(Z_Construct_UScriptStruct_FMyStruct, Z_Construct_UPackage__Script_Hello(), TEXT("MyStruct"), sizeof(FMyStruct), Get_Z_Construct_UScriptStruct_FMyStruct_CRC());
+	}
+	return Singleton;
+}
+static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr);  //延迟注册
+static struct FScriptStruct_Hello_StaticRegisterNativesFMyStruct
+{
+	FScriptStruct_Hello_StaticRegisterNativesFMyStruct()
+	{
+		UScriptStruct::DeferCppStructOps(FName(TEXT("MyStruct")),new UScriptStruct::TCppStructOps<FMyStruct>);
+	}
+} ScriptStruct_Hello_StaticRegisterNativesFMyStruct;    //static注册
+#if USE_COMPILED_IN_NATIVES
+	HELLO_API class UScriptStruct* Z_Construct_UScriptStruct_FMyStruct();
+	HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello();
+	UScriptStruct* Z_Construct_UScriptStruct_FMyStruct()    //构造关联的UScriptStruct*
+	{
+		UPackage* Outer = Z_Construct_UPackage__Script_Hello();
+		extern uint32 Get_Z_Construct_UScriptStruct_FMyStruct_CRC();
+		static UScriptStruct* ReturnStruct = FindExistingStructIfHotReloadOrDynamic(Outer, TEXT("MyStruct"), sizeof(FMyStruct), Get_Z_Construct_UScriptStruct_FMyStruct_CRC(), false);
+		if (!ReturnStruct)
+		{
+			ReturnStruct = new(EC_InternalUseOnlyConstructor, Outer, TEXT("MyStruct"), RF_Public|RF_Transient|RF_MarkAsNative) UScriptStruct(FObjectInitializer(), NULL, new UScriptStruct::TCppStructOps<FMyStruct>, EStructFlags(0x00000201));//直接创建UScriptStruct对象
+			UProperty* NewProp_Score = new(EC_InternalUseOnlyConstructor, ReturnStruct, TEXT("Score"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(Score, FMyStruct), 0x0010000000000004);//直接关联相应的Property信息
+			ReturnStruct->StaticLink(); //链接
+#if WITH_METADATA   //元数据
+			UMetaData* MetaData = ReturnStruct->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnStruct, TEXT("BlueprintType"), TEXT("true"));
+			MetaData->SetValue(ReturnStruct, TEXT("ModuleRelativePath"), TEXT("MyStruct.h"));
+			MetaData->SetValue(NewProp_Score, TEXT("Category"), TEXT("MyStruct"));
+			MetaData->SetValue(NewProp_Score, TEXT("ModuleRelativePath"), TEXT("MyStruct.h"));
+#endif
+		}
+		return ReturnStruct;
+	}
+	uint32 Get_Z_Construct_UScriptStruct_FMyStruct_CRC() { return 2914362188U; }
+	UPackage* Z_Construct_UPackage__Script_Hello()
+	{
+		...略
+	}
+#endif
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+同理，会发现FMyStruct::StaticStruct内部也不会比Z_Construct_UScriptStruct_FMyStruct更多的事情，GetStaticStruct的实现也只是简单的转发到Z_Construct_UScriptStruct_FMyStruct。值得一提的是定义的ScriptStruct_Hello_StaticRegisterNativesFMyStruct，会在程序一启动就调用UScriptStruct::DeferCppStructOps向程序注册该结构的CPP信息（大小，内存对齐等），和TClassCompiledInDefer<TClass>的作用相当。FMyStruct的展开也是一目了然，就不再赘述了。
+UINTERFACE的生成代码剖析
+UE对Interface也有支持，如果说FStruct就是一个纯数据的POD容器，那么UInterface则是一个只能带方法的纯接口，比C++里的抽象类要根据的纯粹一些。当然这里谈的都只涉及到用UPROPERTY和UFUNCTION宏标记的那些，如果是纯C++的字段和函数，UE并不能管到那么宽。
+测试的MyInterface.h为：
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyInterface.generated.h"
+UINTERFACE(BlueprintType)
+class UMyInterface : public UInterface
+{
+	GENERATED_UINTERFACE_BODY()    
+};
+class IMyInterface
+{
+	GENERATED_IINTERFACE_BODY()
+public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void BPFunc() const;
+};
+GENERATED_UINTERFACE_BODY和GENERATED_IINTERFACE_BODY都可以替换为GENERATED_BODY以提供一个默认的UMyInterface(const FObjectInitializer& ObjectInitializer)构造函数实现。不过GENERATED_IINTERFACE_BODY替换过后的效果也一样，因为并不需要那么一个构造函数，所以用两个都可以。
+生成的MyInterface.generated.h如下：
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+#ifdef HELLO_MyInterface_generated_h
+#error "MyInterface.generated.h already included, missing '#pragma once' in MyInterface.h"
+#endif
+#define HELLO_MyInterface_generated_h
+#define Hello_Source_Hello_MyInterface_h_8_RPC_WRAPPERS
+#define Hello_Source_Hello_MyInterface_h_8_RPC_WRAPPERS_NO_PURE_DECLS
+#define Hello_Source_Hello_MyInterface_h_8_EVENT_PARMS
+extern HELLO_API  FName HELLO_BPFunc;   //函数的名称，在cpp中定义
+#define Hello_Source_Hello_MyInterface_h_8_CALLBACK_WRAPPERS
+#define Hello_Source_Hello_MyInterface_h_8_STANDARD_CONSTRUCTORS \
+	/** Standard constructor, called after all reflected properties have been initialized */ \
+	NO_API UMyInterface(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMyInterface) \
+	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMyInterface); \
+DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMyInterface); \
+private: \
+	/** Private move- and copy-constructors, should never be used */ \
+	NO_API UMyInterface(UMyInterface&&); \
+	NO_API UMyInterface(const UMyInterface&); \
+public:
+#define Hello_Source_Hello_MyInterface_h_8_ENHANCED_CONSTRUCTORS \
+	/** Standard constructor, called after all reflected properties have been initialized */ \
+	NO_API UMyInterface(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; \
+private: \
+	/** Private move- and copy-constructors, should never be used */ \
+	NO_API UMyInterface(UMyInterface&&); \
+	NO_API UMyInterface(const UMyInterface&); \
+public: \
+	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMyInterface); \
+DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMyInterface); \
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMyInterface)
+#undef GENERATED_UINTERFACE_BODY_COMMON
+#define GENERATED_UINTERFACE_BODY_COMMON() \
+	private: \
+	static void StaticRegisterNativesUMyInterface(); \  //注册
+	friend HELLO_API class UClass* Z_Construct_UClass_UMyInterface(); \ //构造UClass*的方法
+public: \
+	DECLARE_CLASS(UMyInterface, UInterface, COMPILED_IN_FLAGS(CLASS_Abstract | CLASS_Interface), 0, TEXT("/Script/Hello"), NO_API) \
+	DECLARE_SERIALIZER(UMyInterface) \
+	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
+#define Hello_Source_Hello_MyInterface_h_8_GENERATED_BODY_LEGACY \
+		PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+	GENERATED_UINTERFACE_BODY_COMMON() \
+	Hello_Source_Hello_MyInterface_h_8_STANDARD_CONSTRUCTORS \
+	PRAGMA_ENABLE_DEPRECATION_WARNINGS
+#define Hello_Source_Hello_MyInterface_h_8_GENERATED_BODY \
+	PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+	GENERATED_UINTERFACE_BODY_COMMON() \
+	Hello_Source_Hello_MyInterface_h_8_ENHANCED_CONSTRUCTORS \
+private: \
+	PRAGMA_ENABLE_DEPRECATION_WARNINGS
+#define Hello_Source_Hello_MyInterface_h_8_INCLASS_IINTERFACE_NO_PURE_DECLS \
+protected: \
+	virtual ~IMyInterface() {} \
+public: \
+	typedef UMyInterface UClassType; \
+	static void Execute_BPFunc(const UObject* O); \
+	virtual UObject* _getUObject() const = 0;
+#define Hello_Source_Hello_MyInterface_h_8_INCLASS_IINTERFACE \
+protected: \
+	virtual ~IMyInterface() {} \
+public: \
+	typedef UMyInterface UClassType; \
+	static void Execute_BPFunc(const UObject* O); \
+	virtual UObject* _getUObject() const = 0;
+#define Hello_Source_Hello_MyInterface_h_5_PROLOG \
+	Hello_Source_Hello_MyInterface_h_8_EVENT_PARMS
+#define Hello_Source_Hello_MyInterface_h_13_GENERATED_BODY_LEGACY \
+PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+public: \
+	Hello_Source_Hello_MyInterface_h_8_RPC_WRAPPERS \
+	Hello_Source_Hello_MyInterface_h_8_CALLBACK_WRAPPERS \
+	Hello_Source_Hello_MyInterface_h_8_INCLASS_IINTERFACE \
+public: \
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+#define Hello_Source_Hello_MyInterface_h_13_GENERATED_BODY \
+PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+public: \
+	Hello_Source_Hello_MyInterface_h_8_RPC_WRAPPERS_NO_PURE_DECLS \
+	Hello_Source_Hello_MyInterface_h_8_CALLBACK_WRAPPERS \
+	Hello_Source_Hello_MyInterface_h_8_INCLASS_IINTERFACE_NO_PURE_DECLS \
+private: \
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+#undef CURRENT_FILE_ID
+#define CURRENT_FILE_ID Hello_Source_Hello_MyInterface_h
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+因为接口的定义需要用到两个类，所以生成的信息稍微繁复了一些。不过使用的时候，我们的类只是继承于IMyInterface，UMyInerface只是作为一个接口类型的载体，用以区分和查找不同的接口。观察的时候，也请注意行号的定义。
+从底往上，最后两个是IMyInterface里的宏展开，细看之后，会发现_LEGACY和正常版本并没有差别。展开后是：
+class IMyInterface
+{
+protected: 
+	virtual ~IMyInterface() {}  //禁止用接口指针释放对象
+public: 
+	typedef UMyInterface UClassType;    //设定UMyInterface为关联的类型
+	static void Execute_BPFunc(const UObject* O);   //蓝图调用的辅助函数
+	virtual UObject* _getUObject() const = 0;   //
+public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void BPFunc() const;
+};
+再往上是UMyInterface的生成，因为UMyInterface继承于UObject的原因，所以也是从属于Object系统的一份子，所以同样需要遵循构造函数的规则。UInterface本身其实也可以算是UClass的一种，所以生成的代码跟UClass中的生成都差不多，区别是用了COMPILED_IN_FLAGS(CLASS_Abstract | CLASS_Interface)的不同标记。有兴趣的读者可以自己展开看下。
+生成的Hello.generated.cpp：
+#include "Hello.h"
+#include "GeneratedCppIncludes.h"
+#include "Hello.generated.dep.h"
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+void EmptyLinkFunctionForGeneratedCode1Hello() {}
+FName HELLO_BPFunc = FName(TEXT("BPFunc")); //名字的定义
+	void IMyInterface::BPFunc() const   //让编译通过，同时加上错误检测
+	{
+		check(0 && "Do not directly call Event functions in Interfaces. Call Execute_BPFunc instead.");
+	}
+	void UMyInterface::StaticRegisterNativesUMyInterface()
+	{
+	}
+	IMPLEMENT_CLASS(UMyInterface, 4286549343);  //注册类
+	void IMyInterface::Execute_BPFunc(const UObject* O) //蓝图调用方法的实现
+	{
+		check(O != NULL);
+		check(O->GetClass()->ImplementsInterface(UMyInterface::StaticClass()));//检查是否实现了该接口
+		UFunction* const Func = O->FindFunction(HELLO_BPFunc);  //通过名字找到方法
+		if (Func)
+		{
+			const_cast<UObject*>(O)->ProcessEvent(Func, NULL);  //在该对象上调用该方法
+		}
+	}
+#if USE_COMPILED_IN_NATIVES
+	HELLO_API class UFunction* Z_Construct_UFunction_UMyInterface_BPFunc();
+	HELLO_API class UClass* Z_Construct_UClass_UMyInterface_NoRegister();
+	HELLO_API class UClass* Z_Construct_UClass_UMyInterface();
+	HELLO_API class UPackage* Z_Construct_UPackage__Script_Hello();
+	UFunction* Z_Construct_UFunction_UMyInterface_BPFunc()//构造BPFunc的UFunction
+	{
+		UObject* Outer=Z_Construct_UClass_UMyInterface();   //得到接口UMyInterface*对象
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("BPFunc"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x48020800, 65535); //直接构造函数对象
+			ReturnFunction->Bind(); //绑定到函数指针
+			ReturnFunction->StaticLink();   //链接
+#if WITH_METADATA   //元数据
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("MyInterface.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
+	UClass* Z_Construct_UClass_UMyInterface_NoRegister()
+	{
+		return UMyInterface::StaticClass();
+	}
+	UClass* Z_Construct_UClass_UMyInterface()
+	{
+		static UClass* OuterClass = NULL;
+		if (!OuterClass)
+		{
+			UInterface::StaticClass();  //确保基类UInterface已经元数据构造完成
+			Z_Construct_UPackage__Script_Hello();
+			OuterClass = UMyInterface::StaticClass();
+			if (!(OuterClass->ClassFlags & CLASS_Constructed))
+			{
+				UObjectForceRegistration(OuterClass);
+				OuterClass->ClassFlags |= 0x20004081;//CLASS_Constructed|CLASS_Interface|CLASS_Native|CLASS_Abstract
+				OuterClass->LinkChild(Z_Construct_UFunction_UMyInterface_BPFunc());//添加子字段
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyInterface_BPFunc(), "BPFunc"); // 1371259725 ,添加函数名字映射
+				OuterClass->StaticLink();   //链接
+#if WITH_METADATA   //元数据
+				UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
+				MetaData->SetValue(OuterClass, TEXT("BlueprintType"), TEXT("true"));
+				MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("MyInterface.h"));
+#endif
+			}
+		}
+		check(OuterClass->GetClass());
+		return OuterClass;
+	}
+	static FCompiledInDefer Z_CompiledInDefer_UClass_UMyInterface(Z_Construct_UClass_UMyInterface, &UMyInterface::StaticClass, TEXT("UMyInterface"), false, nullptr, nullptr, nullptr);    //延迟注册
+	DEFINE_VTABLE_PTR_HELPER_CTOR(UMyInterface);
+	UPackage* Z_Construct_UPackage__Script_Hello()
+	{
+		...略
+	}
+#endif
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+基本和UClass中的结构差不多，只是多了一些函数定义的过程和把函数添加到类中的操作。
+UClass中的字段和函数生成代码剖析
+在最开始的时候，我们用了一个最简单的UMyClass来阐述整体的结构。行百里者半九十，让我们一鼓作气，看看如果UMyClass里多了Property和Function之后又会起什么变化。
+测试的MyClass.h如下：
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyClass.generated.h"
+UCLASS(BlueprintType)
+class HELLO_API UMyClass : public UObject
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite)
+	float Score;
+public:
+	UFUNCTION(BlueprintCallable, Category = "Hello")
+	void CallableFunc();    //C++实现，蓝图调用
+	UFUNCTION(BlueprintNativeEvent, Category = "Hello")
+	void NativeFunc();  //C++实现默认版本，蓝图可重载实现
+	UFUNCTION(BlueprintImplementableEvent, Category = "Hello")
+	void ImplementableFunc();   //C++不实现，蓝图实现
+};
+增加了一个属性和三个不同方法来测试。
+其生成的MyClass.generated.h为(只包括改变部分)：
+#define Hello_Source_Hello_MyClass_h_8_RPC_WRAPPERS \
+	virtual void NativeFunc_Implementation(); \ //默认实现的函数声明，我们可以自己实现
+ \
+	DECLARE_FUNCTION(execNativeFunc) \  //声明供蓝图调用的函数
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		this->NativeFunc_Implementation(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execCallableFunc) \    //声明供蓝图调用的函数
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		this->CallableFunc(); \
+		P_NATIVE_END; \
+	}
+#define Hello_Source_Hello_MyClass_h_8_RPC_WRAPPERS_NO_PURE_DECLS \ //和上面重复，略
+//声明函数名称
+extern HELLO_API  FName HELLO_ImplementableFunc;
+extern HELLO_API  FName HELLO_NativeFunc;
+因为CallableFunc是C++里实现的，所以这里并不需要再定义函数体。而另外两个函数其实是在蓝图里定义的，就需要专门生成exec前缀的函数供蓝图虚拟机调用。
+我们展开execCallableFunc后为：
+void execCallableFunc( FFrame& Stack, void*const Z_Param__Result )  //蓝图虚拟机的使用的函数接口
+{
+    Stack.Code += !!Stack.Code; /* increment the code ptr unless it is null */
+    { 
+        FBlueprintEventTimer::FScopedNativeTimer ScopedNativeCallTimer;     //蓝图的计时统计
+    	this->CallableFunc(); //调用我们自己的实现
+    }
+}
+目前还是非常简单的，当然根据函数签名的不同会加上不同的参数传递，但是大体结构就是如此。以上的函数都是定义在UMyClass类内部的。
+再来看Hello.generated.cpp里的变化（只包括改变部分）：
+//函数名字定义
+FName HELLO_ImplementableFunc = FName(TEXT("ImplementableFunc"));
+FName HELLO_NativeFunc = FName(TEXT("NativeFunc"));
+	void UMyClass::ImplementableFunc()  //C++端的实现
+	{
+		ProcessEvent(FindFunctionChecked(HELLO_ImplementableFunc),NULL);
+	}
+	void UMyClass::NativeFunc() //C++端的实现
+	{
+		ProcessEvent(FindFunctionChecked(HELLO_NativeFunc),NULL);
+	}
+	void UMyClass::StaticRegisterNativesUMyClass()  //注册函数名字和函数指针映射
+	{
+		FNativeFunctionRegistrar::RegisterFunction(UMyClass::StaticClass(), "CallableFunc",(Native)&UMyClass::execCallableFunc);
+		FNativeFunctionRegistrar::RegisterFunction(UMyClass::StaticClass(), "NativeFunc",(Native)&UMyClass::execNativeFunc);
+	}
+//...略去中间相同部分
+//构造3个函数的UFunction*对象，结构一样，只是EFunctionFlags不一样
+UFunction* Z_Construct_UFunction_UMyClass_CallableFunc()
+	{
+		UObject* Outer=Z_Construct_UClass_UMyClass();
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("CallableFunc"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x04020401, 65535); //FUNC_BlueprintCallable|FUNC_Public|FUNC_Native|FUNC_Final
+			ReturnFunction->Bind();
+			ReturnFunction->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("Category"), TEXT("Hello"));
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
+	UFunction* Z_Construct_UFunction_UMyClass_ImplementableFunc()
+	{
+		UObject* Outer=Z_Construct_UClass_UMyClass();
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("ImplementableFunc"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x08020800, 65535); //FUNC_BlueprintEvent|FUNC_Public|FUNC_Event
+			ReturnFunction->Bind();
+			ReturnFunction->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("Category"), TEXT("Hello"));
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
+	UFunction* Z_Construct_UFunction_UMyClass_NativeFunc()
+	{
+		UObject* Outer=Z_Construct_UClass_UMyClass();
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("NativeFunc"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x08020C00, 65535);//FUNC_BlueprintEvent|FUNC_Public|FUNC_Event|FUNC_Native
+			ReturnFunction->Bind();
+			ReturnFunction->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("Category"), TEXT("Hello"));
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
+//...略去中间相同部分
+UClass* Z_Construct_UClass_UMyClass()
+	{
+		static UClass* OuterClass = NULL;
+		if (!OuterClass)
+		{
+			Z_Construct_UClass_UObject();
+			Z_Construct_UPackage__Script_Hello();
+			OuterClass = UMyClass::StaticClass();
+			if (!(OuterClass->ClassFlags & CLASS_Constructed))
+			{
+				UObjectForceRegistration(OuterClass);
+				OuterClass->ClassFlags |= 0x20100080;
+                //添加子字段
+				OuterClass->LinkChild(Z_Construct_UFunction_UMyClass_CallableFunc());
+				OuterClass->LinkChild(Z_Construct_UFunction_UMyClass_ImplementableFunc());
+				OuterClass->LinkChild(Z_Construct_UFunction_UMyClass_NativeFunc());
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+				UProperty* NewProp_Score = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("Score"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(Score, UMyClass), 0x0010000000000004);//添加属性
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+                //添加函数名字映射
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyClass_CallableFunc(), "CallableFunc"); // 774395847
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyClass_ImplementableFunc(), "ImplementableFunc"); // 615168156
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyClass_NativeFunc(), "NativeFunc"); // 3085959641
+				OuterClass->StaticLink();
+#if WITH_METADATA   //元数据
+				UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
+				MetaData->SetValue(OuterClass, TEXT("BlueprintType"), TEXT("true"));
+				MetaData->SetValue(OuterClass, TEXT("IncludePath"), TEXT("MyClass.h"));
+				MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+				MetaData->SetValue(NewProp_Score, TEXT("Category"), TEXT("MyClass"));
+				MetaData->SetValue(NewProp_Score, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+			}
+		}
+		check(OuterClass->GetClass());
+		return OuterClass;
+	}
+可以看出，对于CallableFunc这种C++实现，蓝图只是调用的方法，生成的代码只是生成了相应的UFunction*对象。而对于NativeFunc和ImplementableFunc，我们不会在C++里写上它们的实现，因此为了编译通过，也为了可以从C++端直接调用，就需要在生成的代码的时候也同样生成一份默认实现。
+在之前的简单类生成代码中，StaticRegisterNativesUMyClass总是空的，在这里UHT为它加上了把函数注册进程序内存的操作。
+3个函数的UFunction*生成，虽然它们的调用方式大相径庭，但是生成的代码的方式却是结构一致的，区别的只是不同的EFunctionFlags值。因此可以推断出，更多的差异应该是在蓝图虚拟机的部分实现的，该部分知识以后介绍蓝图的时候再讨论。
+最后，把1个属性和3个方法添加进UClass中，齐活收工。
+总结
+本篇篇幅较长，我们花了大量的叙述阐述UHT生成的代码的样式。首先从一个最简单的UMyClass开始，观察整体生成代码的结构，接着推进到UMyEnum、UMyStruct、UMyInterface的代码样式，最后返归到UMyClass在其中添加进属性和方法，观察属性和方法是怎么生成代码和怎么和UClass*对象关联起来的。其实我们也发现，这个阶段最重要的功能就是尽量的把程序的信息用代码给记录下来，对于Enum记下名字和值；对于Struct记下每个Property的名字和字节偏移；对于Interface记下每个函数或包装函数的的函数指针和名字；对于Class同理都记下Property和Function。
+当然，我们现在只能涉及到一些最简单的属性和方法类型，目的是让读者们对生成的代码有个整体的概念，不要一下子陷入到了繁复的细节中去。观察生成的代码可知，其实就分两部分，一是各种Z_辅助方法用来构造出各种UClass*等对象；另一部分是都包含着一两个static对象用来在程序启动的时候驱动登记，继而调用到前者的Z_方法，最终完成注册。
+在了解到了生成的代码是什么样之后，下篇，我们就将深入到这些注册的流程中去。
 </code></pre>
 </details>
 
