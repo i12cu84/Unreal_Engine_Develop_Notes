@@ -1340,6 +1340,1169 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 </details>
 
 <details>
+<summary>《InsideUE4》UObject（五）类型系统信息收集</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/26019216
+引言
+前文中我们阐述了类型系统构建的第一个阶段：生成。UHT分析源码的宏标记并生成了包含程序元信息的代码，继而编译进程序，在程序启动的时候，开始启动类型系统的后续构建阶段。而本文我们将介绍类型信息的收集阶段。
+C++ Static 自动注册模式
+另一种常用的C++常用的设计模式：Static Auto Register。典型的，当你想要在程序启动后往一个容器里注册一些对象，或者簿记一些信息的时候，一种直接的方式是在程序启动后手动的一个个调用注册函数：
+#include "ClassA.h"
+#include "ClassB.h"
+int main()
+{
+    ClassFactory::Get().Register<ClassA>();
+    ClassFactory::Get().Register<ClassB>();
+    [...]
+}
+这种方式的缺点是你必须手动的一个include之后再手动的一个个注册，当要继续添加注册的项时，只能再手动的依次序在该文件里加上一条条目，可维护性较差。
+所以根据C++ static对象会在main函数之前初始化的特性，可以设计出一种static自动注册模式，新增加注册条目的时候，只要Include进相应的类.h.cpp文件，就可以自动在程序启动main函数前自动执行一些操作。简化的代码大概如下：
+//StaticAutoRegister.h
+template<typename TClass>
+struct StaticAutoRegister
+{
+	StaticAutoRegister()
+	{
+		Register(TClass::StaticClass());
+	}
+};
+//MyClass.h
+class MyClass
+{
+    //[...]
+};
+//MyClass.cpp
+#include "StaticAutoRegister.h"
+const static StaticAutoRegister<MyClass> AutoRegister;
+这样，在程序启动的时候就会执行Register(MyClass)，把因为新添加类而产生的改变行为限制在了新文件本身，对于一些顺序无关的注册行为这种模式尤为合适。利用这个static初始化特性，也有很多个变种，比如你可以把StaticAutoRegister声明进MyClass的一个静态成员变量也可以。不过注意的是，这种模式只能在独立的地址空间才能有效，如果该文件被静态链接且没有被引用到的话则很可能会绕过static的初始化。不过UE因为都是dll动态链接，且没有出现静态lib再引用Lib，然后又不引用文件的情况出现，所以避免了该问题。或者你也可以找个地方强制的去include一下来触发static初始化。
+UE Static 自动注册模式
+而UE里同样是采用这种模式：
+template <typename TClass>
+struct TClassCompiledInDefer : public FFieldCompiledInInfo
+{
+	TClassCompiledInDefer(const TCHAR* InName, SIZE_T InClassSize, uint32 InCrc)
+	: FFieldCompiledInInfo(InClassSize, InCrc)
+	{
+		UClassCompiledInDefer(this, InName, InClassSize, InCrc);
+	}
+	virtual UClass* Register() const override
+	{
+		return TClass::StaticClass();
+	}
+};
+static TClassCompiledInDefer<TClass> AutoInitialize##TClass(TEXT(#TClass), sizeof(TClass), TClassCrc); 
+或者
+struct FCompiledInDefer
+{
+	FCompiledInDefer(class UClass *(*InRegister)(), class UClass *(*InStaticClass)(), const TCHAR* Name, bool bDynamic, const TCHAR* DynamicPackageName = nullptr, const TCHAR* DynamicPathName = nullptr, void (*InInitSearchableValues)(TMap<FName, FName>&) = nullptr)
+	{
+		if (bDynamic)
+		{
+			GetConvertedDynamicPackageNameToTypeName().Add(FName(DynamicPackageName), FName(Name));
+		}
+		UObjectCompiledInDefer(InRegister, InStaticClass, Name, bDynamic, DynamicPathName, InInitSearchableValues);
+	}
+};
+static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);
+都是对该模式的应用，把static变量声明再用宏包装一层，就可以实现一个简单的自动注册流程了。
+收集
+在上文里，我们详细介绍了Class、Struct、Enum、Interface的代码生成的信息，显然的，生成的就是为了拿过来用的。但是在用之前，我们就还得辛苦一番，把散乱分布在各个.h.cpp文件里的元数据都收集到我们想要的数据结构里保存，以便下一个阶段的使用。
+这里回顾一下，为了让新创建的类不修改既有的代码，所以我们选择了去中心化的为每个新的类生成它自己的cpp生成文件——上文里已经分别介绍每个cpp文件的内容。但是这样我们就接着迎来了一个新问题：这些cpp文件里的元数据散乱在各个模块dll里，我们需要用一种方法重新归拢这些数据，这就是我们在一开头就提到的C++ Static自动注册模式了。通过这种模式，每个cpp文件里的static对象在程序一开始的时候就会全部有机会去做一些事情，包括信息的收集工作。
+UE4里也是如此，在程序启动的时候，UE利用了Static自动注册模式把所有类的信息都一一登记一遍。而紧接着另一个就是顺序问题了，这么多类，谁先谁后，互相若是有依赖该怎么解决。众所周知，UE是以Module来组织引擎结构的（关于Module的细节会在以后章节叙述），一个个Module可以通过脚本配置来选择性的编译加载。在游戏引擎众多的模块中，玩家自己的Game模块是处于比较高级的层次的，都是依赖于引擎其他更基础底层的模块，而这些模块中，最最底层的就是Core模块（C++的基础库），接着就是CoreUObject，正是实现Object类型系统的模块！因此在类型系统注册的过程中，不止要注册玩家的Game模块，同时也要注册CoreUObject本身的一些支持类。
+很多人可能会担心这么多模块的静态初始化的顺序正确性如何保证，在c++标准里，不同编译单元的全局静态变量的初始化顺序并没有明确规定，因此实现上完全由编译器自己决定。该问题最好的解决方法是尽可能的避免这种情况，在设计上就让各个变量不互相引用依赖，同时也采用一些二次检测的方式避免重复注册，或者触发一个强制引用来保证前置对象已经被初始化完成。目前在MSVC平台上是先注册玩家的Game模块，接着是CoreUObject，接着再其他，不过这其实无所谓的，只要保证不依赖顺序而结果正确，顺序就并不重要了。
+Static的收集
+在讲完了收集的必要性和顺序问题的解决之后，我们再来分别的看各个类别的结构的信息的收集。依然是按照上文生成的顺序，从Class（Interface同理）开始，然后是Enum，接着Struct。接着请读者朋友们对照着上文的生成代码来理解。
+Class的收集
+对照着上文里的Hello.generated.cpp展开，我们注意到里面有：
+static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);
+//……
+static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);
+再一次找到其定义：
+//Specialized version of the deferred class registration structure.
+template <typename TClass>
+struct TClassCompiledInDefer : public FFieldCompiledInInfo
+{
+	TClassCompiledInDefer(const TCHAR* InName, SIZE_T InClassSize, uint32 InCrc)
+	: FFieldCompiledInInfo(InClassSize, InCrc)
+	{
+		UClassCompiledInDefer(this, InName, InClassSize, InCrc);    //收集信息
+	}
+	virtual UClass* Register() const override
+	{
+		return TClass::StaticClass();
+	}
+};
+//Stashes the singleton function that builds a compiled in class. Later, this is executed.
+struct FCompiledInDefer
+{
+	FCompiledInDefer(class UClass *(*InRegister)(), class UClass *(*InStaticClass)(), const TCHAR* Name, bool bDynamic, const TCHAR* DynamicPackageName = nullptr, const TCHAR* DynamicPathName = nullptr, void (*InInitSearchableValues)(TMap<FName, FName>&) = nullptr)
+	{
+		if (bDynamic)
+		{
+			GetConvertedDynamicPackageNameToTypeName().Add(FName(DynamicPackageName), FName(Name));
+		}
+		UObjectCompiledInDefer(InRegister, InStaticClass, Name, bDynamic, DynamicPathName, InInitSearchableValues);//收集信息
+	}
+};
+可以见到前者调用了UClassCompiledInDefer来收集类名字，类大小，CRC信息，并把自己的指针保存进来以便后续调用Register方法。而UObjectCompiledInDefer（现在暂时不考虑动态类）最重要的收集的信息就是第一个用于构造UClass*对象的函数指针回调。
+再往下我们会发现这二者其实都只是在一个静态Array里添加信息记录：
+void UClassCompiledInDefer(FFieldCompiledInInfo* ClassInfo, const TCHAR* Name, SIZE_T ClassSize, uint32 Crc)
+{
+    //...
+    // We will either create a new class or update the static class pointer of the existing one
+	GetDeferredClassRegistration().Add(ClassInfo);  //static TArray<FFieldCompiledInInfo*> DeferredClassRegistration;
+}
+void UObjectCompiledInDefer(UClass *(*InRegister)(), UClass *(*InStaticClass)(), const TCHAR* Name, bool bDynamic, const TCHAR* DynamicPathName, void (*InInitSearchableValues)(TMap<FName, FName>&))
+{
+    //...
+	GetDeferredCompiledInRegistration().Add(InRegister);    //static TArray<class UClass *(*)()> DeferredCompiledInRegistration;
+}
+而在整个引擎里会触发此Class的信息收集的有UCLASS、UINTERFACE、IMPLEMENT_INTRINSIC_CLASS、IMPLEMENT_CORE_INTRINSIC_CLASS，其中UCLASS和UINTERFACE我们上文已经见识过了，而IMPLEMENT_INTRINSIC_CLASS是用于在代码中包装UModel，IMPLEMENT_CORE_INTRINSIC_CLASS是用于包装UField、UClass等引擎内建的类，后两者内部也都调用了IMPLEMENT_CLASS来实现功能。
+流程图如下：
+思考：为何需要TClassCompiledInDefer和FCompiledInDefer两个静态初始化来登记？
+我们也观察到了这二者是一一对应的，问题是为何需要两个静态对象来分别收集，为何不合二为一？关键在于我们首先要明白它们二者的不同之处，前者的目的主要是为后续提供一个TClass::StaticClass的Register方法（其会触发GetPrivateStaticClassBody的调用，进而创建出UClass*对象），而后者的目的是在其UClass*身上继续调用构造函数，初始化属性和函数等一些注册操作。我们可以简单理解为就像是C++中new对象的两个步骤，首先分配内存，继而在该内存上构造对象。我们在后续的注册章节里还会继续讨论到这个问题。
+思考：为何需要延迟注册而不是直接在static回调里执行？
+很多人可能会问，为什么static回调里都是先把信息注册进array结构里，并没有什么其他操作，为何不直接把后续的操作直接在回调里调用了，这样结构反而简单些。是这样没错，但是同时我们也考虑到一个问题，UE4里大概1500多个类，如果都在static初始化阶段进行1500多个类的收集注册操作，那么main函数必须得等好一会儿才能开始执行。表现上就是用户双击了程序，没反应，过了好一会儿，窗口才打开。因此static初始化回调里尽量少的做事情，就是为了尽快的加快程序启动的速度。等窗口显示出来了，array结构里数据已经有了，我们就可以施展手脚，多线程也好，延迟也好，都可以大大改善程序运行的体验。
+Enum的收集
+依旧是上文里的对照代码，UENUM会生成：
+static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EMyEnum(EMyEnum_StaticEnum, TEXT("/Script/Hello"), TEXT("EMyEnum"), false, nullptr, nullptr);
+//其定义：
+struct FCompiledInDeferEnum
+{
+	FCompiledInDeferEnum(class UEnum *(*InRegister)(), const TCHAR* PackageName, const TCHAR* Name, bool bDynamic, const TCHAR* DynamicPackageName, const TCHAR* DynamicPathName)
+	{
+		if (bDynamic)
+		{
+			GetConvertedDynamicPackageNameToTypeName().Add(FName(DynamicPackageName), FName(Name));
+		}
+		UObjectCompiledInDeferEnum(InRegister, PackageName, DynamicPathName, bDynamic);
+		//	static TArray<FPendingEnumRegistrant> DeferredCompiledInRegistration;
+	}
+};
+在static阶段会向内存注册一个构造UEnum*的函数指针用于回调：
+注意到这里并不需要像UClassCompiledInDefer一样先生成一个UClass*，因为UEnum并不是一个Class，并没有Class那么多功能集合，所以就比较简单一些。
+Struct的收集
+对于Struct，我们先来看上篇里生成的代码：
+static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr);  //延迟注册
+static struct FScriptStruct_Hello_StaticRegisterNativesFMyStruct
+{
+    FScriptStruct_Hello_StaticRegisterNativesFMyStruct()
+    {
+        UScriptStruct::DeferCppStructOps(FName(TEXT("MyStruct")),new UScriptStruct::TCppStructOps<FMyStruct>);
+    }
+} ScriptStruct_Hello_StaticRegisterNativesFMyStruct;    //static注册
+同样是两个static对象，前者FCompiledInDeferStruct继续向array结构里登记函数指针，后者有点特殊，在一个结构名和对象的Map映射里登记“Struct相应的C++操作类”（后续解释）。
+struct FCompiledInDeferStruct
+{
+	FCompiledInDeferStruct(class UScriptStruct *(*InRegister)(), const TCHAR* PackageName, const TCHAR* Name, bool bDynamic, const TCHAR* DynamicPackageName, const TCHAR* DynamicPathName)
+	{
+		if (bDynamic)
+		{
+			GetConvertedDynamicPackageNameToTypeName().Add(FName(DynamicPackageName), FName(Name));
+		}
+		UObjectCompiledInDeferStruct(InRegister, PackageName, DynamicPathName, bDynamic);//	static TArray<FPendingStructRegistrant> DeferredCompiledInRegistration;
+	}
+};
+void UScriptStruct::DeferCppStructOps(FName Target, ICppStructOps* InCppStructOps)
+{
+	TMap<FName,UScriptStruct::ICppStructOps*>& DeferredStructOps = GetDeferredCppStructOps();
+	if (UScriptStruct::ICppStructOps* ExistingOps = DeferredStructOps.FindRef(Target))
+	{
+#if WITH_HOT_RELOAD
+		if (!GIsHotReload) // in hot reload, we will just leak these...they may be in use.
+#endif
+		{
+			check(ExistingOps != InCppStructOps); // if it was equal, then we would be re-adding a now stale pointer to the map
+			delete ExistingOps;
+		}
+	}
+	DeferredStructOps.Add(Target,InCppStructOps);
+}
+另外的，搜罗引擎里的代码，我们还会发现对于UE4里内建的结构，比如说Vector，其IMPLEMENT_STRUCT(Vector)也会相应的触发DeferCppStructOps的调用。
+这里的Struct也和Enum同理，因为并不是一个Class，所以并不需要比较繁琐的两步构造，凭着FPendingStructRegistrant就可以后续一步构造出UScriptStruct*对象；对于内建的类型（如Vector），因其完全不是“Script”的类型，所以就不需要UScriptStruct的构建，那么其如何像BP暴露，我们后续再详细介绍。
+还有一点注意的是UStruct类型会配套一个ICppStructOps接口对象来管理C++struct对象的构造和析构工作，其用意就在于如果对于一块已经擦除了类型的内存数据，我们怎么能在其上正确的构造结构对象数据或者析构。这个时候，如果我们能够得到一个统一的ICppStructOps*指针指向类型安全的TCppStructOps<CPPSTRUCT>对象，就能够通过接口函数动态、多态、类型安全的执行构造和析构工作。
+Function的收集
+在介绍完了Class、Enum、Struct之后，我们还遗忘了一些引擎内建的函数的信息收集。我们在前文中并没有介绍到这一点是因为UE已经提供了我们一个BlueprintFunctionLibrary的类来注册全局函数。而一些引擎内部定义出来的函数，也是散乱分布在各处，也是需要收集起来的。
+主要有这两类：
+IMPLEMENT_CAST_FUNCTION，定义一些Object的转换函数
+IMPLEMENT_CAST_FUNCTION( UObject, CST_ObjectToBool, execObjectToBool );
+IMPLEMENT_CAST_FUNCTION( UObject, CST_InterfaceToBool, execInterfaceToBool );
+IMPLEMENT_CAST_FUNCTION( UObject, CST_ObjectToInterface, execObjectToInterface );
+IMPLEMENT_VM_FUNCTION，定义一些蓝图虚拟机使用的函数
+IMPLEMENT_VM_FUNCTION(EX_CallMath, execCallMathFunction);
+IMPLEMENT_VM_FUNCTION( EX_True, execTrue );
+//……
+而继而查其定义：
+#define IMPLEMENT_FUNCTION(cls,func) \
+	static FNativeFunctionRegistrar cls##func##Registar(cls::StaticClass(),#func,(Native)&cls::func);
+#define IMPLEMENT_CAST_FUNCTION(cls, CastIndex, func) \
+	IMPLEMENT_FUNCTION(cls, func); \
+	static uint8 cls##func##CastTemp = GRegisterCast( CastIndex, (Native)&cls::func );
+#define IMPLEMENT_VM_FUNCTION(BytecodeIndex, func) \
+	IMPLEMENT_FUNCTION(UObject, func) \
+	static uint8 UObject##func##BytecodeTemp = GRegisterNative( BytecodeIndex, (Native)&UObject::func );
+/** A struct that maps a string name to a native function */
+struct FNativeFunctionRegistrar
+{
+	FNativeFunctionRegistrar(class UClass* Class, const ANSICHAR* InName, Native InPointer)
+	{
+		RegisterFunction(Class, InName, InPointer);
+	}
+	static COREUOBJECT_API void RegisterFunction(class UClass* Class, const ANSICHAR* InName, Native InPointer);
+	// overload for types generated from blueprints, which can have unicode names:
+	static COREUOBJECT_API void RegisterFunction(class UClass* Class, const WIDECHAR* InName, Native InPointer);
+};
+也可以发现有3个static对象收集到这些函数的信息并登记到相应的结构中去，流程图为：
+其中FNativeFunctionRegistrar用于向UClass里添加Native函数（区别于蓝图里定义的函数），另一个方面，在UClass的RegisterNativeFunc相关函数里，也会把相应的Class内定义的函数添加到UClass内部的函数表里去。
+UObject的收集
+如果读者朋友们自己剖析源码，还会有一个疑惑，作为Object系统的根类，它是怎么在最开始的时候触发相应UClass*的生成呢？答案在最开始的IMPLEMENT_VM_FUNCTION(EX_CallMath, execCallMathFunction)调用上，其内部会紧接着触发UObject::StaticClass()的调用，作为最开始的调用，检测到UClass*并未生成，于是接着会转发到GetPrivateStaticClassBody中去生成一个UClass*。
+总结
+因篇幅有限，本文紧接着上文，讨论了代码生成的信息是如何一步步收集到内存里的数据结构里去的，UE4利用了C++的static对象初始化模式，在程序最初启动的时候，main之前，就收集到了所有的类型元数据、函数指针回调、名字、CRC等信息。到目前，思路还是很清晰的，为每一个类代码生成自己的cpp文件（不需中心化的修改既有代码），进而在其生成的每个cpp文件里用static模式搜罗一遍信息以便后续的使用。这也算是C++自己实现类型系统流行套路之一吧。
+在下一个阶段——注册，我们将讨论UE4接下来是如何消费利用这些信息的。
+</code></pre>
+</details>
+
+<details>
+<summary>《InsideUE4》UObject（六）类型系统代码生成重构-UE4CodeGen_Private</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/34059049
+引言
+在之前的《InsideUE4》UObject（四）类型系统代码生成和《InsideUE4》UObject（五）类型系统收集章节里，我们介绍了UE4是如何根据我们的代码和元标记生成反射代码，并在Main函数调用之前，利用静态变量的初始化来收集类型的元数据信息。经过了我这么长时间的拖更……也经过了Epic这么长时间的版本更替，把UE从4.15.1进化到了4.18.3，自然的，CoreUObject模块也进行了一些改进。本文就先补上一个关于代码生成的改进：在UE4.17（20170722）的时候进行的UObjectGlobals.h.cpp重构，优化了代码生成的内容和组织形式。
+旧版本代码生成
+首先来看一下之前的版本的代码元数据生成：
+UEnum的生成：
+//测试代码
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyEnum.generated.h"
+UENUM(BlueprintType)
+enum class EMyEnum : uint8
+{
+    MY_Dance    UMETA(DisplayName = "Dance"),
+    MY_Rain     UMETA(DisplayName = "Rain"),
+    MY_Song     UMETA(DisplayName = "Song")
+};
+//生成代码节选(Hello.genrated.cpp)：
+ReturnEnum = new(EC_InternalUseOnlyConstructor, Outer, TEXT("EMyEnum"), RF_Public|RF_Transient|RF_MarkAsNative) UEnum(FObjectInitializer());//直接创建该UEnum对象
+TArray<TPair<FName, uint8>> EnumNames;//设置枚举里的名字和值
+EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_Dance")), 0));
+EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_Rain")), 1));
+EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_Song")), 2));
+EnumNames.Add(TPairInitializer<FName, uint8>(FName(TEXT("EMyEnum::MY_MAX")), 3));   //添加一个默认的MAX字段
+ReturnEnum->SetEnums(EnumNames, UEnum::ECppForm::EnumClass);
+ReturnEnum->CppType = TEXT("EMyEnum");
+#if WITH_METADATA   //设置元数据
+UMetaData* MetaData = ReturnEnum->GetOutermost()->GetMetaData();
+MetaData->SetValue(ReturnEnum, TEXT("BlueprintType"), TEXT("true"));
+MetaData->SetValue(ReturnEnum, TEXT("ModuleRelativePath"), TEXT("MyEnum.h"));
+MetaData->SetValue(ReturnEnum, TEXT("MY_Dance.DisplayName"), TEXT("Dance"));
+MetaData->SetValue(ReturnEnum, TEXT("MY_Rain.DisplayName"), TEXT("Rain"));
+MetaData->SetValue(ReturnEnum, TEXT("MY_Song.DisplayName"), TEXT("Song"));
+#endif
+UStruct的生成：
+//测试代码：
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyStruct.generated.h"
+USTRUCT(BlueprintType)
+struct HELLO_API FMyStruct
+{
+    GENERATED_USTRUCT_BODY()
+    UPROPERTY(BlueprintReadWrite)
+    float Score;
+};
+//生成代码节选(Hello.genrated.cpp)：
+ReturnStruct = new(EC_InternalUseOnlyConstructor, Outer, TEXT("MyStruct"), RF_Public|RF_Transient|RF_MarkAsNative) UScriptStruct(FObjectInitializer(), NULL, new UScriptStruct::TCppStructOps<FMyStruct>, EStructFlags(0x00000201));//直接创建UScriptStruct对象
+UProperty* NewProp_Score = new(EC_InternalUseOnlyConstructor, ReturnStruct, TEXT("Score"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(Score, FMyStruct), 0x0010000000000004);//直接关联相应的Property信息
+ReturnStruct->StaticLink(); //链接
+#if WITH_METADATA   //元数据
+UMetaData* MetaData = ReturnStruct->GetOutermost()->GetMetaData();
+MetaData->SetValue(ReturnStruct, TEXT("BlueprintType"), TEXT("true"));
+MetaData->SetValue(ReturnStruct, TEXT("ModuleRelativePath"), TEXT("MyStruct.h"));
+MetaData->SetValue(NewProp_Score, TEXT("Category"), TEXT("MyStruct"));
+MetaData->SetValue(NewProp_Score, TEXT("ModuleRelativePath"), TEXT("MyStruct.h"));
+#endif
+UClass的生成：
+//测试代码：
+#pragma once
+#include "UObject/NoExportTypes.h"
+#include "MyClass.generated.h"
+UCLASS(BlueprintType)
+class HELLO_API UMyClass : public UObject
+{
+    GENERATED_BODY()
+public:
+    UPROPERTY(BlueprintReadWrite)
+    float Score;
+public:
+    UFUNCTION(BlueprintCallable, Category = "Hello")
+    void CallableFunc();    //C++实现，蓝图调用
+    UFUNCTION(BlueprintNativeEvent, Category = "Hello")
+    void NativeFunc();  //C++实现默认版本，蓝图可重载实现
+    UFUNCTION(BlueprintImplementableEvent, Category = "Hello")
+    void ImplementableFunc();   //C++不实现，蓝图实现
+};
+//生成代码节选(Hello.genrated.cpp)：
+//添加子字段
+OuterClass->LinkChild(Z_Construct_UFunction_UMyClass_CallableFunc());
+OuterClass->LinkChild(Z_Construct_UFunction_UMyClass_ImplementableFunc());
+OuterClass->LinkChild(Z_Construct_UFunction_UMyClass_NativeFunc());
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+UProperty* NewProp_Score = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("Score"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(Score, UMyClass), 0x0010000000000004);//添加属性
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+//添加函数名字映射
+OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyClass_CallableFunc(), "CallableFunc"); // 774395847
+OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyClass_ImplementableFunc(), "ImplementableFunc"); // 615168156
+OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_UMyClass_NativeFunc(), "NativeFunc"); // 3085959641
+OuterClass->StaticLink();
+#if WITH_METADATA   //元数据
+UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
+MetaData->SetValue(OuterClass, TEXT("BlueprintType"), TEXT("true"));
+MetaData->SetValue(OuterClass, TEXT("IncludePath"), TEXT("MyClass.h"));
+MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+MetaData->SetValue(NewProp_Score, TEXT("Category"), TEXT("MyClass"));
+MetaData->SetValue(NewProp_Score, TEXT("ModuleRelativePath"), TEXT("MyClass.h"));
+#endif
+可以见到，以往的方式在生成的代码里有很多的“套路化”的SetValue、Add段落，都是用来添加字段属性、函数和元数据的信息。虽然这些代码也是UHT程序化生成的，不用人手工操作，看起来也只能说是略有瑕疵，但要是从精益求精的角度上来说，缺点有：
+本着DRY(Don't Repeat Yourself)原则，这些模式化的代码在每一个反射文件里也都会重复N次，增大了代码的体积。
+代码文件的膨胀，自然会增加编译的时间消耗。
+即使是程序生成的代码，有时也难免要阅读Debug，大量的模式代码噪音显然降低了关键代码的可读性和课调试性。
+UHT的编写维护，更多的代码量生成，自然会带来UHT工具代码的编写量增长，增大了编写维护的成本；代码越多，Bug越多；UHT要输出更多的代码，自然效率会降低，从而导致总编译时间的消耗增长。
+UE4CodeGen_Private
+改善方式是显然易得的，同一件事不要做两遍。既然到处都是这些胶水代码，那就把这些代码封装成函数；既然到处都散布着这些元数据信息数据，那就把这些数据封装成结构作为函数的参数。
+所以，UE在4.17的时候，在UObjectGlobals.h.cpp里增加了一个UE4CodeGen_Private的命名空间，里面添加了一些生成函数：
+//UObjectGlobals.h
+namespace UE4CodeGen_Private
+{
+    COREUOBJECT_API void ConstructUFunction(UFunction*& OutFunction, const FFunctionParams& Params);
+    COREUOBJECT_API void ConstructUEnum(UEnum*& OutEnum, const FEnumParams& Params);
+    COREUOBJECT_API void ConstructUScriptStruct(UScriptStruct*& OutStruct, const FStructParams& Params);
+    COREUOBJECT_API void ConstructUPackage(UPackage*& OutPackage, const FPackageParams& Params);
+    COREUOBJECT_API void ConstructUClass(UClass*& OutClass, const FClassParams& Params);
+}
+//UObjectGlobals.cpp
+namespace UE4CodeGen_Private
+{
+    void ConstructUProperty(UObject* Outer, const FPropertyParamsBase* const*& PropertyArray, int32& NumProperties);
+    void AddMetaData(UObject* Object, const FMetaDataPairParam* MetaDataArray, int32 NumMetaData);
+}
+函数的名字含义显而易见，都是用来构造一些元数据结构：UEnum、UFunction、UProperty、UScriptStruct、UClass、UPackage和添加一些元数据（这些结构后续会详解）。第一个参数都是指针的引用，所以是用来向外构造一个对象用指针返回的；关键的是在第二个参数：都是一个个XXXParams参数，用来传进去信息的。
+所以我们继续查看这些参数信息：
+UEnum的Params和生成：
+//UObjectGlobals.h
+namespace UE4CodeGen_Private
+{
+#if WITH_METADATA   //只有在编辑器模式下，才保留元数据信息
+    struct FMetaDataPairParam   //元数据对
+    {
+        //例：MetaData->SetValue(ReturnEnum, TEXT("MY_Song.DisplayName"), TEXT("Song"));
+        const char* NameUTF8;   //元数据的键值对信息
+        const char* ValueUTF8;
+    };
+#endif
+    struct FEnumeratorParam     //枚举项
+    {
+        const char*               NameUTF8; //枚举项的名字
+        int64                     Value;    //枚举项的值
+#if WITH_METADATA
+        const FMetaDataPairParam* MetaDataArray;    //一个枚举项依然可以包含多个元数据键值对
+        int32                     NumMetaData;
+#endif
+    };
+    struct FEnumParams  //枚举参数
+    {
+        UObject*                  (*OuterFunc)();   //获取Outer对象的函数指针回调，用于获取所属于的Package
+        EDynamicType                DynamicType;    //是否动态，一般是非动态的
+        const char*                 NameUTF8;   //枚举的名字
+        EObjectFlags                ObjectFlags;    //UEnum对象的标志
+        FText                     (*DisplayNameFunc)(int32);    //获取自定义显示名字的回调，一般是nullptr，就是默认规则生成的名字
+        uint8                       CppForm; 
+        /*CppForm指定这个枚举是怎么定义的，用来在之后做更细的处理。
+        enum class ECppForm
+        {
+            Regular,    //常规的enum MyEnum{}这样定义
+            Namespaced, //MyEnum之外套一层namespace的定义
+            EnumClass   //enum class定义的
+        };
+        */
+        const char*                 CppTypeUTF8;    //C++里的类型名字，一般是等同于NameUTF8的，但有时定义名字和反射的名字可以不一样
+        const FEnumeratorParam*     EnumeratorParams;   //枚举项数组
+        int32                       NumEnumerators;
+#if WITH_METADATA
+        const FMetaDataPairParam*   MetaDataArray;  //元数据数组
+        int32                       NumMetaData;
+#endif
+    };
+}
+//MyEnum.gen.cpp生成代码：
+static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = { //所有的枚举项
+            { "MyEnum::MY_Dance", (int64)MyEnum::MY_Dance },
+            { "MyEnum::MY_Rain", (int64)MyEnum::MY_Rain },
+            { "MyEnum::MY_Song", (int64)MyEnum::MY_Song },
+        };
+#if WITH_METADATA
+static const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {   //枚举的元数据
+    { "BlueprintType", "true" },
+    { "IsBlueprintBase", "true" },
+    { "ModuleRelativePath", "MyEnum.h" },
+    { "MY_Dance.DisplayName", "Dance" },
+    { "MY_Rain.DisplayName", "Rain" },
+    { "MY_Song.DisplayName", "Song" },
+};
+#endif
+static const UE4CodeGen_Private::FEnumParams EnumParams = { //枚举的元数据参数信息
+    (UObject*(*)())Z_Construct_UPackage__Script_Hello,
+    UE4CodeGen_Private::EDynamicType::NotDynamic,
+    "MyEnum",
+    RF_Public|RF_Transient|RF_MarkAsNative,
+    nullptr,
+    (uint8)UEnum::ECppForm::EnumClass,
+    "MyEnum",
+    Enumerators, //枚举项数组
+    ARRAY_COUNT(Enumerators),  
+    METADATA_PARAMS(Enum_MetaDataParams, ARRAY_COUNT(Enum_MetaDataParams))//枚举元数据数组
+};
+UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams); //利用枚举参数构造UEnum*对象到ReturnEnum
+先挑最软的椰子开始捏，枚举的构造比较简单，就只是包含枚举项（字符串-整形)，所以只要依次添加进去就可以。元数据对指的就是那些UMETA等宏标记里面那些的内容，可以在很多地方上使用来添加额外的信息。
+UStruct的Params和生成：
+因为UStruct里只能包含属性，所以我们在这里着重关注属性信息是怎么生成的。
+//UObjectGlobals.h
+//PS:为了阅读方便，与源码有一定的代码位置微调，但不影响功能正确性
+namespace UE4CodeGen_Private
+{
+    enum class EPropertyClass   //属性的类型
+    {
+        Byte,
+        Int8,
+        Int16,
+        Int,
+        Int64,
+        UInt16,
+        UInt32,
+        UInt64,
+        UnsizedInt,
+        UnsizedUInt,
+        Float,
+        Double,
+        Bool,
+        SoftClass,
+        WeakObject,
+        LazyObject,
+        SoftObject,
+        Class,
+        Object,
+        Interface,
+        Name,
+        Str,
+        Array,
+        Map,
+        Set,
+        Struct,
+        Delegate,
+        MulticastDelegate,
+        Text,
+        Enum,
+    };
+    // This is not a base class but is just a common initial sequence of all of the F*PropertyParams types below.
+    // We don't want to use actual inheritance because we want to construct aggregated compile-time tables of these things.
+    struct FPropertyParamsBase  //属性参数基类
+    {
+        EPropertyClass Type;    //属性的类型
+        const char*    NameUTF8;     //属性的名字
+        EObjectFlags   ObjectFlags;  //属性生成的UProperty对象标志，标识这个UProperty对象的特征，RF_XXX那些宏
+        uint64         PropertyFlags;    //属性生成的UProperty属性标志，标识这个属性的特征，CPF_XXX那些宏
+        int32          ArrayDim;        //属性有可能是个数组，数组的长度，默认是1
+        const char*    RepNotifyFuncUTF8;   //属性的网络复制通知函数名字
+    };
+    struct FPropertyParamsBaseWithOffset // : FPropertyParamsBase
+    {
+        EPropertyClass Type;
+        const char*    NameUTF8;
+        EObjectFlags   ObjectFlags;
+        uint64         PropertyFlags;
+        int32          ArrayDim;
+        const char*    RepNotifyFuncUTF8;
+        int32          Offset;  //在结构或类中的内存偏移，可以理解为成员变量指针（成员变量指针其实本质上就是从对象内存起始位置的偏移）
+    };
+    //通用的属性参数
+    struct FGenericPropertyParams // : FPropertyParamsBaseWithOffset
+    {
+        EPropertyClass   Type;
+        const char*      NameUTF8;
+        EObjectFlags     ObjectFlags;
+        uint64           PropertyFlags;
+        int32            ArrayDim;
+        const char*      RepNotifyFuncUTF8;
+        int32            Offset;
+#if WITH_METADATA
+        const FMetaDataPairParam*           MetaDataArray;
+        int32                               NumMetaData;
+#endif
+    };
+    //一些普通常用的数值类型就通过这个类型定义别名了
+    // These property types don't add new any construction parameters to their base property
+    typedef FGenericPropertyParams FInt8PropertyParams;
+    typedef FGenericPropertyParams FInt16PropertyParams;
+    //枚举类型属性参数
+    struct FBytePropertyParams // : FPropertyParamsBaseWithOffset
+    {
+        EPropertyClass   Type;
+        const char*      NameUTF8;
+        EObjectFlags     ObjectFlags;
+        uint64           PropertyFlags;
+        int32            ArrayDim;
+        const char*      RepNotifyFuncUTF8;
+        int32            Offset;
+        UEnum*         (*EnumFunc)();   //定义的枚举对象回调
+#if WITH_METADATA
+        const FMetaDataPairParam*           MetaDataArray;
+        int32                               NumMetaData;
+#endif
+    };
+    //...省略一些定义，可自行去UObjectGlobals.h查看
+    //对象引用类型属性参数
+    struct FObjectPropertyParams // : FPropertyParamsBaseWithOffset
+    {
+        EPropertyClass   Type;
+        const char*      NameUTF8;
+        EObjectFlags     ObjectFlags;
+        uint64           PropertyFlags;
+        int32            ArrayDim;
+        const char*      RepNotifyFuncUTF8;
+        int32            Offset;
+        UClass*        (*ClassFunc)();  //用于获取该属性定义类型的函数指针回调
+#if WITH_METADATA
+        const FMetaDataPairParam*           MetaDataArray;
+        int32                               NumMetaData;
+#endif
+    };
+    struct FStructParams    //结构参数
+    {
+        UObject*                          (*OuterFunc)();   //所属于的Package
+        UScriptStruct*                    (*SuperFunc)();   //该结构的基类，没有的话为nullptr
+        void*                             (*StructOpsFunc)(); // really returns UScriptStruct::ICppStructOps*，结构的构造分配的辅助操作类
+        const char*                         NameUTF8;   //结构名字
+        EObjectFlags                        ObjectFlags;    //结构UScriptStruct*的对象特征
+        uint32                              StructFlags; // EStructFlags该结构的本来特征
+        SIZE_T                              SizeOf;     //结构的大小，就是sizeof(FMyStruct)，用以后续分配内存时候用
+        SIZE_T                              AlignOf;//结构的内存对齐，就是alignof(FMyStruct)，用以后续分配内存时候用
+        const FPropertyParamsBase* const*   PropertyArray;  //包含的属性数组
+        int32                               NumProperties;
+    #if WITH_METADATA
+        const FMetaDataPairParam*           MetaDataArray;  //元数据数组
+        int32                               NumMetaData;
+    #endif
+    };
+}
+//MyStruct.gen.cpp生成代码：
+#if WITH_METADATA
+static const UE4CodeGen_Private::FMetaDataPairParam Struct_MetaDataParams[] = { //结构的元数据
+    { "BlueprintType", "true" },
+    { "ModuleRelativePath", "MyStruct.h" },
+};
+#endif
+auto NewStructOpsLambda = []() -> void* { return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FMyStruct>(); };   //一个获取操作类的回调
+#if WITH_METADATA
+//属性的元数据
+static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Score_MetaData[] = {
+    { "Category", "MyStruct" },
+    { "ModuleRelativePath", "MyStruct.h" },
+};
+#endif
+static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Score = { UE4CodeGen_Private::EPropertyClass::Float, "Score", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000004, 1, nullptr, STRUCT_OFFSET(FMyStruct, Score), METADATA_PARAMS(NewProp_Score_MetaData, ARRAY_COUNT(NewProp_Score_MetaData)) };//Score属性的信息
+//属性的数组
+static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+    (const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_Score,
+};
+//结构的参数信息
+static const UE4CodeGen_Private::FStructParams ReturnStructParams = {
+    (UObject* (*)())Z_Construct_UPackage__Script_Hello,
+    nullptr,
+    &UE4CodeGen_Private::TNewCppStructOpsWrapper<decltype(NewStructOpsLambda)>::NewCppStructOps,
+    "MyStruct",
+    RF_Public|RF_Transient|RF_MarkAsNative,
+    EStructFlags(0x00000201),
+    sizeof(FMyStruct),
+    alignof(FMyStruct),
+    PropPointers, ARRAY_COUNT(PropPointers),
+    METADATA_PARAMS(Struct_MetaDataParams, ARRAY_COUNT(Struct_MetaDataParams))
+};
+UE4CodeGen_Private::ConstructUScriptStruct(ReturnStruct, ReturnStructParams);//构造UScriptStruct*到ReturnStruct里去
+代码比较简单，上下对照和看看注释就能大概明白。就是收集一个个属性的信息整合成数组，然后合并到结构参数里去，最后传给ConstructUScriptStruct来构造。
+思考：FPropertyParamsBaseWithOffset以及后续为何不继承于FPropertyParamsBase？
+我们在FPropertyParamsBase和FPropertyParamsBaseWithOffset等后续的注释后面以及属性成员的相似性上来看，很容易就看到这些F*PropertyParams其实是用了继承语义的，那为何不直接继承而是费劲的再写一遍呢？
+虽然官方在FPropertyParamsBase上已经写了注释，但是有些朋友可能还是依然比较懵懂。其实这里涉及到一个C++的Aggregate类型的aggregate initialization规则。具体的C++语法规则请自行去补充学习。简单来说，一个Aggregate是一个数组或者一个没有用户声明构造函数，没有私有或保护类型的非静态数据成员，没有父类和虚函数的类型。 Aggregatel类型就可以用形如 T object = {arg1, arg2, ...} 的初始化列表来初始化。我们在上文中见到的：
+static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Score = { UE4CodeGen_Private::EPropertyClass::Float, "Score", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000004, 1, nullptr, STRUCT_OFFSET(FMyStruct, Score), METADATA_PARAMS(NewProp_Score_MetaData, ARRAY_COUNT(NewProp_Score_MetaData)) };
+后面的={}就是初始化列表。这么写当然是为了简洁的目的，否则一个个参数的字段设置过去，那也太麻烦了。
+那如果用继承会怎么样呢？我们可以来做个测试：
+struct Point2
+{
+    float X;
+    float Y;
+};
+struct Point3 :public Point2    //这不是个Aggregate类型，因为有父类
+{
+    float Z;
+};
+struct Point3_Aggregate //这是个Aggregate类型
+{
+    float X;
+    float Y;
+    float Z;
+};
+const static Point3 pos{ 1.f,2.f,3.f }; // error C2440:'initializing': cannot convert from 'initializer list' to 'Point3'
+const static Point3_Aggregate pos2{ 1.f,2.f,3.f };
+因此UE选择不继承，宁愿每个重复写一遍字段声明，就是为了可以简单用{}初始化列表来构造对象。但是我们也观察到，在PropPointers数组里，也依然把一个个元素都转为FPropertyParamsBase*。因为根据C/C++的对象内存模型，继承的时候，基类成员排在派生类成员之前的内存地址上。又因为F*PropertyParams是如此的POD，所以只要保证内存地址和属性成员顺序一致，就可以保证转为另一个结构指针后依然可以正确的使用。
+虽然看起来这么解释的通，但还是感觉很麻烦，本来应该用继承的语义却偏偏为了初始化列表妥协了。对完美主义者来说还是不能忍，那么有没有一种既可以用继承又可以用初始化列表的解决方案呢？
+其实加上构造函数就可以了。不用Aggregate类型，放宽限制，改用POD类型（POD类型就是没有非静态类型的non-POD类型 （或者这些类型的数组）和引用类型的数据成员，也没有用户定义的赋值操作符和析构函数的类型。）。如：
+struct Point2
+{
+    float X;
+    float Y;
+    Point2(float x, float y) :X(x), Y(y) {} //构造函数
+};
+struct Point3_POD :public Point2
+{
+    float Z;
+    Point3_POD(float x, float y, float z) :Point2(x, y), Z(z) {}//构造函数
+};
+struct Point3_Aggregate
+{
+    float X;
+    float Y;
+    float Z;
+};
+const static Point3_POD pos{ 1.f,2.f,3.f };     //works happy ^_^
+const static Point3_Aggregate pos2{ 1.f,2.f,3.f };  //works happy ^_^
+所以只要把F*PropertyParams加上构造函数就可以了。至于为啥UE不这么做？问Epic的人去，摊手~
+UFunction和UClass的Params和生成：
+为了测试UClass里的函数输入输出参数，所以增加一个AddHP函数。
+//测试文件：
+UCLASS()
+class HELLO_API UMyClass :public UObject
+{
+    GENERATED_BODY()
+public:
+    UPROPERTY(BlueprintReadWrite)
+    float Score;
+public:
+    UFUNCTION(BlueprintCallable, Category = "Hello")
+    float AddHP(float HP);
+    UFUNCTION(BlueprintCallable, Category = "Hello")
+    void CallableFunc();    //C++实现，蓝图调用
+    UFUNCTION(BlueprintNativeEvent, Category = "Hello")
+    void NativeFunc();  //C++实现默认版本，蓝图可重载实现
+    UFUNCTION(BlueprintImplementableEvent, Category = "Hello")
+    void ImplementableFunc();   //C++不实现，蓝图实现
+};
+//Class.h
+//类里的函数链接信息，一个函数名字对应一个UFunction对象
+struct FClassFunctionLinkInfo 
+{
+    UFunction* (*CreateFuncPtr)();  //获得UFunction对象的函数指针回调
+    const char* FuncNameUTF8;       //函数的名字
+};
+//类在Cpp里的类型信息，用一个结构是为了将来也许还会添加别的字段
+struct FCppClassTypeInfoStatic
+{
+    bool bIsAbstract;   //是否抽象类
+};
+//UObjectGlobals.h
+namespace UE4CodeGen_Private
+{
+    //函数参数
+    struct FFunctionParams
+    {
+        UObject*                          (*OuterFunc)();   //所属于的外部对象，一般是外部的UClass*对象
+        const char*                         NameUTF8;   //函数的名字
+        EObjectFlags                        ObjectFlags;    //UFunction对象的特征
+        UFunction*                        (*SuperFunc)();   //UFunction的基类，一般为nullptr
+        EFunctionFlags                      FunctionFlags;  //函数本身的特征
+        SIZE_T                              StructureSize;  //函数的参数返回值包结构的大小
+        const FPropertyParamsBase* const*   PropertyArray;  //函数的参数和返回值字段数组
+        int32                               NumProperties;  //函数的参数和返回值字段数组大小
+        uint16                              RPCId;          //网络间的RPC Id
+        uint16                              RPCResponseId;  //网络间的RPC Response Id
+    #if WITH_METADATA
+        const FMetaDataPairParam*           MetaDataArray;  //元数据数组
+        int32                               NumMetaData;
+    #endif
+    };
+    //实现的接口参数，篇幅所限，接口的内容可以自行分析
+    struct FImplementedInterfaceParams
+    {
+        UClass* (*ClassFunc)();     //外部所属于的UInterface对象
+        int32     Offset;           //在UMyClass里的实现的IMyInterface的虚函数表地址偏移
+        bool      bImplementedByK2; //是否在蓝图中实现
+    };
+    //类参数
+    struct FClassParams
+    {
+        UClass*                                   (*ClassNoRegisterFunc)(); //获得UClass*对象的函数指针
+        UObject*                           (*const *DependencySingletonFuncArray)();    //获取依赖对象的函数指针数组，一般是需要前提构造的基类，模块UPackage对象
+        int32                                       NumDependencySingletons;
+        uint32                                      ClassFlags; // EClassFlags，类特征
+        const FClassFunctionLinkInfo*               FunctionLinkArray;  //链接的函数数组
+        int32                                       NumFunctions;
+        const FPropertyParamsBase* const*           PropertyArray;  //类里定义的成员变量数组
+        int32                                       NumProperties;
+        const char*                                 ClassConfigNameUTF8;    //配置文件名字，有些类可以从配置文件从加载数据
+        const FCppClassTypeInfoStatic*              CppClassInfo;   //Cpp里定义的信息
+        const FImplementedInterfaceParams*          ImplementedInterfaceArray;  //实现的接口信息数组
+        int32                                       NumImplementedInterfaces;
+    #if WITH_METADATA           //类的元数据
+        const FMetaDataPairParam*                   MetaDataArray;
+        int32                                       NumMetaData;
+    #endif
+    };
+}
+//MyClass.gen.cpp
+//构造AddHp函数的UFunction对象
+UFunction* Z_Construct_UFunction_UMyClass_AddHP()
+{
+    struct MyClass_eventAddHP_Parms     //函数的参数和返回值包
+    {
+        float HP;
+        float ReturnValue;
+    };
+    static UFunction* ReturnFunction = nullptr;
+    if (!ReturnFunction)
+    {
+        //定义两个属性用来传递信息
+        static const UE4CodeGen_Private::FFloatPropertyParams NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Float, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000580, 1, nullptr, STRUCT_OFFSET(MyClass_eventAddHP_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+        static const UE4CodeGen_Private::FFloatPropertyParams NewProp_HP = { UE4CodeGen_Private::EPropertyClass::Float, "HP", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000080, 1, nullptr, STRUCT_OFFSET(MyClass_eventAddHP_Parms, HP), METADATA_PARAMS(nullptr, 0) };
+        static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+            (const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_ReturnValue,
+            (const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_HP,
+        };
+#if WITH_METADATA
+        static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+            { "Category", "Hello" },
+            { "ModuleRelativePath", "MyClass.h" },
+        };
+#endif
+        static const UE4CodeGen_Private::FFunctionParams FuncParams = { (UObject*(*)())Z_Construct_UClass_UMyClass, "AddHP", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020401, sizeof(MyClass_eventAddHP_Parms), PropPointers, ARRAY_COUNT(PropPointers), 0, 0, METADATA_PARAMS(Function_MetaDataParams, ARRAY_COUNT(Function_MetaDataParams)) };
+        UE4CodeGen_Private::ConstructUFunction(ReturnFunction, FuncParams); //构造函数
+    }
+    return ReturnFunction;
+}
+//...构造其他的函数
+//该类依赖的对象列表，用函数指针来获取。
+static UObject* (*const DependentSingletons[])() = {
+                (UObject* (*)())Z_Construct_UClass_UObject,
+                (UObject* (*)())Z_Construct_UPackage__Script_Hello,
+            };
+//函数链接信息
+static const FClassFunctionLinkInfo FuncInfo[] = {
+    { &Z_Construct_UFunction_UMyClass_CallableFunc, "CallableFunc" }, // 1841300010
+    { &Z_Construct_UFunction_UMyClass_ImplementableFunc, "ImplementableFunc" }, // 2010696670
+    { &Z_Construct_UFunction_UMyClass_NativeFunc, "NativeFunc" }, // 2593520329
+};
+#if WITH_METADATA
+static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[] = {
+    { "IncludePath", "MyClass.h" },
+    { "ModuleRelativePath", "MyClass.h" },
+};
+#endif
+#if WITH_METADATA
+static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Score_MetaData[] = {
+    { "Category", "MyClass" },
+    { "ModuleRelativePath", "MyClass.h" },
+};
+#endif
+static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Score = { UE4CodeGen_Private::EPropertyClass::Float, "Score", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000004, 1, nullptr, STRUCT_OFFSET(UMyClass, Score), METADATA_PARAMS(NewProp_Score_MetaData, ARRAY_COUNT(NewProp_Score_MetaData)) };
+static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+    (const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_Score,
+};
+static const FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
+    TCppClassTypeTraits<UMyClass>::IsAbstract,
+};
+static const UE4CodeGen_Private::FClassParams ClassParams = {
+    &UMyClass::StaticClass,
+    DependentSingletons, ARRAY_COUNT(DependentSingletons),
+    0x00100080u,
+    FuncInfo, ARRAY_COUNT(FuncInfo),
+    PropPointers, ARRAY_COUNT(PropPointers),
+    nullptr,
+    &StaticCppClassTypeInfo,
+    nullptr, 0,
+    METADATA_PARAMS(Class_MetaDataParams, ARRAY_COUNT(Class_MetaDataParams))
+};
+UE4CodeGen_Private::ConstructUClass(OuterClass, ClassParams);   //构造UClass对象
+注意，对于一个函数来说，参数和返回值都可以算是函数内部定义的属性，只不过其有不同的特征和用途。类里包含属性和函数，而函数又包含属性。属性的构造和Struct里的规则一样，就不赘述了。不同的是，因为Class里可以包含Function，所以构造UClass之前必须先构造出所有的UFunction。所以整理下，其实上述的那些构造就是结构套结构，加上一些数组整合出来的信息集合而已。
+思考：为什么生成的代码里大量用了函数指针来返回对象？
+如UClass* (*ClassNoRegisterFunc)()或UFunction* (*CreateFuncPtr)()都用函数指针来获取定义的UClass*对象和前提依赖的UFunction*对象。为什么不直接用个UClass*或UFunction*指针呢？
+答案很简单，因为构造顺序的不确定。
+在一个类型系统中，类型的依赖管理是项很麻烦但又非常重要的事，你必须保证当前类型的所有前置类型都已经定义完毕，才能开始本类型的构造。针对此问题，当然你可以小心翼翼的理清定义顺序，确保所有的顺序都是由底向上的。可是理想很美好，现实很骨感，这一步骤很难实现，是人都会犯错，更何况面对UE4当前的1572个UClass、1039个UStruct、588个Enum……你真的相信有人能管理好这些？所以在类型系统里想人工整理好类型的依赖定义顺序基本不现实，你几乎很难在构造本类型的时候，恰好的取得前置类型的对象。
+那怎么办？也简单，就如同C++里处理static单件对象的依赖顺序一样，既然处理不了，那就不处理！采用懒惰求值的思想，在需要前置类型的时候，先判断有没有构造出来，如果有就立即返回，如果没有就构造后再返回——一个简易版的单件模式。因为这个套路是如此的普遍，所以这一些判断加上构造的逻辑封装一下就成了一个个函数，为了获得那些对象，就变成了先获得那些函数指针了。生成的代码里都是大概这种套路：
+UClass* Z_Construct_UClass_UMyClass()   //用以获取UMyClass所对应的UClass的函数
+{
+    static UClass* OuterClass = nullptr;    //一个函数局部静态指针
+    if (!OuterClass)    //反正都是单线程执行，所以不需要线程安全的保护
+    {
+        //...一些构造代码
+        UE4CodeGen_Private::ConstructUClass(OuterClass, ClassParams);
+    }
+    return OuterClass;
+}
+利用此法，就在代码中形成了一个可自动上溯的前置对象获取链条。任何时候，想得到某一个类的UClass*对象，我们不需要去操心是否已经构造完成，也不需要担心它的依赖项是否已经全部构造了，因为代码的机制保证了前置项的按需构造。
+UPackage的Params和生成：
+对于Hello模块而言，按照UE4的Module规则，我们需要定义一个Hello UPackage来存放该模块里定义的类型。
+之前的4.15的代码形式为：
+UPackage* Z_Construct_UPackage__Script_Hello()
+{
+    static UPackage* ReturnPackage = NULL;
+    if (!ReturnPackage)
+    {
+        ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), NULL, FName(TEXT("/Script/Hello")), false, false));
+        ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
+        FGuid Guid;
+        Guid.A = 0x79A097CD;
+        Guid.B = 0xB58D8B48;
+        Guid.C = 0x00000000;
+        Guid.D = 0x00000000;
+        ReturnPackage->SetGuid(Guid);
+    }
+    return ReturnPackage;
+}
+在4.17之后改为：
+//UObjectGlobals.h
+namespace UE4CodeGen_Private
+{
+    //包参数
+    struct FPackageParams
+    {
+        const char*                        NameUTF8;    //名字
+        uint32                             PackageFlags; // EPackageFlags包的特征
+        uint32                             BodyCRC; //内容的CRC,CRC的部分后续介绍
+        uint32                             DeclarationsCRC; //声明部分的CRC
+        UObject*                  (*const *SingletonFuncArray)();   //依赖的对象列表
+        int32                              NumSingletons;
+#if WITH_METADATA
+        const FMetaDataPairParam*          MetaDataArray;//元数据数组
+        int32                              NumMetaData;
+#endif
+    };
+}
+//Hello.init.gen.cpp
+UPackage* Z_Construct_UPackage__Script_Hello()
+{
+    static UPackage* ReturnPackage = nullptr;
+    if (!ReturnPackage)
+    {
+        static const UE4CodeGen_Private::FPackageParams PackageParams = {
+            "/Script/Hello",    //包名字
+            PKG_CompiledIn | 0x00000000,
+            0xA1EAFF6A,
+            0x41CF0543,
+            nullptr, 0,
+            METADATA_PARAMS(nullptr, 0)
+        };
+        UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);
+    }
+    return ReturnPackage;
+}
+本块内容比较简单，能坚持看到此处的朋友，对上文的代码应该是一目了然的。有一点需要知道的是，在Hello模块里的定义的类型数据，都是放在"/Script/Hello"Package里的，所以Hello Package是第一个首先构造出来的，因为它被后续的其他类型都依赖着。
+总结
+对比了前后两版本的代码，我们不难看出重构了之后，生成的代码更加的紧致，语法的噪音减少了很多，代码的信息量密度大大提高了。但要注意，本文关注的类型系统阶段是对之前《InsideUE4》UObject（四）类型系统代码生成的补充，后续依然是接着《InsideUE4》UObject（五）类型系统收集章节的内容进行开始收集，所以前文的那些static静态收集机制并没有改变。
+至于UE4CodeGen_Private::ConstructXXX构造的具体实现，我们在后续章节讲到类型系统的结构组织时候再详细讲解，我保证，那天不会太久远。当前阶段你可以简单的理解为都是通过一个个参数构造出一个个类型对象。
+思考：生成的代码能否做得更加的清晰高效？
+虽然通过此次重构，代码的可读性上升了许多。但平心而论，现在的代码生成依然远远算不上优雅。那么在程序化代码生成的时候一般有哪些手段可以继续提升呢？
+追其本质，让代码变得简洁的手段其实都是在提升信息密度。把代码比作文件的话，重构就像压缩软件一样，把代码的信息量压缩到无所压就算是到了极致了。但是当然这中间当然也要权衡平台移植性（否则直接存一个二进制文件好了）、可读性、编译效率等问题。提升信息密度的手段就只有一个：同样的信息不要书写两遍。因此带来的方式就是封装！而封装，在代码生成的时候，我们其实可以用到：
+宏，UE4里其实已经用了一些宏来缩减代码，比如ARRAYCOUNT、VTABLEOFFSET、IMPLEMENT_CLASS等。但目前的生成代码里依然有大量的长名字，套路化数组拼接，可以用宏来拼接。过度用宏当然也会降低可读性可调试性，但恰当的地方使用可以如同开挂一般优化掉巨量的代码。宏一直是代码拼接的最强大利器。
+函数，把相似的逻辑封装成函数可以优化掉大量的操作，只对外提供最简洁的信息输入接口。本文介绍的UE4优化方式就是用了函数来优化。我个人的倾向是宁愿在核心层多定义一些方便的辅助函数来接收多种输入，而不是在代码生成的时候去一个个拼函数的实体，这样可以大大减小生成代码的体积。函数的实现上巧用不定参数、数组和循环，可以使你的函数吞吐能力惊人。
+模板，更深层次的挖掘编译器提供的信息，压榨每个字段提供的信息量，利用它，从而自动推导出你所需要的其他信息。比如属性的类型就可以用模板根据字段的c++类型自动推导出来，而不需要手动分析注入了。UE4的生成代码里模板用的不多，是因为模板也有其很大的缺点：编译慢和难理解。在已经有了UHT分析代码的基础上，再用模板推导一遍，好像意义就不是那么大了，所以编译消耗还是能省一点是一点吧。至于模板的难理解，一款开源面向大众的引擎，在技术的选型实现上不应该过分的炫技，因为从业人员的技术水平，初中级的才是占绝大多数。考虑到受众问题和推广，有时候还是应该用一些朴实无华的实现比较能广为接受，同时也能有更大概率争取到重构维护者。否则，你写的代码，是很厉害，但是只有你自己能改得动改得明白，那叫社区里的人怎么为你贡献维护升级。
+扩展性，同时建议尽量把类型系统的构造逻辑放到Runtime里去，而不是在生成代码里（之前UE4就是在生成代码里直接new出一个个UXXX类型对象。放到Runtime，对外提供函数API接口，这样的好处是可测试性大大增长，不需要依赖UHT就可以手动构造出想要的类型进行测试。另外对于一些有在运行时动态Emit创建类型的需求来说，脱离UHT，保持自身功能的完备性也是必需的。
+上述的讨论不限于UE4引擎，只是对于有兴趣实现一个类型系统的人来说，在每个阶段其实都有很多技术选择，但设计就是权衡的艺术，清楚了解你的受众，清晰你的设计目的愿景，对可用的各种手段信手拈来，最后才能组合出优雅的设计。
+后记
+在我们阅读UE4源码的过程中，也要时刻认识到UE4的源码不是完美的。有很多时候，在阅读一段具体代码时，我们可能会去使劲猜测这段代码的用意，琢磨当初是怎么的设计理念却不可得。其实，现实的情况是这些代码往往只是一时的修复，且不是所有代码的编写者技术都是那么高超。他会出错，另一个他会修复，然后再犯错修复，周而复始。如同生物的进化一样，一次次重构优化，最终得到的往往并不是最优解，就像人眼睛的盲点和人的智齿都不是最正确的设计，而是会留下进化的痕迹。但是尽管如此，我们也并不需要感到沮丧，因为接受不完美，接受最后的这个可接受解，适当的懂得妥协和接受缺陷，也许也是一个技术人成熟的标志之一吧。
+有一个有趣的现象，对于大工程量的项目（如UE4)来说，越是底层的模块越是缺乏推动力去重构，越底层的代码其改动的阻力也越大。牵一发而动全身，在一些时候，重构底层模块其实也是最能产生巨量效益的时候，因为其影响会层层放大到最上层上去。但是代码毕竟是人在写，在一个公司里，一个团队里，形成的开发氛围往往是只要底层代码能工作，就不会有人去改，也不会有人敢改。拿UE4的CoreUObject模块来说，是UE4的对象系统模块，可以说是最底层核心的模块了，但是根据我这么一大段时间的研读来说，代码里充斥着各种历史痕迹和小修小补，一些代码结构也是让人无可奈何，but it works，所以这块代码从UE3过来，到UE4里，相信有生之年也是会继续追随到UE5的。CoreUObject代码模块目前能工作，虽然有时也会有点BUG，但是到时小修补就好了，那些代码的优雅追求和结构的设计，改的好了效益不太明显；改过之后出了Bug是不是都算你的？所以正是因为这种效益和责任的担负，导致往往最需要重视的模块，最得不到升级改造。但历史的规律也表明了，代码的小缺陷积累多了，开发者的怨气积攒足够了，再适逢一个不动底层不能开工的功能需求的刺激，到时候才能下得了决心大改，或者干脆另起炉灶重新设计了。说这些，是希望同读UE4源码的朋友，在遇到代码里莫名其妙的设计，抓耳挠腮苦思冥想的时候，可以放宽心态，稍安勿躁，休息一下，我们继续前行。
+</code></pre>
+</details>
+
+<details>
+<summary>《InsideUE4》UObject（七）类型系统注册-第一个UClass</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/57005310
+引言
+很久很久以前，有这么三篇文《InsideUE4》UObject（四）类型系统代码生成、《InsideUE4》UObject（五）类型系统收集和《InsideUE4》UObject（六）类型系统代码生成重构-UE4CodeGen_Private，介绍了UHT利用代码里的宏标记来生成反射代码来记录信息，然后在在Main函数调用之前，利用静态变量的初始化来收集这些类型的元数据信息到一个个数据结构里。因我的拖延原罪，对这个流程已经遗忘的朋友，强烈建议回顾一下前三文来收拾一下思绪继续前进。
+在走过了引擎的static初始化阶段后，类型系统的元数据信息仍然零零散散的分布在几个全局变量里面，声明定义出来一些注册构造函数也只是收集了函数指针，却都还没有机会来好好的调用一下它们。因此注册的文章部分着重讲解的是程序启动过程中，是怎么把之前的信息和函数都串起来使用，最终在内存中构造出类型系统的类型树的。
+理所当然的注意一下：
+注册章节暂时忽略UObject如何分配存储、GC释放、蓝图动态类的相关内容，后续讲解。
+忽略性能分析STATS和热重载WITH_HOT_RELOAD的代码，忽略check和ensure的检测代码。
+示例源码里中间如果有其他主题无关代码会用//...表示，否则的话代码就是原本那样。
+Static初始化
+在前面的文章里，讲解了在static阶段的信息收集。在《InsideUE4》UObject（五）类型系统收集最后UObject的收集的时候简单点了一下，IMPLEMENT_VM_FUNCTION(EX_CallMath, execCallMathFunction)会触发UObject::StaticClass()的调用，因此作为最开始的调用，会生成第一个UClass*。
+#define IMPLEMENT_FUNCTION(func) \
+static FNativeFunctionRegistrar UObject##func##Registar(UObject::StaticClass(),#func,&UObject::func);
+//...
+IMPLEMENT_VM_FUNCTION(EX_CallMath, execCallMathFunction);//ScriptCore.cpp里的定义
+虽然代码里有很多个IMPLEMENT_CAST_FUNCTION和IMPLEMENT_VM_FUNCTION的调用，但第一个触发的是execCallMathFunction的调用，可以看到FNativeFunctionRegistrar对象在构造的时候，第一个参数就会触发UObject::StaticClass()的调用。而以前文的内容，StaticClass()的调用会被展开为GetPrivateStaticClass的调用。而GetPrivateStaticClass是在IMPLEMENT_CLASS里定义的，那么UObject的相关IMPLEMENT_CLASS是在哪里定义的呢？
+NoExportTypes.h
+答案就在这个文件里。相信有些朋友也会不经意间打开过这个文件，但可能会有点迷糊，为何里面重复定义了一些Enum、Struct和UObject？难道不会和真正的定义冲突吗？这个文件的目的是干嘛的？ 其实这个文件的目的就是为了把CoreUObject模块里的一些基础类型喂给UHT来生成类型的元数据信息。 NoExportTypes.h文件的结构其实理解起来很简单：
+#if CPP
+//包含一些头文件来让NoExportTypes.gen.cpp可以编译通过
+#endif
+#if !CPP//这里面的部分是不参与编译的，所以不会产生定义冲突，但是却可以让UHT分析，因为UHT只是个文本分析器而已。
+//枚举的声明，只是加上了宏标记。
+//结构的声明，只是加上了宏标记。
+//UObject的声明，C++的内容其实不重要，重要的是让UHT分析得到些什么信息
+UCLASS(abstract, noexport)
+class UObject
+{
+    GENERATED_BODY()
+public:
+    UFUNCTION(BlueprintImplementableEvent, meta=(BlueprintInternalUseOnly = "true"))
+    void ExecuteUbergraph(int32 EntryPoint);
+};
+#endif
+而NoExportTypes.gen.cpp就和之前讲过的元数据代码生成一样的内容结构了。文件拉到最后你就会看到IMPLEMENT_CLASS(UObject, 1563732853);的定义了。
+GetPrivateStaticClass
+而IMPLEMENT_CLASS根据前文的介绍的展开，里面定义着GetPrivateStaticClass的实现。 虽然最开始的调用是UObject::StaticClass()。但是以UMyClass为例会更看清楚里面参数的含义（因为跟我们实际应用时候的值更贴近，而UObject太基础了，很多信息是空的），工程名为Hello。
+//类的声明值
+DECLARE_CLASS(UMyClass, UObject, COMPILED_IN_FLAGS(0), CASTCLASS_None, TEXT("/Script/Hello"), NO_API)
+//值的传递
+UClass* UMyClass::GetPrivateStaticClass(const TCHAR* Package)
+{
+    static UClass* PrivateStaticClass = NULL;   //静态变量，下回访问就不用再去查找了
+    if (!PrivateStaticClass)
+    {
+        /* this could be handled with templates, but we want it external to avoid code bloat */
+        GetPrivateStaticClassBody(
+            Package,    //包名,TEXT("/Script/Hello")，用来把本UClass*构造在该UPackage里
+            (TCHAR*)TEXT("UMyClass") + 1 + ((StaticClassFlags & CLASS_Deprecated) ? 11 : 0),//类名，+1去掉U、A、F前缀，+11去掉Deprecated_前缀
+            PrivateStaticClass, //输出引用，所以值会被改变
+            StaticRegisterNativesUMyClass,  //注册类Native函数的指针
+            sizeof(UMyClass),   //类大小
+            UMyClass::StaticClassFlags, //类标记，值为CLASS_Intrinsic，表示在C++代码里定义的类
+            UMyClass::StaticClassCastFlags(),   //虽然是调用，但只是简单返回值CASTCLASS_None
+            UMyClass::StaticConfigName(),   //配置文件名，用于从config里读取值
+            (UClass::ClassConstructorType)InternalConstructor<UMyClass>,//构造函数指针，包了一层
+            (UClass::ClassVTableHelperCtorCallerType)InternalVTableHelperCtorCaller<UMyClass>,//hotreload的时候使用来构造虚函数表，暂时不管
+            &UMyClass::AddReferencedObjects,   //GC使用的添加额外引用对象的静态函数指针，若没有定义，则会调用到UObject::AddReferencedObjects，默认函数体为空。
+            &UMyClass::Super::StaticClass,  //获取基类UClass*的函数指针，这里Super是UObject
+            &UMyClass::WithinClass::StaticClass //获取对象外部类UClass*的函数指针，默认是UObject
+        );
+    }
+    return PrivateStaticClass;
+}
+虽然值的传递还是很简明的，但有些要点在此还是得提醒一下：
+Package名字的传入是为了在构建UClass*之后，把UClass*对象的OuterPrivate设定为正确的UPackage*对象。在UE里，UObject必须属于某个UPackage。所以传入名字是为了后续查找或者创建出前置需要的UPackage对象。“/Script/”开头表示这是个代码模块。
+StaticRegisterNativesUMyClass这个函数的名字是用宏拼接的，分别在.generated.h和.gen.cpp里声明和定义。
+InternalConstructor<UMyClass>这个模板函数是为了包一下C++的构造函数，因为你没法直接去获得C++构造函数的函数指针。在.generated.h里会根据情况生成这两个宏的调用（GENERATED_UCLASS_BODY接收FObjectInitializer参数，GENERATED_BODY不接收参数），从而在以后的UObject*构造过程中，可以调用到我们自己写的类的构造函数。
+Super指的是类的基类，WithinClass指的是对象的Outer对象的类型。这里要区分开的是类型系统和对象系统之间的差异，Super表示的是类型上的必须依赖于基类先构建好UClass*才能构建构建子类的UClass*；WithinClass表示的是这个UObject*在构建好之后应该限制放在哪种Outer下面，这个Outer所属于的UClass*我们必须先提前构建好。
+#define DEFINE_DEFAULT_CONSTRUCTOR_CALL(TClass) \
+static void __DefaultConstructor(const FObjectInitializer& X) {new((EInternal*)X.GetObj())TClass;}
+#define DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(TClass) \
+static void __DefaultConstructor(const FObjectInitializer& X) {new((EInternal*)X.GetObj())TClass(X);}
+template<class T>
+void InternalConstructor( const FObjectInitializer& X )
+{ 
+    T::__DefaultConstructor(X);
+}
+GetPrivateStaticClassBody
+接着我们来看看内部的函数实现：
+void GetPrivateStaticClassBody(
+    const TCHAR* PackageName,
+    const TCHAR* Name,
+    UClass*& ReturnClass,
+    void(*RegisterNativeFunc)(),
+    uint32 InSize,
+    EClassFlags InClassFlags,
+    EClassCastFlags InClassCastFlags,
+    const TCHAR* InConfigName,
+    UClass::ClassConstructorType InClassConstructor,
+    UClass::ClassVTableHelperCtorCallerType InClassVTableHelperCtorCaller,
+    UClass::ClassAddReferencedObjectsType InClassAddReferencedObjects,
+    UClass::StaticClassFunctionType InSuperClassFn,
+    UClass::StaticClassFunctionType InWithinClassFn,
+    bool bIsDynamic /*= false*/
+    )
+{
+    ReturnClass = (UClass*)GUObjectAllocator.AllocateUObject(sizeof(UClass), alignof(UClass), true);//分配内存
+    ReturnClass = ::new (ReturnClass)UClass //用placement new在内存上手动调用构造函数
+    (
+    EC_StaticConstructor,Name,InSize,InClassFlags,InClassCastFlags,InConfigName,
+    EObjectFlags(RF_Public | RF_Standalone | RF_Transient | RF_MarkAsNative | RF_MarkAsRootSet),
+    InClassConstructor,InClassVTableHelperCtorCaller,InClassAddReferencedObjects
+    );
+    InitializePrivateStaticClass(InSuperClassFn(),ReturnClass,InWithinClassFn(),PackageName,Name);//初始化UClass*对象
+    RegisterNativeFunc();//注册Native函数到UClass中去
+}
+这个函数内部只做了4件事：
+分配内存。GUObjectAllocator是全局的内存分配器，分配了一块内存来存放UClass对象。关于存储的内容后续再说，这里理解为返回一块内存就可。也要注意的是，ReturnClass是引用，这里一赋值，就代表外面static的PrivateStaticClass就有值了。所以就算这个GetPrivateStaticClassBody函数还没返回，但是如果去访问UMyClass::StaticClass()也是会立即返回这个值的。
+调用UClass的构造函数。这里的EC_StaticConstructor只是个标记用来指定调用特定的UClass构造函数重载版本。该构造函数内只是简单的成员变量赋值，并没有什么特别的。这么二步构造的原因是UObject的内存都是统一管理的，所以应该由GUObjectAllocator来分配，不能像标准C++那样直接new出来一个。
+InitializePrivateStaticClass调用的时候，InSuperClassFn()和InWithinClassFn()是会先被调用的，所以其会先触发Super::StaticClass()和WithinClass::StaticClass()，再会堆栈式的加载前置的类型。
+RegisterNativeFunc()就是上文的StaticRegisterNativesUMyClass，在此刻调用，用来像UClass里添加Native函数。Native函数指的是在C++有函数体实现的函数，而蓝图中的函数和BlueprintImplementableEvent的函数就不是Native函数。
+InitializePrivateStaticClass
+COREUOBJECT_API void InitializePrivateStaticClass(
+    class UClass* TClass_Super_StaticClass,
+    class UClass* TClass_PrivateStaticClass,
+    class UClass* TClass_WithinClass_StaticClass,
+    const TCHAR* PackageName,
+    const TCHAR* Name
+    )
+{
+    //...
+    if (TClass_Super_StaticClass != TClass_PrivateStaticClass)
+    {
+        TClass_PrivateStaticClass->SetSuperStruct(TClass_Super_StaticClass);    //设定类之间的SuperStruct
+    }
+    else
+    {
+        TClass_PrivateStaticClass->SetSuperStruct(NULL);    //UObject无基类
+    }
+    TClass_PrivateStaticClass->ClassWithin = TClass_WithinClass_StaticClass;    //设定Outer类类型
+    //...
+    TClass_PrivateStaticClass->Register(PackageName, Name); //转到UObjectBase::Register()
+    //...
+}
+这个函数的名字叫做初始化，但其实没干啥事。
+设定类型的SuperStruct。SuperStruct是定义在UStruct里的UStruct* SuperStruct，用来指向本类型的基类。
+设定ClassWithin的值。也就是限制Outer的类型。
+调用UObjectBase::Register()。终于对每个UClass*开始了注册，不枉调用链条上的UClassRegisterAllCompiledInClasses的Register之名。
+UObjectBase::Register
+而该函数比较简单，只是简单的先记录一下信息到一个全局单件Map里和一个全局链表里。
+struct FPendingRegistrantInfo
+{
+    const TCHAR*    Name;   //对象名字
+    const TCHAR*    PackageName;    //所属包的名字
+    static TMap<UObjectBase*, FPendingRegistrantInfo>& GetMap()
+    {   //用对象指针做Key，这样才可以通过对象地址获得其名字信息，这个时候UClass对象本身其实还没有名字，要等之后的注册才能设置进去
+        static TMap<UObjectBase*, FPendingRegistrantInfo> PendingRegistrantInfo;    
+        return PendingRegistrantInfo;
+    }
+};
+//...
+struct FPendingRegistrant
+{
+    UObjectBase*    Object; //对象指针，用该值去PendingRegistrants里查找名字。
+    FPendingRegistrant* NextAutoRegister;   //链表下一个节点
+};
+static FPendingRegistrant* GFirstPendingRegistrant = NULL;  //全局链表头
+static FPendingRegistrant* GLastPendingRegistrant = NULL;   //全局链表尾
+//...
+void UObjectBase::Register(const TCHAR* PackageName,const TCHAR* InName)
+{
+    //添加到全局单件Map里，用对象指针做Key，Value是对象的名字和所属包的名字。
+    TMap<UObjectBase*, FPendingRegistrantInfo>& PendingRegistrants = FPendingRegistrantInfo::GetMap();
+    PendingRegistrants.Add(this, FPendingRegistrantInfo(InName, PackageName));
+    //添加到全局链表里，每个链表节点带着一个本对象指针，简单的链表添加操作。
+    FPendingRegistrant* PendingRegistration = new FPendingRegistrant(this);
+    if(GLastPendingRegistrant)
+    {
+        GLastPendingRegistrant->NextAutoRegister = PendingRegistration;
+    }
+    else
+    {
+        check(!GFirstPendingRegistrant);
+        GFirstPendingRegistrant = PendingRegistration;
+    }
+    GLastPendingRegistrant = PendingRegistration;
+}
+思考：为何Register只是先记录一下信息？
+初看之下肯定会疑惑，为何这里并没有做一些实际的操作。其实是因为UClass的注册分成了多步，在static初始化的时候（连main都没进去呢），甚至到后面CoreUObject模块加载的时候，UObject对象分配索引的机制（GUObjectAllocator和GUObjectArray）还没有初始化完毕，因此这个时候如果走下一步去创建各种UProperty、UFunction或UPackage是不合适，创建出来了也没有合适的地方来保存索引。所以，在最开始的时候，只能先简单的创建出各UClass*对象（简单到对象的名字都还没有设定，更何况填充里面的属性和方法了），先在内存里把这些UClass*对象记录一下，等后续对象的存储结构准备好了，就可以把这些UClass*对象再拉出来继续构造了。先剧透一下，后续的初始化对象存储机制的函数调用是InitUObject()，继续构造的操作是在ProcessNewlyLoadedUObjects()里的。这些信息在后面会被消费用到的，莫急。
+思考：记录信息为何需要一个TMap加一个链表？
+我们可以看到，为了记录信息，明明是用一个数据结构就能保存的（源码里的两个数据结构里的数据数量也是1:1的），为何要麻烦的设置成这样。原因有三：
+是快速查找的需要。在后续的别的代码（获取CDO等）里也会经常调用到UObjectForceRegistration(NewClass)，因此常常有通过一个对象指针来查找注册信息的需要，这个时候为了性能就必须要用字典类的数据结构才能做到O(1)的查找。
+顺序注册的需要。而字典类的数据结构一般来说内部为了hash，数据遍历取出的顺序无法保证和添加的顺序一致，而我们又想要遵循添加的顺序来注册（很合理，早添加进来的是早加载的，是更底层的，处在依赖顺序的前提位置。我们前面的SuperClass和WithinClass的访问也表明了这一点），因此就需要另一个顺序数据结构来辅助。
+那为什么是链表而不是数组呢？链表比数组优势的地方也只在于可以快速的中间插入。但是UE源码里也没有这个方面的体现，所以其实二者都可以。我在源码里把注册结构改为如下用数组也依然可以正常工作。要嘛是他们的代码写得也挺啰嗦，要嘛是我没懂其他的深意。不过倒也无伤大雅。
+struct FPendingRegistrant
+{
+    UObjectBase*    Object;
+    FPendingRegistrant(UObjectBase* InObject)
+        : Object(InObject)
+    {}
+    static TArray<FPendingRegistrant>& GetArray()
+    {
+        static TArray<FPendingRegistrant> PendingRegistrants;
+        return PendingRegistrants;
+    }
+};
+RegisterNativeFunc
+讲完了注册，接着说GetPrivateStaticClassBody的最后一步：RegisterNativeFunc的调用，同样以MyClass为例：
+//...MyClass.gen.cpp
+void UMyClass::StaticRegisterNativesUMyClass()
+{
+    UClass* Class = UMyClass::StaticClass();   //这里是可以立即返回值的
+    static const FNameNativePtrPair Funcs[] = { 
+        //exec开头的都是在.generated.h里定义的蓝图用的，暂时不管它，理解为可以调用就行了。
+        { "AddHP", &UMyClass::execAddHP },
+        { "CallableFunc", &UMyClass::execCallableFunc },
+        { "NativeFunc", &UMyClass::execNativeFunc },
+    };
+    FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
+}
+//...
+void FNativeFunctionRegistrar::RegisterFunctions(class UClass* Class, const FNameNativePtrPair* InArray, int32 NumFunctions)
+{
+    for (; NumFunctions; ++InArray, --NumFunctions)
+    {
+        Class->AddNativeFunction(UTF8_TO_TCHAR(InArray->NameUTF8), InArray->Pointer);
+    }
+}
+//...
+void UClass::AddNativeFunction(const ANSICHAR* InName, FNativeFuncPtr InPointer)
+{
+    FName InFName(InName);
+    new(NativeFunctionLookupTable) FNativeFunctionLookup(InFName,InPointer);
+}
+而NativeFunctionLookupTable是在UClass里的一个成员变量
+//蓝图调用的函数指针原型
+typedef void (*FNativeFuncPtr)(UObject* Context, FFrame& TheStack, RESULT_DECL);
+/** A struct that maps a string name to a native function */
+struct FNativeFunctionLookup
+{
+    FName Name; //函数名字
+    FNativeFuncPtr Pointer;//函数指针
+};
+//...
+class COREUOBJECT_API UClass : public UStruct
+{
+public:
+    TArray<FNativeFunctionLookup> NativeFunctionLookupTable;
+}
+可以看到这步操作这是简单的往UClass*里添加Native函数的数据。
+思考：为什么这么猴急的需要一开始就往UClass里添加Native函数？
+以IMPLEMENT_VM_FUNCTION(EX_CallMath, execCallMathFunction)为例，execCallMathFunction是定义在代码里的一个函数，它的地址必然需要通过一种方式记录下来。当然你也可以像UE4CodeGen_Private做的那样，先用各种Params对象保存起来，然后在后面合适的时候调用提取来添加。只不过这个时候因为UClass对象都已经创建出来了，所以就索性直接存到NativeFunctionLookupTable里面去了，后续要用的时候再用名字去里面查找。稍微提一下，这里不用TMap而用TArray是因为一般来说我们在一个类里写的函数数量并不会太多，对于元素比较少的情况下，TArray的线性查找也很快，而且还省内存。
+思考：那些非Native的函数怎么办？
+其实就是指的就是BlueprintImplementableEvent的函数，它不需要我们自己定义函数体。而UHT会帮我们生成一个函数体，当我们在C++里调用ImplementableFunc的时候，其实会触发一次函数查找，如果在蓝图中有定义该名字的函数，则会得到调用。
+//...MyClass.h
+UFUNCTION(BlueprintImplementableEvent)
+void ImplementableFunc();   //C++不实现，蓝图实现
+//...MyClass.gen.cpp
+void UMyClass::ImplementableFunc()
+{
+    ProcessEvent(FindFunctionChecked(TEXT("ImplementableFunc"),NULL);
+}
+需要提前注意的是，不管是Native与否，函数后面都会生成一个UFunction对象，只不过Native函数的UFunction在绑定的时候会去它所属于的UClass里的NativeFunctionLookupTable通过函数名字查找真正的函数指针，而非Native的UFunction会把函数指针指向UObject::ProcessInternal，用来处理蓝图虚拟机调用的情况。
+总结
+到此刻，Static初始化就结束了。总结一下，我们至今的成果是在内存中收集到一些类型元数据信息以备后续使用，还有成功构建出来的第一个UClass对象———也是第一个UObject对象，是UObject::StaticClass()，这个对象想想是不是很奇妙呢。一个对象表示了对象的类型，其本身也是个对象。类型系统的第一个类型是UObject类型。
+Static初始化后，第一个UClass的属性值是：
+SuperStruct = NULL，因为UObject上面没有基类了
+ClassPrivate = NULL，所属的类型，这个时候还没有设置该值。在以后会设置指向UClass::StaticClass()，因为其本身是一个UClass。
+OuterPrivate = NULL，属于的Outer，也还没放进任何Package里。在以后会设置指向“/Script/CoreUObject”的UPackage。
+NamePrivate = "None"，还没有设定任何名字。在以后会设置为“Object”
+ClassWithin = this，这个倒是已经知道了指向自己，表明一个UObject可以放在任何UObject下。
+PropertiesSize = sizeof(UObject) = 56，所以一个最简单的UObject的大小是56字节。
+而UE里的WithinClass有这4种情况：
+（图里表示的皆为UClass*类型的对象，名字就是方块里的名字）
+UFunction的WithinClass就定义为UClass，表示UFunction只能放在UClass对象下面。
+UProperty的WithinClass定义为UField，表示字段下才能有属性。
+UClass和UDynamicClass的WithinClass都是UPackage，表示二者只能属于UPackage。
+对于其它类型，这个WithinClass类型默认在UObject类里定义为UObject本身，就表示其它类型的对象可以放在任意其它类型对象下面。
+本篇主要讲的是Static初始化阶段的最后一步创建出了第一个UClass，自然的Static初始化之后就是程序入口Main函数的执行，因此下一篇我们将开始讲解Main函数入口后开始的类型系统注册过程。
+</code></pre>
+</details>
+
+<details>
+<summary>展开查看</summary>
+<pre><code>
+System.out.println("Hello to see U!");
+</code></pre>
+</details>
+
+<details>
 <summary>展开查看</summary>
 <pre><code>
 System.out.println("Hello to see U!");
