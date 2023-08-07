@@ -1,0 +1,323 @@
+
+<details>
+<summary>写给Unity开发者的Unreal Engine开发指南 （扫盲）</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/608296955
+写在前面的话
+本篇的标题其实起源于UE引擎的官方文档，如果感兴趣可以跳转去看官方文档。Unreal Engine for Unity Developers 。 如果对更多的UE基础感兴趣也可以跳转到Understanding the Basics 地址去学习UE的入门。
+从毕业开始到现在，我一直就在游戏行业里，也算是一个游戏从业的老兵了。而过去的十多年一直在使用Unity引擎开发移动游戏。随着市场对引擎改造的需求越来越大，移动设备的性能越来越好，加上堡垒之夜的成功等各种因素的促进，使得Unreal引擎在开发中重度的移动游戏的比重越来越大。而对于诸如TPS，无缝大世界等热门的技术又有完全的解决方案，自然会有很多游戏公司开始尝试使用UE进行项目开发。
+目前本人在过去的1年多时间里也使用UE引擎完成了一个高仿真数字人项目的开发，并取得了良好的反馈。相关的技术方案已经在朝夕光年的内部做过完整的分享。但可惜的是，出于技术保密原因，原定于UOD2022大会上进行的技术分享被临时取消了。
+从字节出来以后，目前担任一个Unity项目的技术负责人，未来会新开坑一个Unreal 引擎的的新项目。众所周知，Unreal的技术要比Unity难招，一方面是因为Unreal入门确实较难，另外一方面则是市面上Unreal技术开发的同学存量真的不多。
+所以我更倾向于内部转岗或者招聘高潜的Unity开发者进行自主培养。这就涉及了如何高效学习Unreal引擎了。那么也就终于聊到我们本篇文章的目的了：如何从Unity开发者向Unreal开发者转型。
+我不会说太多的代码或者引擎的使用/代码细节，那需要非常长的学习过程。而是从更宏观一点的方向来讲一讲引擎之间的异同和开发理念上的差别。
+核心概念迁移
+我想大部分人学习一个新鲜事物的时候，都是比照法：即尝试使用一个已有的概念去套新的概念，包括我自己也是这么学习的。这种方法确实也是比较有效的，比如下面这两个引擎的界面。相同颜色的部分其实就是相同的功能用途。
+Unity使用 Unity Hub管理引擎版本和项目，而Unreal 使用Epic Games Launcher 来管理引擎版本和项目。
+Unity使用 Package Manager 管理插件，而Unreal使用Plugins 管理插件。
+一些常用的Unity概念和它在Unreal中的对应部分。
+更多的相近概念和对应的代码写法可以直接参考UE官方文档Unreal Engine for Unity Developers，这里不做罗列了。
+核心差异
+最显著的差异应该就是众所周知的开源和闭源的关系了。虽然Unity也将编辑器部分的代码开源了，但这种开源和闭源的核心思路会决定它的技术发展路线和商业模式，甚至是开发团队的组建思路。
+这里可以先贴一下两个引擎的开源地址。
+Unity ：https://github.com/Unity-Technologies/UnityCsReference
+Unreal：https://github.com/EpicGames/UnrealEngine
+不过由于Unreal 的仓库是一个私有仓库，需要做一些额外的事情来获取权限。参考如下官方文档https://docs.unrealengine.com/5.1/en-US/downloading-unreal-engine-source-code/ 。或者一个更简洁的教程 下载ue4源码引擎+编译 。
+引擎编辑器实现不同。
+Unity引擎的核心模块是C++部分的引擎代码，这部分是闭源的。而Unity的编辑器是用C#代码写的，如果编辑器要调用或者暴露C++核心代码和接口的话，需要使用到一个xxx.bindings.cs文件来映射C#和C++。比如Unity中最基础的类UnityEngine.Object，在编辑器层就有一个对应的bindings类和和他对应。
+而Unreal则不同，Unreal Engine是一个完整独立的引擎，Unreal Editor也是用Unreal Engine写出来的。
+技术激进程度不同
+由于是引擎源码开源，UE在技术的迭代上更为激进。往往跨度一个小版本就会出现很多东西不兼容的情况。UE的理念是，“所有东西我都给你了，如果你觉得不好用，可以自己改”。基于这个理念，UE总是偏向于集成最新的技术方案，哪怕它当下只是一个未稳定或者未经过验证的版本。甚至上一个版本的方案在下一个版本就出现不兼容，删除或者重制的情况。
+而Unity作为闭源的引擎则会优先考虑稳定性和可用性。因为它没有一个开源的生态社区，所有的功能都得自己来实现，并且保证稳定性和可用性。比如备受诟病的AssetBundle系统和Animator系统，都已经是老古董了。比如DOTS的先进理念也无法得到广泛使用。
+当运动员又当裁判
+现在的Unreal引擎和自己开发的《堡垒之夜》相互成就。我个人认为这是一个非常正向的循环。将引擎的最新特性运用到自己游戏上进行白鼠实验，再从游戏开发的角度反馈需要的增删改的引擎特性，二者互相迭代和成就。更为重要的是，它给了所有开发者一个强有力的引擎能力的证明，特别是针对TPS类型和大世界类型的游戏项目，可以说有拿来即用的方案（PS：《堡垒之夜》挣的钱，有很大一部分用来维持Epic Games送的游戏了）。比如 最新的5.1引擎版本的特性就已经用在自己的游戏上了。UE5.1新功能在《堡垒之夜：大逃杀》第四章中的实战测试
+Unity在这方面就稍微欠缺一些。诚然Unity现在有很多技术经理和专业团队进驻在大型项目协助项目组进行开发。但他们都专注于服务某一个项目，或者解决单个项目开发的难点。没有一个全局的视角来看全行业的问题，统筹性的解决痛点。诸如UGUI，TextMeshPro等好评的模块也是招安个人开发者来重写的。而即使是UGUI从4.7版本到现在也是好多好多年了（同样吐槽一下UE的UMG 和 Slate）。
+引擎定位不同
+作为老牌的游戏引擎，UE自己并没有赶上移动游戏开发的红利。痛定思痛之后，大破大立完成了3代到4代的引擎转换，甚至引擎的授权模式也进行了变更。但对于5年前的移动设备来说还是太沉重了。所以在当下移动游戏的开发上，Unreal跟Unity走的是两个极端往中间迭代的道路。UE从重->轻，Unity从轻->重。而在当下这个节点上，二者交汇在一起，大家都具备手游的开发能力了。
+就目前的情况而言，立项使用Unreal开发的移动游戏基本还是中重度为主，大多为TPS，FPS或者大世界项目;中轻品类的游戏则几乎被Unity承包的。但也不是说Unity不能做重度游戏，比如原神、王者也都是Unity的重度项目，只不过这些中大型项目都需要配备专业的引擎团队来移植或者实现新的功能需求。
+技术服务不同
+正是因为二者的引擎定位不一样，导致他们在后续的官方服务和支持上的策略也不一样。因为闭源的关系，Unity的开发者或者项目无法自己修改引擎，甚至绝大多数的Unity技术人员是不了解它的黑盒机制的。那么这就为Unity衍生出了以源码为核心的技术服务。帮助项目解决业务层无法解决的问题，或者移植最新的特性到低版本。当然UE其实也有驻场的优化服务，但大都提供引擎侧的正确使用又或者是深度的战略合作。另外Unreal对于个人和中小型团队和项目是有资助计划的，有兴趣的可以了解一下。虚幻MegaGrants资助计划详细申请指南 。
+另外一个不得不提的就是性能优化和工具。移动设备鉴于其资源的有限性，运行过程需要做大量的性能平衡才能让游戏平稳流畅。Unity引擎在当前市场下拥有两家非常成熟的企业和优化服务（官方：UPR - Unity专业性能优化工具和UWA：UWA | 致力于游戏VR和AR应用提供项目研发解决方案 | 简单优化、优化简单 | 侑虎科技），而Unreal截止目前为止，只有UWA有在跟进，提供一个初版的工具。虽然Unreal也在不断迭代性能分析工具，但相比于UPR而言，还是欠缺系统性的流程和工具。
+游戏启动流程不同
+这可能是Unity开发者转向Unreal开发，理念偏差最大的一个部分了。对于Unity开发而言，我只需要新建任意一个继承自Monobehavour的类，然后将它绑定在初始场景的任意GameObject上，通过在Start Awake Update等函数中填充自己自定义的逻辑，就可以完成Unity游戏的启动流程。也就是说 Unity可以任意定制启动和初始化流程，带来自由的同时也需要开发者自己去构建合理的启动流程。
+而Unreal不同，它已经指定了启动流程。但开发者是可以通过继承和配置子模块来重写自己在某一个流动流程中的逻辑。比如任何一个游戏启动都会使用到Gamemode，区别在于你可以重新覆写这些虚拟函数。当然。这从侧面要求开发者前期必须弄明白很多的类的用途和初始化的阶段，也是初学者难以快速掌握的部分。
+关于Unreal的初始化流程和相关的类，可以参考大钊的《GamePlay架构》系列 《InsideUE4》GamePlay架构（一）Actor和Component，或者等我后续文章来介绍。
+开发语言
+诚如上面所述，二者的核心都是C++写的，区别在于编辑器层面的部分。Unity的编辑器是C#完成的，过去支持的脚本有C#，UnityScript（和JS的区别只是因为后缀名相同）和boo语言。考虑到语言本身的特性和开发者学习的成本，Unity目前只推荐使用C#进行开发。由于C#是借助于ILR虚拟机实现的跨平台，相比于C++的原生编译自然在性能上就落后不少。但这也是Unity目前能通过ILRuntime完成C#代码热更的重要手段。当然接入其他的脚本语言，比如JS，Lua等又是另外一回事了，不细说。
+Unreal 说是用C++实现的，倒不如说是使用U++（Unreal C++）实现的。其对原生的C++语言做了大量的封装，最典型的比如反射，以及一些共享指针等实现。最著名的莫过于蓝图这种连连看的开发方式，让爱的人特别爱（写逻辑，写原型上手简单，不需要太多专业知识），让恨的人也特别恨（C++接口部分和调试等）。除此之外，也是可以接入其他的脚本语言的。另外Unreal有着严格的代码规范，比如类名如果写错会直接编译报错。https://docs.unrealengine.com/5.1/zh-CN/epic-cplusplus-coding-standard-for-unreal-engine/ 除了包装了复杂的C++之外，Unreal甚至可以直接在代码实现中使用原生的OC或者安卓代码。
+带来自由的同时，也带来了极大的开发痛苦。。。
+开发耗时和成本不同
+因为Unreal大部分时候定位为中大型项目，这类项目本身的开发周期就十分的漫长。
+因为是开源的引擎，项目需要为它准备一个引擎团队（团队视项目规模的大小而定），而Unity因为闭源的关系反而不会优先考虑引擎团队（中大型的Unity项目或者大厂都还是会配备引擎团队的）。
+涉及到引擎维护，就涉及到代码编译。尤其是像Unreal这种大体量的引擎，但凡改动一行引擎代码，编译时长基本2个小时起步。
+Unreal使用的C++开发，尤其又经过了它自己的封装之后，入门相对较难；Unreal转手游领域还没有到一个普遍的程度，从业者相较于Unity也较少，人员招聘难也难，当然价格也就会贵一些。
+文章的最后，提供一些学习Unreal 的途径：
+官方文档，目前最新是5.1版本，对于新手而言，建议从最新版本开始。https://docs.unrealengine.com/5.1/en-US/
+B站账号，每年都有各种城市巡演和著名的UOD大会，提供最新的技术和项目实践。虚幻引擎官方的个人空间-虚幻引擎官方个人主页-哔哩哔哩视频
+论坛，遇到问题可以到上面寻找答案，不过确实不要抱太大希望。https://forums.unrealengine.com/tags/c/international/simplified-chinese/61/unreal-engine
+新闻页，了解最新动态和技术，以及更多的免费插件和资源。https://www.unrealengine.com/zh-CN/feed
+不过最推荐的还是下载官方的Demo，并在网上搜索相关的Demo技术解析。
+好了，这里起个头，又挖了个大坑。。。下一篇，准备聊一下Unreal Engine 5的启动流程。如果感兴趣，请转发、点赞和收藏，并在评论区“催更”~ 视大家的支持程度来加快更新频率~~
+</code></pre>
+</details>
+
+<details>
+<summary>Unreal Engine 的启动流程</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/610523485
+如果你是Unity开发者，可以先跳转看该篇文章获得快速入门秘籍。普通开发者可以直接从本篇开始，不影响阅读体验。写给Unity开发者的Unreal Engine开发指南 （扫盲） 本文章对应的引擎版本为5.1。
+做知识的粘合剂。
+Unreal 的基础学习有很多种方式，文档，代码，Demo等都是比较好的入门形式。很多博主都会先从蓝图入手，完成一个小的Demo或者功能。也有直接从引擎的模块实现开始的，比如像大钊这样，系统性的讲解Unreal的重要架构 InsideUE5 。 我这个系列也会从一些代码和设计入手，但流程和视角会不一样，我们先从最底层的、Unreal 引擎的启动开始聊起吧。
+应用程序的启动入口
+所有的应用程序都有一个启动函数。写过C语言的都知道叫Main。它在Window上是 WinMain winMain 函数 (winbase.h) - Win32 apps，在安卓平台上是android_main NativeActivity开发APP原理_android_main_大雄_RE的博客-CSDN博客 在IOS上是main函数 iOS的App启动详细过程，看这篇就够了 。这里可以简单总结一下：
+Windows系统，当你双击一个exe启动的时候，最后会由内核调起一个应用程序的WinMain函数。这个函数在Unreal Engine的实现如下
+安卓系统下，当你启动一个APP的时候，会走到一个ANativeActivity类中。这个类定义了所有APP的流程和回调函数，我们只需要关注 android_app_create 这个启动创建函数。它会创建一个线程来调用 android_app_entry 函数。而android_app_entry中就调用了android_main。
+这个 android_main 函数是一个C++的函数，需要自己通过外部来实现，而在Unreal 引擎里，它的实现如下：
+IOS系统的实现就更简单了。由于XCode可以直接编译C++（也可以混编OC代码），而IOS的入口函数就是main，所以直接在LaunchIOS.cpp文件中定义main函数即可。
+main 函数的最后一行是用OC语言调起了IOS的UI初始化逻辑 UIApplicationMain。它会创建一个代理来完成APP的主循环。
+这些代理函数定义的地方是 IOSAppDelegate.h （Engine\Source\Runtime\ApplicationCore\Public\IOS），实现的地方是 LaunchIOS.cpp（Engine\Source\Runtime\Launch\Private\IOS）
+其他系统，MAC上的的也很简单，通过主函数进入。
+其他Linux 和 Unix 其实并没有完整实现，不展开说了。
+总结一下就是，各个平台在启动应用程序的时候，会由内核调用应用程序的main函数，而这它们都会在Engine 里进行实现，自然而然，引擎的整个逻辑就可控了。
+引擎初始化流程
+如上图所示，所有不同平台的main函数只是一个系统调用程序的入口。这个入口会拉起引擎，并进入到引擎的循环中，就像普通的应用程序一样。
+所以一个对于一个可正常工作的引擎而言，它需要实现三个基本的流程：初始化，循环，和结束。对应的Unreal的引擎流程就是：
+Init
+Tick
+Exit
+Unreal 启动流程的定义 是在 Launch.cpp中。引擎的启动流程以各个平台的main函数作为入口，最终会进入到GuardedMain函数中。
+该函数会优先解析随程序启动一起传进来的命令行参数。比如判定是否需要等待调试器准备就绪。
+其他更多的参数解析会下发到引擎层面去解析，这个步骤对应的是 EnginePreInit 。
+然后会根据当前运行环境是Editor还是Game来决定初始化编辑器引擎还是直接初始化游戏引擎。
+之后进到Unreal的主循环中。
+循环结束之后进行退出清理工作。
+所以一个简易的流程可以表述为如下：
+GuardedMain
+EnginePreInit
+EditorInit || EngineInit
+EngineTick
+EditorExit
+引擎初始化实现
+GuardedMain 函数定义了引擎的启动流程和主循环。但这些函数只是一个壳，核心的实现都是FEngineLoop 这个类来实现的。
+PreInit 的实现。主要包含了2个部分，一部分是不需要依赖其他组件，并且是必须要先初始化（PreStartup）的组件，然后是其他需要依赖其他组件的组件初始化（PostStartup）。
+PreInitPreStartupScreen 是一个非常长的函数，大约1500行。里面对命令行提供的关键字和项目宏做出各种辅助模块的初始化工作。比如：设置字体编码格式，是否需要等待调试器，是否需要手动设置游戏名称，是否初始化LLM内存分析器UE4 Low Level Memory Tracker 使用，是否需要创建控制台输出，是否需要创建log线程，内存分配的分析器，GPU分析器，自检自身是GIsClient、GIsServer、还是GIsEditor，指定随机种子的生成形式，初始化平台相关的文件系统和路径，是否直接启动指定项目的加载，初始化Shader文件路径，线程池管理，平台相关的初始化，引擎配置相关的初始化，物理引擎初始化，Slate初始化，RHIInit初始化等等。其中跟开发关联比较大的模块初始化是 LoadCoreModules，LoadPreInitModules。
+LoadCoreModules。很简单，只是初始化了Unreal Engine最基础最核心的组件：CoreUObject。它包含了含虚幻引擎的对象系统(UObject)和类型系统(UClass)。
+UObject。它是引擎所有对象的基类，提供了对象的反射、序列化、GC等功能。
+UClass。它是UObject对象的反射对象，记录了大量UObject的对象数据；这些记录的对象数据帮助UObject实现反射、序列化、GC等功能。
+LoadPreInitModules。初始化引擎本身所需要的核心模块。比如：Engine，Renderer，AnimGraphRuntime，SlateRHIRenderer，Landscape，RenderCore，TextureCompressor，Virtualization，AudioEditor，AnimationModifiers等。
+2. Init的实现。preinit阶段创建的其实是引擎公共的组件部分，接下来在Init阶段就会根据当前的运行环境来创建Editor或者是Game特有的部分了。
+然后初始化进行引擎加载的屏幕显示并开始计算百分比，初始化引擎的定时器逻辑，GameEngine || EditorEngine自身的Init动作，然后加载所有标记为PostEngineInit阶段的引擎组件和插件组件。
+执行引擎的开始逻辑：GEngine->Start();
+最后就是根据情况初始化AutomationWorker，AutomationController，ProfilerClient，SequenceRecorder，SequenceRecorderSections等组件。有兴趣可以查阅这些组件，不展开介绍。
+3. Tick的实现。Tick就像是一个心跳，它驱动引擎按帧执行各种各样的任务。比如最开始就让LLM更新每帧的统计数据。
+驱动心跳线程执行自身的帧开始逻辑：FGameThreadHitchHeartBeat::Get().FrameStart();
+检测热修复逻辑：FPlatformMisc::TickHotfixables();
+驱动渲染的tick更新 ： TickRenderingTickables();
+如果有开启Profiler功能，执行帧数据：ActiveProfiler->FrameSync();
+CsvProfiler的数据获取：FCsvProfiler::Get()->IsCapturing()；CSV分析器
+核心代理事件，分发帧开始事件：FCoreDelegates::OnBeginFrame.Broadcast();
+更新场景信息
+开始渲染线程的工作 BeginFrameRenderThread 并调用Scene的StartFrame();
+各种调试和分析工具的数据统计
+处理消息循环 FPlatformApplicationMisc::PumpMessages(true);
+处理输入 FCoreDelegates::OnSamplingInput.Broadcast()
+进入GEngine的Tick逻辑（在此之前是GEngineLoop.Tick()，也就是引擎本体的tick，现在是进入到Editor或者Game的tick）。
+……
+tick作为引擎的核心驱动逻辑，负责循环的模块太多了：在GEngineLoop层会处理各种Profiler的数据统计，渲染线程的驱动逻辑，消息输入，Slate等，而后会进入到GEngine层的tick中，处理网络，无缝世界，导航，物理，相机，风场，特效粒子，GC，渲染，后处理，UI，视频，线程管理等等，详细代码不列举，可以参考文章后面的引用或者自行查看代码。
+4. Exit（）的实现。
+做各种收尾工作，比如是否结束动画，是否是服务器需要进行关闭和存储，释放音频设备的占用，销毁运行期间创建的线程，正确处理缓存，保存运行时更改的引擎配置，unload各种组件等。
+全部的初始化流程可以参考以下文章：
+UE4引擎主流程框架 - 可可西 - 博客园
+UE4的执行流程和CPU优化
+剖析虚幻渲染体系(01)- 综述和基础 - 0向往0 - 博客园
+额外的初始化工作
+上面其实已经介绍完UE引擎的基本启动流程，但相对于Windows平台而言，Android 和 IOS 在权限管控上更加严格，因此需要多做一些额外的初始化工作来辅助完成整个环境的初始化。
+Android
+首先UE只是一个开发引擎，它没有办法直接获取和管理APP的状态。所以它需要定义一系列的APP代理函数，通过注册为对应的APP事件，来进行处理。
+其次，对于APP系统来说，它提供的是Java层面的系统接口，而UE使用C++进行开发，这就需要定制常用的Java接口来完成双向的逻辑调用（UE调安卓，安卓调UE）。
+安卓调UE通过上面的APPEvent可以完成，而UE调安卓就需要通过反射来实现。比如保持屏幕常亮，就可以通过反射拿到安卓Native层写的函数来实现。
+这里拿到了Java的函数之后，还不能直接使用，需要在它外层再包装一个C++的实现
+最后，由正常的业务逻辑调用这个CPP的函数就可以完成安卓Native函数的调用。
+除了上述的交互之外，Android 在初始化的时候还有一些额外的内容，比如通过读取安卓指定目录下的UECommandLine.txt文件来完成引擎的命令行初始化，音频的初始化和管理等等。
+IOS
+IOS的情况和Android大体类似。也需要解决后台音频的问题，以及APP层和引擎层之间的通信关系。不过IOS比Android要简单很多，因为OC和CPP是可以混写的，甚至直接在CPP里写OC代码。剩下的就是解决APP在流程上调用的问题，这在第一节，程序启动入口的部分已经介绍过了。
+APP启动完成一系列常规初始化之后就会调用应用层的接口 didFinishLaunchingWithOptions。这个函数在 IOSAppDelegate.cpp中实现。函数很长，主要区分了IOS，TVOS等平台做一些特性的初始化。
+关于引擎的启动流程就先聊到这里，下一篇聊一下GamePlay的初始化过程和一些新手需要掌握的关键概念。
+</code></pre>
+</details>
+
+<details>
+<summary>Unreal Engine的Gameplay框架和重点</summary>
+<pre><code>
+https://zhuanlan.zhihu.com/p/612837045
+上一篇我们聊的是Unreal 引擎的启动和初始化过程。Unreal Engine 的启动流程 也大概讲了Unreal引擎和编辑器(EditorEngine)、运行时(GameEngine)的关系。接下来我们就会走到GameEngine更深一点的层次，了解一下它的运行时框架,以及开发者接触最多的Gameplay框架。
+1 理解Gameplay
+Gameplay是最近几年才广为流传的一个名词（不是说以前没有），我没有做过具体考证，但应该是从Unreal 广泛流传开来的，伴生的一个概念还有3C。
+最近的面试中（Unity和Unreal的都有），我也会适当的问一些候选人类似的问题，比如你所理解的Gameplay和3C是什么？大多数学习过Unreal会说 3C 就是指Character，Control和Camera，不过也就仅此而已；而对Gameplay的表述则会混乱一些，大致会把Unreal的流程讲一遍。而只有Untiy经验的有很大一部分是表述不出来这些概念的。这也会让我进行一些思考，为什么不同的引擎开发人员对游戏开发概念会出现这么大的偏差呢？
+在过去很长一段时间里，Unity占据了手游甚至是游戏开发的“大半壁江山”。最开始只有一个统一的称谓叫“客户端”，之后逐渐从客户端开发上分化出了TA（技术美术）和引擎，甚至于现在比较热门的TD（技术策划）。我们会说Unity开发，Unity客户端，Unity前端，却很少听到Unity的Gameplay。归其原因还是因为Unity的闭源，以及源码付费让绝大多数的游戏公司在做项目的时候，不会把引擎开发和“客户端”开发进行概念上的并列。默认招聘和谈论的就是使用Unity引擎进行项目的内容开发，所以Unity的开发者之间除非特指引擎组和引擎源码，不然大家都是“客户端”开发。
+随着Unreal 引擎的逐渐普及，Gameplay的概念也得到了广泛的传播。因为开源的关系，Unreal在招聘的时候会刻意区分是引擎岗位还是“客户端开发”岗位，而这个“客户端开发”在广义上就是指Unreal的Gameplay。
+那么为什么我要区分“广义”和“狭义”呢？因为划分的标准不一样。
+广义的Gameplay。以引擎源码为界限，需要改动引擎源码才能实现的会被划归为引擎开发。而基于引擎开发游戏或者玩法的称之为Gameplay。所以若以广义的划分标准来看，绝大多数的Unity开发都是“Gameplay”开发。而绝大大多数的Unreal开发，多多少少都会改动到引擎，是不是就是“引擎开发”了呢？
+狭义上的Gameplay。以Unreal 4.27 提供的Gameplay框架作为参考，它其实包含的就是游戏的规则和状态，3C和用户界面，也就是表达一个游戏玩法的最基础元素（但实际上一个复杂的游戏考虑的远远不止这么些）。那么问题来了，比如我们所说的战斗，剧情，AI，载具这些就不属于游戏玩法了吗？就不是Gameplay了吗？
+注：UE5的Gameplay扩展了Actors，移动组件，游戏功能和模块化，定时器等内容，但对于理解Unreal的Gameplay上没有什么大的概念上的变化。Unreal 5.1 的 Gameplay框架 。
+综上所述，无论是从广义上还是狭义上的Gameplay划分都是不太科学合理的。
+对于Unity项目而言，它的AssetBundle机制很不好用，某同学研发了一套自己的资源组织规则；又或者某位TA同学基于URP，重写了一套延迟渲染的流程，这些在我看来都属于引擎开发的范畴。
+对于Unreal项目而言，某位同学没有动到引擎代码，从业务层设计了一套更高效的动画存储和加载框架，那么它是属于引擎开发的，而某位同学为了更方便的进行业务开发，从引擎层开放了一个面板参数进行数据配置，虽然改动了引擎源码但也不算是引擎开发。
+所以我认为，如果某位同学的职能更多的是基于框架和系统来做玩法内容和乐趣体验的会被归为Gameplay；如果他的职能更多的是为游戏开发提供底层的扩展能力、优化框架和系统，增加游戏开发的技术边界等部分的内容可以算作引擎开发（如果只分引擎和Gameplay类别的话），当然如果愿意的话，也可以分更多的细类比如性能优化，工具开发，系统管线等。简单来说，提供能力的是引擎，提供内容的是Gameplay。
+2 Unreal Gameplay 框架介绍
+关于框架的理解，必然每个人还是有自己的看法。这里我们先就只讨论一下Unreal在文档中标记的GamePlay框架的内容，即：
+游戏规则
+角色
+控制
+相机
+用户界面和HUD
+拿官方的一个示例举例来说明Gameplay的工作方式：
+兔子与蜗牛赛跑。
+游戏框架的基础是GameMode。GameMode 设置的是游戏规则，如首个跨过终点线的玩家即是冠军。其同时可生成玩家。
+在 PlayerController 中设置一名玩家，其同时会产生一个Pawn。Pawn 是玩家在游戏中的物理代表，控制器则拥有Pawn并设置其行为规则。本范例中共有2个Pawn，一个用于蜗牛而另一个用于兔子。兔子实际为 角色（Character），是pawn的一个特殊子类，拥有跑跳等内置移动功能。另一方面，蜗牛拥有不同的移动风格，可从Pawn类处直接延展。
+Pawn可包含自身的移动规则和其他游戏逻辑，但控制器也可拥有该功能。控制器可以是获取真人玩家输入的PlayerController或是电脑自动控制的AIController。在本范例中，玩家控制的是蜗牛，因此PlayerController拥有的是蜗牛Pawn。而AI则控制兔子，AIController则拥有兔子角色，其中已设有停止、冲刺或打盹等行为。
+相机（Camera）提供的视角仅对真人玩家有效，因此PlayerCamera仅会使用蜗牛Pawn的其中一个CameraComponent。
+进行游戏时，玩家的输出将使蜗牛在地图中四处移动，同时HUD将覆盖在相机提供的视角上，显示目前游戏中的第一名和已进行的游戏时间。
+2.1 GameMode
+在上面这个例子中，GameMode 决定的是游戏规则，即拥有两个角色，先跨过终点线的玩家为冠军。衍生的部分还有比如是否允许观战以及观战的人数最多为多少？玩家如何进入游戏，以及使用哪张比赛地图？游戏是否可以暂停，以及暂停之后如何恢复？游戏是否允许使用道具，又或者是否可以在游戏中作弊等，这些规则都是跑在服务器上的，确保规则的权威性和安全性。
+GameMode在Unreal里的实现是AGameModeBase类（用A开头是因为它继承于Unreal的AActor，这是Unreal的类命名规则，可以查看代码规范），它是AGameMode的基类。一个项目可以拥有任意多的GameMode来设置各种各样的玩法，但同一时刻只能使用一个GameMode。
+AGameModeBase提供若干基础的、可被override的接口：
+InitGame。 在这里做所有游戏规则的初始化工作。
+PreLogin 。登录前的预处理。由于GameMode只会跑在服务器上，可以在这里检查玩家的合法性，判定是否允许玩家登录服务器。
+PostLogin。登录后的后处理。玩家成功登录服务器之后的调用。
+HandleStartingNewPlayer。一般登录成功之后就会创建玩家在服务器上的对象，对象创建成功之后会调用该函数，可以在这里对玩家进行初始化，比如获取玩家的PlayerState。
+RestartPlayer。创建玩家的实体对象（可操控的，场景上可见的Pawn对象）。
+Logout。玩家退出或者服务器被销毁时调用。
+其他的还有很多，这里只列举了一部分。
+再次强调，这些逻辑都是存在服务器上的，客户端是没有办法访问的。如果确实需要访问一些GameMode相关的信息，那可以通过创建一个Actor，把相关属性和数据赋值给Actor，之后由replication机制覆盖到远程客户端上。
+上面说到的是AGameModeBase类。其实在4.14 版本之前，通用的是AGameMode，该类现在仍然保留，它提供一些扩展类的接口。新建工程默认都是从AGameModeBase类继承，当然开发者可以手动从AGameMode继承以获取以下接口：
+GameMode 作为Unreal项目的开始入口，是需要在最开始进行初始化的。那么它的设置方式也有很多种：
+在工程的Project Setting下进行设置。
+在DefaultEngine.ini的文件里进行设置
+其实第一种的设置方式也是修改了这个配置文件而已。更多的操作方法可以查看 设置游戏模式 。
+2.2 Game State
+字面意思，Game State 就是指游戏状态。它管理了所有已连接的客户端，并且实时追踪游戏层面的属性并把它们分发给远程客户端。有别于Play State，GS（GameState）主要是负责游戏全局属性，比如5V5Moba游戏中的红蓝双方防御塔的剩余数量，游戏当前进行的时间，大小龙击杀的情况，红蓝阵营野怪刷新情况等等。而PS（Player State）则是记录单个玩家的属性和状态，比如补了多少刀，出了什么状态，身上有多少钱，技能冷却时间等等。
+归纳一下就是，GS应该追踪游戏进程中变化的属性，这些属性与所有人皆相关，且所有人可见。它存在于服务器上，但会被复制到所有的客户端上。
+和GameMode一样，Game State也是在AGameStateBase中实现基础接口，并且在Project Setting中进行配置。
+几个比较重要的函数：
+GetServerWorldTimeSeconds 服务器版本的游戏时间，权威可靠的，会被同步在客户端。
+PlayerArray。所有APlayerState的列表，对游戏中玩家执行操作和逻辑时候非常有用。
+BeginPlay。
+还有一些其他的接口，如下。
+需要注意的是，这仅仅是Unreal 从引擎侧实现的最小版本，在项目开发的时候，你可以使用它来扩展任意的Game State数据，并进行远程客户端的数据推送。
+2.3 Camera
+接下来是大名鼎鼎的“3C”之一的Camera（相机）。在面试的时候，对于中初级的开发同学我一般都会跟他探讨一个话题：“你怎么理解3C？”
+而得到的回答很多都是字面意思，相机，控制，和角色。如果健谈一点的同学可能还会补充一下，代表一个游戏的基础体验。但我其实更希望能听到他们举一些例子（无论是自己做过的还是别的游戏的），来说明如何通过这些模块来提高玩家的基础体验甚至变成游戏玩法的一部分。
+相机在游戏中其实是代表了玩家的视角，以及玩家如何去观察这个“世界”。它不但会关联渲染，给管线提供必要的渲染内容可视性和遮挡剔除，同时也承载这渲染完成之后的后处理效果后期处理效果。但更多的是，如何使用相机的组件模块来完成更好的游戏体验和沉浸感。比如以下列举一些相机组件完成的游戏体验：
+《英雄联盟》中，盖伦使用R斩杀了敌人之后，画面会表现出气浪冲击波的效果。
+《尘埃》赛车游戏中，通过切换不同视角来完成第一人称和第三人称的驾驶体验。同时可以通过额外的摄像机渲染来完成后视镜的效果。
+《黎明杀机》中，屠夫（第一视角）和逃生者（第三视角）的游玩视角不一样。屠夫可以通过佩戴“鹰眼”的技能来让视野变成类似于水滴透镜的效果，从而得到更开阔的视野。
+《鬼泣》中，通过切换固定摄像机视角来完成走廊到房间的视角切换。或者模拟一个虚拟演唱会上的导播相机调度。
+飞行游戏中可以通过设置轻微的动画来模拟穿过气流的颠簸感。航海游戏可以通过设置轻微的动画来表达海浪对船造成的轻微摇摆。常规的3D游戏可以使用弹簧臂的形式，让玩家躲在墙角或者被建筑遮挡的时候，相机不会穿模。
+射击游戏中，通过改变相机的FOV参数完成狙击枪的模拟。格斗或者动作游戏中可以通过调用相机震动来调优“打击感”。
+关于相机提升基础体验，总结为两点：
+如何正确使用UE提供的相机和相机组件 使用摄像机
+如何通过配置/开发相机动画完成 摄像机动画
+2.4 Character
+提到角色，就需要先提一下他的父类Pawn（棋子）《InsideUE4》GamePlay架构（四）Pawn。UE中，把所有可以在游戏中视觉看到的东西都称之为Pawn。比如一张桌子，一块石头，一个池塘等。Pawn继承自Actor，并且一个Pawn需要很多个组件和它一起作用，比如场景上有一个金矿石：
+它的位置、旋转和缩放由 SceneComponent 中定义的Transform信息所决定。
+它的可视化样子由 StaticMeshComponent 决定。
+它如果发光就需要绑定一个粒子组件ParticleSystemComponent 。
+它如果需要和周围环境进行交互，有实际的物理体积就需要绑定一个碰撞盒组件BoxComponent 。
+回到角色上来，一个Character就是一个特殊的，可以行走的Pawn，一般代表垂直站立的玩家。也就是说它比Pawn多了 CharacterMovementComponent，同时，因为一个可行走的模型需要提供一些行走动画，所以还需要SkeletalMeshComponent 组件来提供骨骼框架，由于人的形状和盒子差别很大，所以在物理碰撞上用胶囊体CapsuleComponent来替换碰撞盒。
+角色组件是一个Avatar，代表玩家在和游戏场景交互。并且可以在场景中行走、跑动、跳跃、飞行和游泳等，同样作为一个Actor，它也包含基础的网络功能，并接受玩家的输入控制。当然可以可以任意扩展和使用Character。
+关于角色的拓展可以做的非常非常的深，包含动画，场景交互，物理等维度都是可以的。比如不使用刚体物理即可行走、跑动、跳跃、飞行、坠落、摔倒、游泳和攀爬等，比如在空气、水、沼泽，沙漠、雪地、太空等场景下中行进的速度、浮力、重力值，以及角色能对物理对象施加的物理作用力（魔法，科技等）等。再比如一些动画相关的表现：RootMotion，MotionMatching 新一代动画技术：Motion Matching，IK/FK等。
+其他关于Character的基础介绍可以查阅：Setting Up a Character 。
+2.5 Controller
+过去我们在谈论UI框架的时候，一个被提及的最多的模式就是MVC。它把一个系统结构分为数据-视图-控制三个不同的关系层。目的是为了减少逻辑耦合，并让每个层的职能更加的专一化。相同的概念我们也可以引入到一些战斗的设计中，比如逻辑-表现分离，用事件或者协议来传递数据并驱动逻辑执行。
+那么到Gameplay框架中，我们仍然能找到一个比较合适的部分来套用这套模式。比如我们现在的M就是Player State，我们的V就是Character，那么C自然就是马上要介绍的Controller了（如果要看系统性的介绍请看这篇 《InsideUE4》GamePlay架构（五）Controller）。
+AController继承自AActor，也就是说它并没有场景实体，是一个场景不可见的对象。它拥有一个PlayerState，一个Pawn，如果这个Pawn同样是Character的话，那么它还有一个不为空的Character对象。
+默认情况下，一个控制器只对应一个Pawn，二者之间也非强绑定关系而是组合关系。如果需要更改默认的控制器逻辑，可以自定义继承实现。
+控制器会接收其控制的Pawn所发生诸多事件的通知。因此控制器可借机实现响应该事件的行为，拦截事件并接替Pawn的默认行为。 控制器又分为两种不同的类型《InsideUE4》GamePlay架构（六）PlayerController和AIController：
+Player Controller 。代表玩家的输入和控制。
+AI Controller 。代表AI或者远程玩家在本地的镜像。
+其中Player Controller是玩家直接操控角色的逻辑类，因此非常复杂。大体可以分为Camera管理，Input响应，UPlayer关联和操控，HUD显示，关卡切换的逻辑处理，音效部分等等。而AI Controller因为不需要接受玩家操控，因此对Camera、Input、UPlayer关联，HUD显示，Voice、Level切换等部分都不是必须的，但对应的它增加了一些额外的模块，比如Navigation（导航）,行为树,Task系统等实现。
+2.6 HUD 和UI
+HUD可以理解为对部分Player State的场景可视化。比如怪物或者人物头顶的血条，名字等等。而UI则是覆盖在场景渲染之上，提供更多玩家交互和查看的信息。二者的主要区别是在交互上，HUD一般来说是不能交互的，简略的信息；而UI则指的是菜单和其他互动元素。这部分不展开细说，可以参考 Slate UI编程
+2.7 其他
+以上是Unreal 4.x时代的Gameplay框架所包含的内容，到了5.1之后，又新增了一些内容，我们也顺带提一下。
+Actors。不得不再次搬出大钊的文章《InsideUE4》GamePlay架构（一）Actor和Component，强烈建议大家系统性的学习他的“GamePlay架构”系列。因为文章视角不一样，我这里基本不会展开讨论细节。Actor除了继承自UObject的序列化、反射、内存管理等能力之外，额外实现的是组件的组合能力，Tick能力，网络复制能力和对生命周期的管控Actor 生命周期。
+简单介绍一下上面这张图，它展示了Actor的三种实例化方式，但无论它是怎么“来”的，它“走”的流程是一样的。
+三种模式是：
+从磁盘加载
+Play in Editor
+Spawn
+其中1和2十分相似，1是从磁盘里加载，2是从编辑器中复制。当实例化之后都会执行Post（Load || Duplicate）逻辑,InitializeActorsForPlay（UWorld 调用），再到RouteActorInitialize（Actor自己的组件初始化），再到关卡开始的逻辑调用BeginPlay。
+3的逻辑不同，它是通过运行时生成的，所以执行的是PostCreate，然后需要执行对应的构造逻辑ExecuteConstruction来创建蓝图变量，然后用PostActorConstruction来执行Actor自身的组件初始化（其实和RouteActorInitialize 的主要一样），然后就是一样的BeginPlay。
+虽然创建逻辑有差异，但销毁逻辑一致，执行了EndPlay之后，Actor就会被标记为RF_PendingKill,并在下个垃圾回收周期中被解除分配，然后有垃圾回收器将其回收。
+Timer 。不是很明白，为什么要把定时器单独归类到Gameplay框架中来。可能是因为AActor中提供了GetWorldTimerManager函数来获取FTimerManager的实例？定时器可以设置使用指定时间，或者指定帧来作为触发器。
+Movement Components 【图解UE4源码】其一 UCharacterMovementComponent的移动逻辑。除了人物移动之外，还有表示发射物/子弹移动的组件 ProjectileMovementComponent，以及一些特定的运动组件，比如RotatingMovementComponent 用来展示飞机螺旋桨，风车或者任何可以旋转的东西。
+3 Unreal Gameplay 框架Runtime流程
+在上一篇Unreal Engine 的启动流程 中，我们留了一个大坑。引擎的Init和Tick我们就只介绍了一点皮毛，也就是EngineLoop自身阶段的逻辑情况，那么真正跟开发者相关的部分还是EngineLoop调用了EditorEngine或者是GameEngine之后的Gameplay部分。
+因为整个逻辑引擎的tick太多了，我们只聊一下跟Gameplay初始化相关的部分。先翻出这张包浆图：
+这张图主要展示了编辑器环境下和Runtime环境下Gameplay的初始化顺序。而编辑器又比较特殊，它既要处理Editor编辑器本身的初始化，又要解决PIE（Play in Editor 也就是编辑器中点击Play按钮）和SIE（Simulate in Editor 编辑器中点击模拟）情况下的初始化情况。
+求同存异，我们从共同的部分开始整（图上蓝色部分）。看一下UWorld::BeginPlay这个函数的介绍：Gameplay（梦）开始的地方，开始GameMode逻辑并且调用所有Actors的BeginPlay函数。
+逻辑实现如下：
+初始化所有World类型的Subsystem并调用它们的OnWorldBeginPlay函数。
+根据服务器类型生成服务器的Actors
+调用GameMode的StartPlay
+如果有AISystem，那么StartPlay
+进行WorldBeginPlay事件广播
+初始化物理系统
+到这里，我们的第一个Gameplay的元素GameMode已经开始工作了。那么接下来往下就是GameMode的StartPlay逻辑了。
+这里第二个元素GameState也上场了。
+GameState对所有Actors派发了BeginPlay事件，并广播了OnWorldMatchStarting事件。
+那么其余的部分是在哪里初始化的呢？答案是在BeginPlay之前。不做全流程的代码细节分析了，贴两个前人已经做好的，想了解细节的可以看这两篇或者直接看源码。
+UE4 Gameplay之GameMode流程分析(一)
+UE4 Gameplay之GameMode流程分析(二)
+上面的提到了GameMode的StartPlay流程，但它必须先初始化才能够执行StartPlay。它的初始化逻辑就写在 StartPlayInEditorGameInstance函数中，也就是当我们在编辑器里按下Play按钮之后。
+在进行了一系列的参数组装之后，它会开始调用GameMode的初始化。
+再往后执行一系列其他初始化工作之后，开始为LocalPlayer本地玩家创建Actor。
+本地玩家先要完成登录验证，然后会返回一个PlayerController，这个对象在Login逻辑中生成。
+然后来到了PostLogin逻辑，当玩家成功登录之后，就会调用HandleStartingNewPlayer函数并开始一场比赛。
+在Handle的字调用栈里就会去创建一个Pawn（Character）来跟Controller进行绑定。
+然后创建HUD（事实上HUD的调用逻辑比 Pawn 早一点点，都是在 AGameModeBase::PostLogin里做的）。
+到这里，Controller，Character，HUD都已经出现了，加上之前提到的GameMode和GameState，狭义上的Gameplay就只剩下Camera了。
+Camera 因为关联着渲染，本身逻辑会复杂很多，并且初始化的时机也要提前很多，大部分时候和跟随场景一起加载了。但Camera并没有那么多花样，它就是视口和transform的信息，再加上渲染好的renderTexture用作后处理。Gameplay向的相机玩法更多的是做相机的动画和功能用途，比如跟随，切换视角，平滑轨迹或者用小型的摄像机动画模拟各种显示场景来达到沉浸感。
+除了前面在框架介绍里提到的一些Camera的用法之外，还可以看一下这个了解一下Camera系统 UE4 里的 Camera 系统 ，代码里直接差 APlayerCameraManager类就好。
+另外，Controller是持有Camera对象并且可以操作Camera对象的。
+架构图我也不想画了，怎么画都不会有 @大钊 画的好，大家直接看他的就好了《InsideUE4》GamePlay架构（十）总结。
+4 Lyra工程中的Gameplay部分
+Lyra是Epic提供的基于Unreal5的初学者示例项目，但如果你真信了它是初学者项目的话，只能说会很惨。。。
+严格来说它一点都不初级，甚至非常高级，说是当前Unreal 5的最佳实践也不过分。它向开发者展示了如何去重写一个项目的Gameplay，展示了最新的Unreal 5的特性和使用方式，甚至写了一些完全可以独立复用的Plugin插件。
+本篇的重点还是Gameplay部分，所以我们着重聊一下ModularGameplayActors这个自定义的Gameplay扩展插件和Lyra基于它的业务逻辑。
+其实这个思想很好，它用一套自己的Modular来隔离引擎和项目层，我自己的开发理念也是相似的，能不动引擎的尽量不动，自己写一些继承和扩展，既有自由度，又不会在未来引擎升级或者业务修改的时候造成兼容性的麻烦。
+这个Plugin其实没有任何实质的内容，就是对所有涉及到的引擎原有模块做出继承，也就是充当了项目和引擎之间的缓冲带。
+比如 AModularGameModeBase，AModularGameStateBase 等分别如下：
+他们都只做了最基本的继承而已。那么重要的其实是在Lyra下的实现，我们一一来看。
+最开始的自然是GameMode了，由于所有的基础模块都重写了，所以在构造函数里，需要将它们一一重新指定初始化。
+额 好像不能这么写，不然又变成讲细节了。但找了一圈又没找到专项介绍这部分内容的其他文章（如果大家看到的话，欢迎私聊我，我把链接贴上来）。如果全部展开来说的话，这篇文章的的长度要爆炸了（已经1万字了）。那就放到下一篇吧，写个详细一点的流程剖析。
+</code></pre>
+</details>
+
+<details>
+<summary> </summary>
+<pre><code>
+
+</code></pre>
+</details>
+
+<details>
+<summary> </summary>
+<pre><code>
+
+</code></pre>
+</details>
+
+<details>
+<summary> </summary>
+<pre><code>
+
+</code></pre>
+</details>
+
+<details>
+<summary> </summary>
+<pre><code>
+
+</code></pre>
+</details>
