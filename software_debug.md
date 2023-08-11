@@ -76,3 +76,16 @@ case:
 method:
 加入Set Input Mode(UI Only/Game Only)
 
+problem:
+打开.uproject工程后弹出提示框"The following modules are missing or built with a different engine version:
+[plugin name]
+Would you like to rebuild them now?
+case:
+在工程路径下新加了几个不同ue版本的插件导致工程项目无法打开,抑或是使用了ue的vs加入了新的代码
+method:
+->删除新添加到Plugins路径下的插件文件(当作什么都没发生...)
+->按yes 让他重新编译(大概率没效果)
+->vs打开工程重新生成解决方案(不能有失败)
+->vs代码写完后生成解决方案失败了->需要重新调试并将代码以正确的方式进行生成解决方案(我想warning中会有足够的提示告诉你写的代码有问题)
+->可能是你当前已经打开了ue工程,又使用vs生成解决方案的时候,ue工程并没有关闭使得解决方案生成失败,在你ue和vs都没有关闭的情况下,又打开了ue工程也会有这个问题->那么就需要将ue关闭后,vs(可以不关闭)重新生成解决方案成功后,重新打开ue
+

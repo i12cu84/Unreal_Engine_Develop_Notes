@@ -18,15 +18,21 @@ Unreal Engine5 -> ue5相关的笔记(Loading...)
 
     BluePrints -> 对应名字的蓝图
 
+    Build -> 构建工程笔记
+
     Cpp -> c++开发相关笔记
 
     Input -> ue5增强输入特性
+
+    Package -> 打包工程笔记
     
     bate -> ue版本控制
 
 Unreal Engine From Project -> 师从内容(以功能实现为主,泛化教学为辅)
 
 Unreal Engine Self Project -> ue自身工程代码架构及记录
+
+Debug_Log.md -> 调试编译日志
 
 import -> 导入到ue相关内容现象记录
 
