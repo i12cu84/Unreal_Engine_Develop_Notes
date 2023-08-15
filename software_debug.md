@@ -89,3 +89,23 @@ method:
 ->vs代码写完后生成解决方案失败了->需要重新调试并将代码以正确的方式进行生成解决方案(我想warning中会有足够的提示告诉你写的代码有问题)
 ->可能是你当前已经打开了ue工程,又使用vs生成解决方案的时候,ue工程并没有关闭使得解决方案生成失败,在你ue和vs都没有关闭的情况下,又打开了ue工程也会有这个问题->那么就需要将ue关闭后,vs(可以不关闭)重新生成解决方案成功后,重新打开ue
 
+problem:
+重新生成解决方案报错->
+1>C:\Program Files\Epic Games\UE_5.2\Engine\Source\Runtime\MediaAssets\Public\MediaSource.h(35): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+1>C:\Program Files\Epic Games\UE_5.2\Engine\Source\Runtime\MediaAssets\Public\MediaSource.h(63): error C2143: 语法错误: 缺少“;”(在“<class-head>”的前面)
+1>C:\Program Files\Epic Games\UE_5.2\Engine\Source\Runtime\MediaAssets\Public\MediaSource.h(64): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+1>C:\Program Files\Epic Games\UE_5.2\Engine\Source\Runtime\MediaAssets\Public\MediaSource.h(67): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+case:
+1. （此情况经常出现在大型工程项目中）如果存在两个类的头文件a.h和b.h,在a.h中有这样的语句：#include "b.h",在b.h文件中有这样的语句：#include "a.h"   且在一个类中有另一个类的对象时   那么就会出现这样的错误。
+2. 没有包含要定义的类的头文件。
+3.项目中少加了宏定义，导致头文件重复定义或相应宏无法识别。
+4.当有多个头文件时，顺序写反也可能导致相关的错误，其根本是头文件中的预编译语句被隐去了。
+e.g
+#include <stdio.h>
+#include <Windows.h>
+#include <WinCrypt.h>
+#include <string.h>
+如果把第二个和第三个写反，一个宏定义就被#if给注了，就会出现类似错误
+5、还有可能的原因是没有用到相关的空间。比如，用string，记得用using namespace std;若没有这一句，也会出现这样的问题。
+method:
+1.
