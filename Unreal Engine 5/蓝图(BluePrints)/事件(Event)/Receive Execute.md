@@ -1,0 +1,2 @@
+AI的行为树中Tasks->Reset Player节点可展开Receive Execute事件用于新建行为任务
+Finish Execute即完成(退出该行为蓝图)

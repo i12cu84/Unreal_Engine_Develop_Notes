@@ -1,0 +1,2 @@
+AI的行为树中Tasks->Reset Player节点可展开Receive Abort事件用于放弃行为任务
+Finish Abort即完成(退出该行为蓝图)
