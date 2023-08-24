@@ -1,4 +1,5 @@
 视频集来源于《Unreal Engine 4 蓝图可视化编程》一书
+https://www.bilibili.com/video/BV1Yb411J7wy
 p1 使用蓝图进行对象交互
 
     -> 制作一个自主移动的靶子,写定Hit事件使得靶子变色
@@ -56,6 +57,14 @@ P6 升级AI敌人
 
     设置AI敌人在关卡中随机巡逻
 
+    -> 新建任务BTTask_BlueprintBase蓝图
+
+    -> On Head Noise 事件(PawnSensing组件)
+
+    -> 行为树Reset Player节点(执行自定义内容) -> Receive Execute 事件
+
+    -> 行为树Reset Player节点(执行自定义内容) -> Receive Abort 事件 (放弃执行)
+
 P7 跟踪游戏状态完成游戏体验
 
     根据玩家条件显示菜单
@@ -68,4 +77,24 @@ P7 跟踪游戏状态完成游戏体验
 
     基于保存的数据初始关卡
 
+    -> Create Widget 创建窗口显示
+
+    -> SaveGame 蓝图(存档) 加载与保存
+
+    -> Widget -> Text 绑定变量
+
+    -> 加载/进入关卡
+
+    -> 开发与发布版本方案的区分调整(Is Packaged for Distribution)
+
 P8 打包与发行
+
+    优化图形设置
+
+    创建一个打包的游戏并与他人分享
+
+    学习资料
+
+    -> 引擎可扩展性设置(导入导出虚幻的画质设置等,ue5中的"详细游戏设置"在右上角)
+
+    -> 打包的相关项目设置
