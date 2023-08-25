@@ -1,8 +1,6 @@
 now:
 存档(摄像机存在问题)
-->蓝图sql数据库
 说明框/上一步下一步
-
 
 will:
 ec呼出后 使用导致的问题
@@ -13,4 +11,5 @@ ec呼出后 使用导致的问题
 
 unforget:
 存档 (控制中心)
-倘若更改了控制中心则多处cast to controller会出现问题 
+倘若更改了控制中心则多处cast to controller会出现问题
+
