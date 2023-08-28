@@ -31,8 +31,16 @@ https://www.bilibili.com/video/BV19i4y1s7xk
 https://www.bilibili.com/video/BV1tK411p7Wo
 [模块工程].Build.cs中添加目标模块的名字即可
 不同类型的插件的父类是不一样的
-.Target.cs  添加模块
-.uproject   添加模块
+[file].Target.cs  添加模块
+    "PluginName"
+[file].uproject   添加模块
+    "Modules":[
+        {
+            "Name": "PluginName",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ]
 </code></pre>
 </details>
 
@@ -40,6 +48,7 @@ https://www.bilibili.com/video/BV1tK411p7Wo
 <summary>UE4插件03 万能三招在任意编辑窗口加按钮</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1Ei4y1x77z/
+添加按钮的基本方法
 </code></pre>
 </details>
 
@@ -54,6 +63,10 @@ https://www.bilibili.com/video/BV1uA411B7PY
 <summary>UE4插件05 初识Slate</summary>
 <pre><code>
 https://www.bilibili.com/video/BV19t4y1X7vh
+按下后显示单独窗口(停靠标签页)
+控件反射器(用于探究光标滑动到的目标窗口的信息,例:窗口的代码来源,地址,以及窗口的具体信息)
+TEXT(__FUNCTION__) -> 获取本函数名字
+添加滑动条并影响滑动后的文本值
 </code></pre>
 </details>
 
@@ -61,6 +74,9 @@ https://www.bilibili.com/video/BV19t4y1X7vh
 <summary>UE4插件06 对照UMG设计自定义Slate控件</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1rD4y1Q73S
+使用UMG架构的蓝图uesset
+右键蓝图"运行编辑器工具控件"即可实现(但是ue4)
+(5:17)
 </code></pre>
 </details>
 
