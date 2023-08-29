@@ -80,6 +80,16 @@ Delegate.Broadcast(true);//多播执行,注意在类内使用
 <summary>UE4 C++进阶03 虚幻智能指针</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1Bk4y1z7ZF/
+->url:https://docs.unrealengine.com/4.26/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/SmartPointerLibrary/
+智能指针的基本用法
+防止内存泄漏
+弱引用(中断引用循环并阻止悬挂指针)
+可选择的线程(线程安全代码,可跨线程管理引用计数)
+运行安全(从不为空,可以固定随时取消引用)
+授予意图(可以轻松区分对象所有者和观察者)
+内存(在64位下仅为c++指针大小两倍,唯一指针除外其与c++指针大小相同)
+入侵性访问器:继承 TSharedFromThis
+AsShared()和SharedThis(this)会返回相同的类型
 </code></pre>
 </details>
 
@@ -87,6 +97,8 @@ https://www.bilibili.com/video/BV1Bk4y1z7ZF/
 <summary>UE4 C++进阶04 异步操作-Tick/异步节点/多输入输出节点</summary>
 <pre><code>
 https://www.bilibili.com/video/BV19Z4y137Bw
+__LINE__打印内容的行号
+定义时间轴蓝图节点函数->多端输出节点
 </code></pre>
 </details>
 

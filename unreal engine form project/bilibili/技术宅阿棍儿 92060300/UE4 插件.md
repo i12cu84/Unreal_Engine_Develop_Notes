@@ -76,7 +76,6 @@ TEXT(__FUNCTION__) -> 获取本函数名字
 https://www.bilibili.com/video/BV1rD4y1Q73S
 使用UMG架构的蓝图uesset
 右键蓝图"运行编辑器工具控件"即可实现(但是ue4)
-(5:17)
 </code></pre>
 </details>
 
@@ -91,6 +90,7 @@ https://www.bilibili.com/video/BV1454y1z7dn
 <summary>UE4插件08 拖拽导入自定义资源</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1EK4y1s7Mn
+资源管理 -> 右键添加资源类型
 </code></pre>
 </details>
 
@@ -98,6 +98,7 @@ https://www.bilibili.com/video/BV1EK4y1s7Mn
 <summary>UE4插件09 自定义资源的自定义编辑器</summary>
 <pre><code>
 https://www.bilibili.com/video/BV15K4y1s7Vp
+可用自定义资源内容
 </code></pre>
 </details>
 
@@ -105,6 +106,7 @@ https://www.bilibili.com/video/BV15K4y1s7Vp
 <summary>UE4插件10 自定义资源的重新导入</summary>
 <pre><code>
 https://www.bilibili.com/video/BV13Z4y1p7WN
+写个文件覆盖资源
 </code></pre>
 </details>
 
@@ -112,6 +114,7 @@ https://www.bilibili.com/video/BV13Z4y1p7WN
 <summary>UE4插件11 自定义资源的自定义操作和导出</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1u54y1z7kr
+右键菜单对目标资源内容进行更改
 </code></pre>
 </details>
 
@@ -119,6 +122,7 @@ https://www.bilibili.com/video/BV1u54y1z7kr
 <summary>UE4插件番外00 折腾内容浏览器玩，向官方提交了俩修改</summary>
 <pre><code>
 https://www.bilibili.com/video/BV12a4y1a7Nd
+拖拽资源以及子菜单按钮调用函数
 </code></pre>
 </details>
 
@@ -126,6 +130,7 @@ https://www.bilibili.com/video/BV12a4y1a7Nd
 <summary>UE4插件12 自定义细节面板</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1Nh411Z72u
+双击蓝图后的右侧细节面板编辑
 </code></pre>
 </details>
 
@@ -133,5 +138,6 @@ https://www.bilibili.com/video/BV1Nh411Z72u
 <summary>UE4插件13 自定义编辑模式</summary>
 <pre><code>
 https://www.bilibili.com/video/BV1254y1S72r
+编辑框修改自定义模式
 </code></pre>
 </details>
