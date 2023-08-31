@@ -52,39 +52,12 @@ C:/Program Files/Java/jdk-17
 sdk和ndk的路径有问题(修正即可,可能是版本问题)
 参考:https://forums.unrealengine.com/t/platform-android-is-not-a-valid-platform-to-build-check-that-the-sdk-is-installed-properly/511950
 
+仍旧报错:
+"Intermediate\Android\arm64\gradle\rungradle.bat" :app:assembleDebug
+解决方法:
+https://blog.csdn.net/u011407338/article/details/90446187
+end:
+仍未解决...且搁置
 
-UATHelper: 打包 (Android (DXT)): Copying C:\Users\chru\Desktop\11\Intermediate\Android\arm64\AndroidManifest.xml to C:\Users\chru\Desktop\11\Intermediate\Android\arm64\gradle\app\src\main\AndroidManifest.xml
-UATHelper: 打包 (Android (DXT)): Directory Engine/Plugins/Runtime/AndroidFileServer/Source/AndroidFileServer/../AFSStub copied to C:/Users/chru/Desktop/11/Intermediate/Android/arm64/gradle/AFSProject (True)
-UATHelper: 打包 (Android (DXT)): Directory Engine/Plugins/Runtime/AndroidFileServer/Source/AndroidFileServer/Android copied to C:/Users/chru/Desktop/11/Intermediate/Android/arm64/gradle/AFSProject/app/src/main (True)
-UATHelper: 打包 (Android (DXT)): Directory C:/Users/chru/Desktop/11/Intermediate/Android/arm64/gradle/app/src/main/res copied to C:/Users/chru/Desktop/11/Intermediate/Android/arm64/gradle/AFSProject/app/src/main/res (True)
-UATHelper: 打包 (Android (DXT)): Directory C:/Users/chru/Desktop/11/Intermediate/Android/arm64/gradle/gradle copied to C:/Users/chru/Desktop/11/Intermediate/Android/arm64/gradle/AFSProject/gradle (True)
-UATHelper: 打包 (Android (DXT)): Creating rungradle.bat to work around commandline length limit (using unused drive letter Z:)
-UATHelper: 打包 (Android (DXT)): Making .apk with Gradle...
-UATHelper: 打包 (Android (DXT)): To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/6.1.1/userguide/gradle_daemon.html.
-UATHelper: 打包 (Android (DXT)): Daemon will be stopped at the end of the build stopping after processing
-UATHelper: 打包 (Android (DXT)): java.lang.NoClassDefFoundError: Could not initialize class org.codehaus.groovy.vmplugin.v7.Java7
-UATHelper: 打包 (Android (DXT)):     at java.base/java.lang.Thread.run(Thread.java:833)
-UATHelper: 打包 (Android (DXT)): Caused by: java.lang.ExceptionInInitializerError: Exception org.codehaus.groovy.GroovyBugError [in thread "Daemon worker"]
-UATHelper: 打包 (Android (DXT)):     at org.codehaus.groovy.vmplugin.v7.Java7.<clinit>(Java7.java:45)
-UATHelper: 打包 (Android (DXT)):     at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-UATHelper: 打包 (Android (DXT)):     at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-UATHelper: 打包 (Android (DXT)):     at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-UATHelper: 打包 (Android (DXT)):     at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
-UATHelper: 打包 (Android (DXT)):     at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
-UATHelper: 打包 (Android (DXT)):     at org.codehaus.groovy.vmplugin.VMPluginFactory.createPlugin(VMPluginFactory.java:57)
-UATHelper: 打包 (Android (DXT)):     at org.codehaus.groovy.vmplugin.VMPluginFactory.<clinit>(VMPluginFactory.java:39)
-UATHelper: 打包 (Android (DXT)):     ... 128 more
-UATHelper: 打包 (Android (DXT)): FAILURE: Build failed with an exception.
-UATHelper: 打包 (Android (DXT)): * What went wrong:
-UATHelper: 打包 (Android (DXT)): Could not initialize class org.codehaus.groovy.reflection.ReflectionCache
-UATHelper: 打包 (Android (DXT)): > Exception java.lang.NoClassDefFoundError: Could not initialize class org.codehaus.groovy.vmplugin.v7.Java7 [in thread "Daemon worker"]
-UATHelper: 打包 (Android (DXT)): * Try:
-UATHelper: 打包 (Android (DXT)): Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
-UATHelper: 打包 (Android (DXT)): * Get more help at https://help.gradle.org
-UATHelper: 打包 (Android (DXT)): BUILD FAILED in 1s
-UATHelper: 打包 (Android (DXT)): ERROR: cmd.exe failed with args /c "C:\Users\chru\Desktop\11\Intermediate\Android\arm64\gradle\rungradle.bat" :app:assembleDebug
-UATHelper: 打包 (Android (DXT)):        (see C:\Users\chru\AppData\Roaming\Unreal Engine\AutomationTool\Logs\C+Program+Files+Epic+Games+UE_5.2\Log.txt for full exception trace)
-UATHelper: 打包 (Android (DXT)): AutomationTool executed for 0h 18m 21s
-UATHelper: 打包 (Android (DXT)): AutomationTool exiting with ExitCode=1 (Error_Unknown)
-UATHelper: 打包 (Android (DXT)): BUILD FAILED
-PackagingResults: Error: Unknown Error
+放个具体流程吧:
+https://docs.unrealengine.com/5.2/zh-CN/setting-up-unreal-engine-projects-for-android-development/
