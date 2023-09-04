@@ -98,7 +98,7 @@
     HotReload
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》开篇</summary>
 <pre><code>
@@ -143,7 +143,7 @@ UnrealEngine官方优酷频道
 之前开源过一款自研的Medusa游戏引擎，一个人毕竟精力有限，也无法开工各种编辑器工作流。所以Medusa引擎目前只是作为自己的一个试验场，未来也会专注于2D游戏的一些探索。关于Medusa游戏引擎的内部架构，其实想讲的也挺多，希望以后在UE4的相关介绍后，得空顺便讲一些其他游戏引擎的架构思想，和C++的一些奇技淫巧。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》基础概念</summary>
 <pre><code>
@@ -203,7 +203,7 @@ UnrealHeaderTool （UHT，C++）：UE4的C++代码解析生成工具，我们在
 更细的留待“编译系统”再细细讨论
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（一）Actor和Component</summary>
 <pre><code>
@@ -357,7 +357,7 @@ TObjectPtr<AActor> ChildActorTemplate;
 从此篇开始，会循序渐进的探讨各个部分的结构设计，最后再从整体的框架上讨论该结构的优劣点。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（二）Level和World</summary>
 <pre><code>
@@ -471,7 +471,7 @@ AWorldSettings* UWorld::GetWorldSettings( bool bCheckStreamingPesistent, bool bC
 Level作为Actor的容器，同时也划分了World，一方面支持了Level的动态加载，另一方面也允许了团队的实时协作，大家可以同时并行编辑不同的Level。一般而言，一个玩家从游戏开始到结束，UE会创造一个GameWorld给玩家并一直存在。玩家切换场景或关卡，也只是在这个World中加载释放不同的Level。既然Level拥有了管理者（LevelScriptActor），玩家可以编写特定关卡的逻辑，那么我们能否对World这种层次编写逻辑呢？答案是肯定的，不过本文篇幅有限，敬请期待下篇。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（三）WorldContext，GameInstance，Engine</summary>
 <pre><code>
@@ -578,7 +578,7 @@ class UGameplayStatics : public UBlueprintFunctionLibrary
 如果说：“程序=数据+算法”的话，那UE的GamePlay我们已经讨论完了数据部分，而下篇我们将开始讨论UE的游戏逻辑“算法”部分。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（四）Pawn</summary>
 <pre><code>
@@ -630,7 +630,7 @@ Character
 因为在下笔力有限，很遗憾，我们心心念念的Controller只好留待下篇了。我在谈Pawn的时候，因为Pawn和Controller是那么紧密的关联着，所以也不得不事先一再的剧透提到Controller。但Controller作为GamePlay逻辑的最最重要的一个载体，可探讨的点也非常的多，所以留待下篇吧。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（五）Controller</summary>
 <pre><code>
@@ -779,7 +779,7 @@ Controller和网络的结合很紧密，很多机制和网络也非常强关联�
 本系列教程的一个重点也是尝试介绍引擎各种概念背后的考量，而不是单纯的叙述解释各个模块功能。笔者始终认为，只有我们愿意不吝口舌的去讨论，愿意耐下心来去思考学习，这些概念的领悟才会了然在心中。否则若只是单纯的介绍Pawn功能有123，Controller可以ABC，相信读者在阅读完之后也并不会有什么深的印象，因为这些只是设计的结果，少了设计的过程。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（六）PlayerController和AIController</summary>
 <pre><code>
@@ -824,7 +824,7 @@ Task系统，让AI去完成一些任务，也是实现GameplayAbilities系统的
 而下篇我们的逻辑之旅将再继续拔高一个层次，将开始讲解World层次的逻辑，这个世界的意志：GameMode！
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（七）GameMode和GameState</summary>
 <pre><code>
@@ -915,7 +915,7 @@ Travelling in Multiplayer
 UE4.13.2
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（八）Player</summary>
 <pre><code>
@@ -1047,7 +1047,7 @@ UNetConnection
 已经到头了？并没有，我们继续向上逆风飞翔，终将得见游戏里的神：GameInstance。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（九）GameInstance</summary>
 <pre><code>
@@ -1124,7 +1124,7 @@ class ENGINE_API USaveGame : public UObject
 下篇，就是GamePlay章节的最终章，我们将会对GamePlay架构的（一到九）篇进行回顾归纳总结巩固，以一个承上启下总览的眼光，再来重新审视一下UE的整套GamePlay框架，下个章节见。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（十）总结</summary>
 <pre><code>
@@ -1176,7 +1176,7 @@ GameInstance层，一般来说Player不需要你做太多事情，UE已经帮你
 而下个专题，根据QQ群友们的投票反馈，决定了是UObject！有相当部分开发人员，可能不知道也不太关心UObject的内部机制。清楚了UObject，确实对于开发游戏并没有多少直接的提升，但《InsideUE4》系列教程的初衷就是为了深入到引擎内部提高开发者人员的内功。对于有志于想掌握好UE的开发者而言，分析一个游戏引擎，如果只是一直停留在高层的交互，而对于最底层的对象系统不了解的话，那就像云端行走一般，自身感觉飘飘然，但是总免不了内心里有些不安，学习和使用的脚步也会显得虚浮。因此在下个专题，我们将插入UObject的最最深处，把UObject扒得一毛不挂，慢慢领会她的美妙！我们终于有机会得偿心愿，细细把玩一句句源码，了解关于UObject的RTTI、反射、GC、序列化等等的内容。如果你也曾经好奇NewObject里发生了些什么、困惑CreateDefaultSubObject为何只能在构造函数里调用、不解GC是如何把对象给释放掉了、uasset文件里是些什么……
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》GamePlay架构（十一）Subsystems</summary>
 <pre><code>
@@ -1744,7 +1744,7 @@ void AddScore(float delta)
 希望本文对大家有帮助，没脸皮求赞了，就酱，后会有期！
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（一）开篇</summary>
 <pre><code>
@@ -1801,7 +1801,7 @@ sizeof(UObject)==56。56个字节相对来说应该还是可以接受，关掉St
 下篇：UObject（二）类型系统概述
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（二）类型系统概述</summary>
 <pre><code>
@@ -1933,7 +1933,7 @@ public:
 依然说些废话，笔者一向认为想解释清楚一件东西，更多的应该是解释清楚背后的各种概念。否则对着源码，罗列出来各个类，说一下每个接口的作用，数据互相怎么引用，流程是怎么跑的，你能很快的就知道一大堆信息。你只是知道了What，How，但是还挡不住别人问一句Why。而功力的提升就在于问一个个why中，A办法能做，B办法也行，那为什么最后选了C方法？想要回答这个问题，你就得朔古至今，旁征博引，了解各种方法的理念，优劣点，偏重倾向，综合起来才能更好的进行权衡。而设计，就是权衡的艺术。这么写起来也确实有点慢，但是个人权衡一下还是系统性更加的重要。宁愿慢点，质量第一。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（三）类型系统设定和结构</summary>
 <pre><code>
@@ -2075,7 +2075,7 @@ UE的这套类型数据组织架构，以我目前的了解和知识，私以为
 我们当前更关注是如何理解UE这套类型系统（也叫属性系统，为了和图形里的反射作区分），所以下篇我们将继续深入，了解UE里怎么开始开始构建这个结构。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（四）类型系统代码生成</summary>
 <pre><code>
@@ -3084,7 +3084,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 在了解到了生成的代码是什么样之后，下篇，我们就将深入到这些注册的流程中去。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（五）类型系统信息收集</summary>
 <pre><code>
@@ -3307,7 +3307,7 @@ UObject的收集
 在下一个阶段——注册，我们将讨论UE4接下来是如何消费利用这些信息的。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（六）类型系统代码生成重构-UE4CodeGen_Private</summary>
 <pre><code>
@@ -3965,7 +3965,7 @@ UPackage* Z_Construct_UPackage__Script_Hello()
 有一个有趣的现象，对于大工程量的项目（如UE4)来说，越是底层的模块越是缺乏推动力去重构，越底层的代码其改动的阻力也越大。牵一发而动全身，在一些时候，重构底层模块其实也是最能产生巨量效益的时候，因为其影响会层层放大到最上层上去。但是代码毕竟是人在写，在一个公司里，一个团队里，形成的开发氛围往往是只要底层代码能工作，就不会有人去改，也不会有人敢改。拿UE4的CoreUObject模块来说，是UE4的对象系统模块，可以说是最底层核心的模块了，但是根据我这么一大段时间的研读来说，代码里充斥着各种历史痕迹和小修小补，一些代码结构也是让人无可奈何，but it works，所以这块代码从UE3过来，到UE4里，相信有生之年也是会继续追随到UE5的。CoreUObject代码模块目前能工作，虽然有时也会有点BUG，但是到时小修补就好了，那些代码的优雅追求和结构的设计，改的好了效益不太明显；改过之后出了Bug是不是都算你的？所以正是因为这种效益和责任的担负，导致往往最需要重视的模块，最得不到升级改造。但历史的规律也表明了，代码的小缺陷积累多了，开发者的怨气积攒足够了，再适逢一个不动底层不能开工的功能需求的刺激，到时候才能下得了决心大改，或者干脆另起炉灶重新设计了。说这些，是希望同读UE4源码的朋友，在遇到代码里莫名其妙的设计，抓耳挠腮苦思冥想的时候，可以放宽心态，稍安勿躁，休息一下，我们继续前行。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（七）类型系统注册-第一个UClass</summary>
 <pre><code>
@@ -4240,7 +4240,7 @@ UClass和UDynamicClass的WithinClass都是UPackage，表示二者只能属于UPa
 本篇主要讲的是Static初始化阶段的最后一步创建出了第一个UClass，自然的Static初始化之后就是程序入口Main函数的执行，因此下一篇我们将开始讲解Main函数入口后开始的类型系统注册过程。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（八）类型系统注册-CoreUObject模块加载</summary>
 <pre><code>
@@ -4374,7 +4374,7 @@ UObject对象的类型是UClass，而UClass是个UObject对象。
 篇幅所限，本篇其实才刚刚讲了PreInit里面的LoadCoreModules()，这一步骤的目的主要是为了把CoreUObject里面定义的类的UClass都给先构建出来。但是其实这些UClass对象内部的值还没有完成初始化设置，因此下一个步骤的AppInit()和ProcessNewlyLoadedUObjects()还会继续这个注册的步程。下篇再来讲解AppInit()里的道道。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（九）类型系统注册-InitUObject</summary>
 <pre><code>
@@ -4533,7 +4533,7 @@ SuperStruct：定义了类型的继承关系
 System.out.println("Hello to see U!");
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（十）类型系统构造-再次触发</summary>
 <pre><code>
@@ -4666,7 +4666,7 @@ void FUObjectArray::CloseDisregardForGC()
 篇幅有限，关于enum、struct、class的RegisterFn调用，生成代码里的Z_Construct_XXX的调用，还没有讲解，留待下篇讲解。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（十一）类型系统构造-构造绑定链接</summary>
 <pre><code>
@@ -5434,7 +5434,7 @@ DestructorLink：需要额外析构的属性，在析构的时候，需要去调
 类型系统到这也就算是构造完了，我们在下篇来汇总总结一下。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（十二）类型系统-总结</summary>
 <pre><code>
@@ -5531,7 +5531,7 @@ EPropertyFlags：属性的特征标志。
 下一篇，讲讲类型系统反射在实战中大概有哪些应用。
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>《InsideUE4》UObject（十三）类型系统-反射实战</summary>
 <pre><code>
@@ -5813,6 +5813,4 @@ static void InvokeFunctionByName(FName functionName,TTuple<TReturns...>& outPara
 下篇开始讲解UObject内存管理，学习完内存管理之后，就会更有一种，心中想要哪个对象，就能立即随心所欲的去获取它的掌控感，同时也对对象应该怎么保持，什么时候被释放了，为什么被释放了，有更深刻的认识。
 </code></pre>
 </details>
-
-
 

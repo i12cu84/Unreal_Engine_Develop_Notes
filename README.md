@@ -10,7 +10,7 @@
     node notes -> 节点汇总笔记
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>-> Project Notes -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
@@ -18,7 +18,7 @@
     Lyra Starter Game -> 官方天琴座游戏项目
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
 <pre><code>
@@ -32,7 +32,7 @@
     -> book notes -> 书籍相关笔记
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>-> Unreal Engine5 -> ue5相关的笔记(Loading...)</summary>
 <pre><code>
@@ -75,7 +75,7 @@
     -> bate -> ue版本控制
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>-> Unreal Engine From Project -> 师从内容(以功能实现为主,泛化教学为辅)</summary>
 <pre><code>
@@ -112,6 +112,7 @@
         技术宅阿棍儿
         南京周润发
         小熊猫吃牙膏
+        星辰大海
         喧嚣
         一头神秘鸟
         佐味_图解ue4源码
@@ -122,7 +123,7 @@
     </details>
 </code></pre>
 </details>
-
+<br />
 <details>
 <summary>-> Unreal Engine Self Project -> ue自身工程代码架构及记录</summary>
 <pre><code>
