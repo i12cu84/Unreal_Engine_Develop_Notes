@@ -23,7 +23,7 @@
     "files.autoSave": "afterDelay",
     "explorer.confirmDelete": false,
     "files.encoding": "utf8",
-    "workbench.colorTheme": "One Dark Pro",
+    "workbench.colorTheme": "One Dark Modern",
     "editor.fontSize": 24,
     "explorer.confirmDragAndDrop": false,
     "[cpp]": {
