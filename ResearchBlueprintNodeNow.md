@@ -2,6 +2,10 @@ node
 Set Texture Parameter Value         设定纹理参数值
 Add Particle System Component       添加粒子系统
 
+execute python script
+execute python command
+execute python command advanced
+
 bp
 player states 客户端显示数据保存到服务端
 create session 创建服务器
