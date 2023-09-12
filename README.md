@@ -5,10 +5,12 @@
 <details>
 <summary>-> HideLaterFile -> 历史遗留笔记(暂时未知分类集中处)</summary>
 <pre><code>
+    Construct the cpp -> 构建c++环境的笔记
+    Construct the python from ue5 -> 构建python环境的笔记
+    Construct the vcpkg -> 构建vcpkg的笔记
     Creash problem -> 目前遇到ue闪退的主要解决方案
     game task -> 各类游戏操作记录
     node notes -> 节点汇总笔记
-    Construct the vcpkg -> 构建vcpkg的笔记
 </code></pre>
 </details>
 <br />

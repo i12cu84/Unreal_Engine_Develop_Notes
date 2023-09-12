@@ -24,9 +24,20 @@
 
 蓝图库封装:
 
+text.py代码示例:
+```
+import unreal
+unreal.log("Load python to txext.py")
+@unreal.uclass()
+class PyBPFunctionLibrary(unreal.BlueprintFunctionLibrary):
+    @unreal.ufunction(static=True,meta=dict(Category="Python Blueprint"))
+    def PyFunction():
+        unreal.SystemLibrary.print_string(None,'Python Test Function Run',text_color=[255,255,255,255])
+```
+项目设置 -> 插件 -> python -> 启动脚本 -> 输入test.py的路径 -> 重启项目 即显示内容
+
 参考文章
 https://zhuanlan.zhihu.com/p/395027673
 https://zhuanlan.zhihu.com/p/445540668
 https://zhuanlan.zhihu.com/p/256345905
 https://docs.unrealengine.com/4.26/zh-CN/ProductionPipelines/ScriptingAndAutomation/Blueprints/ScriptedActions/
-https://zhuanlan.zhihu.com/p/256345905
