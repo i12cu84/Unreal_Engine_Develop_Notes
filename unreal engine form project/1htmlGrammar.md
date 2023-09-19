@@ -32,9 +32,9 @@
 <em>word</em>
 
 <details>
-<summary>折叠</summary>
+<summary></summary>
 <pre><code>
-内容
+
 </code></pre>
 </details>
 
