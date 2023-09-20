@@ -13,7 +13,7 @@
     node notes -> 节点汇总笔记
 </code></pre>
 </details>
-<br />
+    <br />
 <details>
 <summary>-> Project Notes -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
@@ -21,8 +21,28 @@
     Lyra Starter Game -> 官方天琴座游戏项目
 </code></pre>
 </details>
-<br />
-<details>
+    <br />
+        <details>
+        <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
+        <pre><code>
+        <details>
+        <summary>Git - Git上传基本指令</summary>
+        <pre><code>
+            OutputToGit -> 输出到git仓库
+            ReverseCommit -> 撤销git提交
+            UpdateToGit -> 更新git仓库
+        </code></pre>
+        </details>
+            <details>
+            <summary>Plugins -> 插件相关介绍</summary>
+            <pre><code>
+                plugins -> 插件相关介绍
+            </code></pre>
+            </details>      
+            </code></pre>
+            </details>
+            <br />
+            <details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
 <pre><code>
     -> 0【虚幻4】UE4初学者系列教程合集-全中文新手入门教程 BV164411Y732
@@ -35,7 +55,7 @@
     -> book notes -> 书籍相关笔记
 </code></pre>
 </details>
-<br />
+    <br />
 <details>
 <summary>-> Unreal Engine5 -> ue5相关的笔记(Loading...)</summary>
 <pre><code>
@@ -49,20 +69,20 @@
         -> 组件(Component) -> Actor模板类添加的组件
     </code></pre>
     </details>
-    <details>
-    <summary>-> 模型(Model)</summary>
-    <pre><code>
-        -> 0基础
-        -> 1光源
-        -> 2过场动画
-        -> 3形状
-        -> 4媒体模板
-        -> 5视觉效果
-        -> 6体积
-        -> 7所有类
-        -> 8放置Actor面板
-    </code></pre>
-    </details>
+        <details>
+        <summary>-> 模型(Model)</summary>
+        <pre><code>
+            -> 0基础
+            -> 1光源
+            -> 2过场动画
+            -> 3形状
+            -> 4媒体模板
+            -> 5视觉效果
+            -> 6体积
+            -> 7所有类
+            -> 8放置Actor面板
+        </code></pre>
+        </details>
     <details>
     <summary>-> 人工智能(Artificial Intelligence)</summary>
     <pre><code>
@@ -78,9 +98,9 @@
     -> bate -> ue版本控制
 </code></pre>
 </details>
-<br />
+    <br />
 <details>
-<summary>-> Unreal Engine From Project -> 师从内容(以功能实现为主,泛化教学为辅)</summary>
+<summary>-> Unreal Engine From Project -> 实现为主,泛化为辅(Loading...)</summary>
 <pre><code>
     <details>
     <summary>-> bilibili</summary>
@@ -99,38 +119,41 @@
         -> Unreal_Explorer 392671534
     </code></pre>
     </details>
-    <details>
-    <summary>-> PersonalWebsite</summary>
-    <pre><code>
-        砥才人_代码质疑人生
-        风恋残雪_凡事看本质
-    </code></pre>
-    </details>
-    <details>
-    <summary>-> zhihu</summary>
-    <pre><code>
-        大钊_InsideUE4
-        放牛的星星
-        孤傲雕
-        技术宅阿棍儿
-        南京周润发
-        小熊猫吃牙膏
-        星辰大海
-        喧嚣
-        一头神秘鸟
-        这像画码
-        佐味_图解ue4源码
-        DrakFlameMaster
-        davidpp
-        FlyingTree
-        Jerish
-        Michael
-        LRyir
-    </code></pre>
-    </details>
+        <details>
+        <summary>-> PersonalWebsite</summary>
+        <pre><code>
+            砥才人_代码质疑人生
+            风恋残雪_凡事看本质
+        </code></pre>
+        </details>
+            <details>
+            <summary>-> zhihu</summary>
+            <pre><code>
+                大钊_InsideUE4
+                房燕良
+                放牛的星星
+                孤傲雕
+                技术宅阿棍儿
+                南京周润发
+                日天
+                小熊猫吃牙膏
+                星辰大海
+                喧嚣
+                一头神秘鸟
+                这像画码
+                佐味_图解ue4源码
+                DrakFlameMaster
+                davidpp
+                FlyingTree
+                Jerish
+                Jiff
+                LRyir
+                Michael
+            </code></pre>
+            </details>
 </code></pre>
 </details>
-<br />
+    <br />
 <details>
 <summary>-> Unreal Engine Self Project -> ue自身工程代码架构及记录</summary>
 <pre><code>
@@ -138,6 +161,7 @@
     DesignProject -> 工程设计
 </code></pre>
 </details>
+    <br />
 
 Debug_Log.md -> 调试编译日志
 
