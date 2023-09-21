@@ -23,7 +23,6 @@
         execute python command advanced 键入代码或者文件执行
 
 蓝图库封装:
-
 text.py代码示例:
 ```
 import unreal
@@ -35,6 +34,11 @@ class PyBPFunctionLibrary(unreal.BlueprintFunctionLibrary):
         unreal.SystemLibrary.print_string(None,'Python Test Function Run',text_color=[255,255,255,255])
 ```
 项目设置 -> 插件 -> python -> 启动脚本 -> 输入test.py的路径 -> 重启项目 即显示内容
+
+problem:
+使用python制作的蓝图节点会因为重新项目而丢失蓝图节点目标
+method:
+项目Plugins中添加[PythonBlueprintFixer](https://github.com/Gradess2019/PythonBlueprintFixer)重新生成项目即可.
 
 参考文章
 https://zhuanlan.zhihu.com/p/395027673
