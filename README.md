@@ -9,6 +9,7 @@
     Construct the python from ue5 -> 构建python环境的笔记
     Construct the vcpkg -> 构建vcpkg的笔记
     Creash problem -> 目前遇到ue闪退的主要解决方案
+    EncounterProblemsAndMethod -> 目前遇到ue崩溃问题及其解决方案
     game task -> 各类游戏操作记录
     node notes -> 节点汇总笔记
 </code></pre>
@@ -170,7 +171,5 @@ import -> 导入到ue相关内容现象记录
 plugins -> 笔者已知的ue相关插件描述
 
 ResearchBlueprintNodeNow -> 目前侧重研究的ue节点
-
-software_debug -> 目前遇到ue崩溃问题及其解决方案
 
 work task -> 笔者目前的**工作重心**
