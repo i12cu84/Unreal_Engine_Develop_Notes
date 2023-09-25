@@ -35,7 +35,7 @@
         </code></pre>
         </details>
             <details>
-            <summary>Plugins -> 插件相关介绍</summary>
+            <summary>Peculiarity -> 特性相关介绍</summary>
             <pre><code>
                 plugins -> 插件相关介绍
             </code></pre>
@@ -44,6 +44,16 @@
             </details>
             <br />
             <details>
+        <details>
+        <summary>Plugins -> 插件相关介绍</summary>
+        <pre><code>
+            plugins -> 插件相关介绍
+        </code></pre>
+        </details>      
+        </code></pre>
+        </details>
+        <br />
+        <details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
 <pre><code>
     -> 0【虚幻4】UE4初学者系列教程合集-全中文新手入门教程 BV164411Y732
@@ -131,6 +141,7 @@
             <summary>-> zhihu</summary>
             <pre><code>
                 大钊_InsideUE4
+                戴巍
                 房燕良
                 放牛的星星
                 孤傲雕
@@ -145,6 +156,7 @@
                 佐味_图解ue4源码
                 DrakFlameMaster
                 davidpp
+                Elvic Liang
                 FlyingTree
                 Jerish
                 Jiff
