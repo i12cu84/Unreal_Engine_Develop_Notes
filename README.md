@@ -5,6 +5,7 @@
 <details>
 <summary>-> HideLaterFile -> 历史遗留笔记(暂时未知分类集中处)</summary>
 <pre><code>
+    Construct the Android -> 构建Android环境的笔记
     Construct the cpp -> 构建c++环境的笔记
     Construct the python from ue5 -> 构建python环境的笔记
     Construct the vcpkg -> 构建vcpkg的笔记
