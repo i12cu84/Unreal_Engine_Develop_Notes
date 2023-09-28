@@ -1,7 +1,7 @@
 在 C++ 中，可以使用标准库的 std::atomic 类来执行原子操作。
 
 下面是一个示例，演示如何使用 std::atomic 来执行一个简单的原子计数操作：
-
+```
 #include <iostream>
 #include <thread>
 #include <atomic>
@@ -33,6 +33,7 @@ int main() {
 
     return 0;
 }
+```
 在这个示例中，使用 std::atomic<int> 来声明一个原子整数变量 counter，初始值为 0。
 
 然后，创建了多个线程，每个线程都会调用 incrementCounter 函数，该函数会对 counter 执行原子的自增操作。

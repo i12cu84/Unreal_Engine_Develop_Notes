@@ -18,6 +18,46 @@
 </details>
     <br />
 <details>
+<summary>-> CppPeculiarity -> C++特性笔记</summary>
+<pre><code>
+    <details>
+    <summary>-> cpp11 -> C++11标准规范</summary>
+    <pre><code>
+        -> algorithm - 算法汇总
+        -> atomic - 原子操作
+        -> call_once once_flag - 进程单例模式
+        -> chrono - 时间操作库
+        -> cite move forwared - 左值引用、右值引用、移动语义、完美转发
+        -> condition_variable - 条件变量
+        -> constexpr - 常量表达式
+        -> default - class的默认函数
+        -> delegate constructor - 委托构造函数
+        -> delete - class的禁用函数
+        -> enum class - 枚举类
+        -> explicit - 显式类型转换
+        -> final override - 虚函数的结束与重写
+        -> for loop - for循环新方式
+        -> forward_list - 顺序容器
+        -> function bind lambda - 函数
+        -> future async - 期望、异步
+        -> inherited constructors - 继承构造函数
+        -> lock - 锁管理
+        -> mutex - 互斥锁
+        -> nullptr - 空指针
+        -> random - 随机数新方式
+        -> regex - 正则表达式
+        -> sizeof - 新方法(可计算class)
+        -> static_assert - 静态断言
+        -> thread_local - 线程局部变量
+        -> union - 联合体
+        -> unique_ptr shared_ptr weak_ptr - 智能指针
+        -> volatile - 易变的
+    </code></pre>
+    </details>
+</code></pre>
+</details>
+    <br />
+<details>
 <summary>-> Project Notes -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
     VRExpPluginExample -> OpenXR示例项目
@@ -25,37 +65,34 @@
 </code></pre>
 </details>
     <br />
+<details>
+<summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
+<pre><code>
+    <details>
+    <summary>Git - Git上传基本指令</summary>
+    <pre><code>
+        OutputToGit -> 输出到git仓库
+        ReverseCommit -> 撤销git提交
+        UpdateToGit -> 更新git仓库
+    </code></pre>
+    </details>
         <details>
-        <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
-        <pre><code>
-        <details>
-        <summary>Git - Git上传基本指令</summary>
-        <pre><code>
-            OutputToGit -> 输出到git仓库
-            ReverseCommit -> 撤销git提交
-            UpdateToGit -> 更新git仓库
-        </code></pre>
-        </details>
-            <details>
-            <summary>Peculiarity -> 特性相关介绍</summary>
-            <pre><code>
-                plugins -> 插件相关介绍
-            </code></pre>
-            </details>      
-            </code></pre>
-            </details>
-            <br />
-            <details>
-        <details>
-        <summary>Plugins -> 插件相关介绍</summary>
+        <summary>Peculiarity -> 特性相关介绍</summary>
         <pre><code>
             plugins -> 插件相关介绍
         </code></pre>
         </details>      
-        </code></pre>
-        </details>
-        <br />
-        <details>
+</code></pre>
+</details>
+    <br />
+<details>
+<summary>Plugins -> 插件相关介绍</summary>
+<pre><code>
+    plugins -> 插件相关介绍
+</code></pre>
+</details>      
+    <br />
+<details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
 <pre><code>
     -> 0【虚幻4】UE4初学者系列教程合集-全中文新手入门教程 BV164411Y732
@@ -139,36 +176,36 @@
             风恋残雪_凡事看本质
         </code></pre>
         </details>
-            <details>
-            <summary>-> zhihu</summary>
-            <pre><code>
-                大侠刘茗
-                大钊_InsideUE4
-                戴巍
-                房燕良
-                放牛的星星
-                孤傲雕
-                技术宅阿棍儿
-                篮子悠悠
-                南京周润发
-                日天
-                小熊猫吃牙膏
-                星辰大海
-                喧嚣
-                一头神秘鸟
-                这像画码
-                佐味_图解ue4源码
-                DrakFlameMaster
-                davidpp
-                Elvic Liang
-                FlyingTree
-                Jerish
-                Jiff
-                LRyir
-                Mantra
-                Michael
-            </code></pre>
-            </details>
+    <details>
+    <summary>-> zhihu</summary>
+    <pre><code>
+        大侠刘茗
+        大钊_InsideUE4
+        戴巍
+        房燕良
+        放牛的星星
+        孤傲雕
+        技术宅阿棍儿
+        篮子悠悠
+        南京周润发
+        日天
+        小熊猫吃牙膏
+        星辰大海
+        喧嚣
+        一头神秘鸟
+        这像画码
+        佐味_图解ue4源码
+        DrakFlameMaster
+        davidpp
+        Elvic Liang
+        FlyingTree
+        Jerish
+        Jiff
+        LRyir
+        Mantra
+        Michael
+    </code></pre>
+    </details>
 </code></pre>
 </details>
     <br />
