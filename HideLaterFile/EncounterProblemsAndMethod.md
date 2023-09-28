@@ -115,3 +115,18 @@ method:
 4.尝试寻找头文件依赖关系的顺序
 5.加std::
 6.加;
+
+problem:
+生成B widget时,可以对B widget操作事件,但更早生成的A widget却无法操作
+case:
+被覆盖的widget无法触发事件,可能是被不可见的窗口而遮盖导致
+method:
+1.Canvas Panel中设置Visibility - Not Hit-Testable(Self Only)
+
+problem:
+正在执行输入映射时,按下widget的button,则会突然中断输入映射事件
+case:
+例如按W进行前进时,鼠标按下widget的button,则前进事件中断,导致无法前进
+method:
+1.将button控件改成image控件,按下事件绑定到image中即可
+
