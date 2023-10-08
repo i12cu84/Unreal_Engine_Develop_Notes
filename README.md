@@ -3,6 +3,93 @@
 -> assets -> 有关所有notes的markdown图片
 
 <details>
+<summary>-> CppPeculiarity -> C++特性笔记</summary>
+<pre><code>
+    <details>
+    <summary>-> cpp11 -> C++11标准规范</summary>
+    <pre><code>
+        algorithm - 算法汇总
+        atomic - 原子操作
+        call_once once_flag - 进程单例模式
+        chrono - 时间操作库
+        cite move forwared - 左值引用、右值引用、移动语义、完美转发
+        condition_variable - 条件变量
+        constexpr - 常量表达式
+        default - class的默认函数
+        delegate constructor - 委托构造函数
+        delete - class的禁用函数
+        enum class - 枚举类
+        explicit - 显式类型转换
+        final override - 虚函数的结束与重写
+        for loop - for循环新方式
+        forward_list - 顺序容器
+        function bind lambda - 函数
+        future async - 期望、异步
+        inherited constructors - 继承构造函数
+        lock - 锁管理
+        mutex - 互斥锁
+        nullptr - 空指针
+        random - 随机数新方式
+        regex - 正则表达式
+        sizeof - 新方法(可计算class)
+        static_assert - 静态断言
+        thread_local - 线程局部变量
+        tie - 包装成元组的函数
+        tuple - 元组
+        union - 联合体
+        unique_ptr shared_ptr weak_ptr - 智能指针
+        volatile - 易变的
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> cpp14 -> C++14标准规范</summary>
+    <pre><code>
+        [[deprecated]] - function的弃用
+        auto return - 自动返回类型
+        constexpr template - 模板常量
+        exchange - 交换
+        integer_sequence - 整数序列
+        make_unique - 智能指针-唯一指针
+        other name template - 模板重载
+        quoted - 字符串添加引号
+        shared_timed_mutex shared_lock - 读写锁(共享锁)
+        template fun - 模板函数
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> cpp17 -> C++17标准规范</summary>
+    <pre><code>
+        __attribute__ - 状态修饰定义
+        __has_include - 是否包含库判定
+        [[fallthrough]] - switch跳过break判定警告屏蔽
+        [[nodiscard]] - 返回必被处理修饰
+        any - 通用容器
+        apply - 参数包
+        as_const - 创建只读引用
+        constexpr lambda - lambda常量表达式
+        filesystem - 文件读写库
+        folding expressions - 折叠表达式
+        from_chars to_chars - 变量与char[]互相转换
+        if init - if初始化
+        infer_type - 类型自推导
+        inline type - 内联变量
+        lambda *this - lambda函数的this引用捕获
+        make_from_tuple - 元组转类构造对象
+        maybe_unused - 可能未使用修饰
+        nested namespace - 命名空间嵌套
+        optional - 可能含无值模板
+        shared_mutex - 读写锁
+        string_view - 字符串复制类型
+        structured binding - 结构化绑定
+        variant monostate - 变体容器
+    </code></pre>
+    </details>
+</code></pre>
+</details>
+    <br />
+<details>
 <summary>-> HideLaterFile -> 历史遗留笔记(暂时未知分类集中处)</summary>
 <pre><code>
     Construct the Android Packing And Debug -> 构建Android环境的笔记
@@ -18,46 +105,6 @@
 </details>
     <br />
 <details>
-<summary>-> CppPeculiarity -> C++特性笔记</summary>
-<pre><code>
-    <details>
-    <summary>-> cpp11 -> C++11标准规范</summary>
-    <pre><code>
-        -> algorithm - 算法汇总
-        -> atomic - 原子操作
-        -> call_once once_flag - 进程单例模式
-        -> chrono - 时间操作库
-        -> cite move forwared - 左值引用、右值引用、移动语义、完美转发
-        -> condition_variable - 条件变量
-        -> constexpr - 常量表达式
-        -> default - class的默认函数
-        -> delegate constructor - 委托构造函数
-        -> delete - class的禁用函数
-        -> enum class - 枚举类
-        -> explicit - 显式类型转换
-        -> final override - 虚函数的结束与重写
-        -> for loop - for循环新方式
-        -> forward_list - 顺序容器
-        -> function bind lambda - 函数
-        -> future async - 期望、异步
-        -> inherited constructors - 继承构造函数
-        -> lock - 锁管理
-        -> mutex - 互斥锁
-        -> nullptr - 空指针
-        -> random - 随机数新方式
-        -> regex - 正则表达式
-        -> sizeof - 新方法(可计算class)
-        -> static_assert - 静态断言
-        -> thread_local - 线程局部变量
-        -> union - 联合体
-        -> unique_ptr shared_ptr weak_ptr - 智能指针
-        -> volatile - 易变的
-    </code></pre>
-    </details>
-</code></pre>
-</details>
-    <br />
-<details>
 <summary>-> Project Notes -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
     VRExpPluginExample -> OpenXR示例项目
@@ -69,28 +116,29 @@
 <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
 <pre><code>
     <details>
-    <summary>Git - Git上传基本指令</summary>
+    <summary>-> Git -> Git上传基本指令</summary>
     <pre><code>
         OutputToGit -> 输出到git仓库
         ReverseCommit -> 撤销git提交
         UpdateToGit -> 更新git仓库
     </code></pre>
     </details>
-        <details>
-        <summary>Peculiarity -> 特性相关介绍</summary>
-        <pre><code>
-            plugins -> 插件相关介绍
-        </code></pre>
-        </details>      
+        <br />
+    <details>
+    <summary>-> Peculiarity -> 特性相关介绍</summary>
+    <pre><code>
+        plugins -> 插件相关介绍
+    </code></pre>
+    </details>      
+        <br />
+    <details>
+    <summary>-> Plugins -> 插件相关介绍</summary>
+    <pre><code>
+        plugins -> 插件相关介绍
+    </code></pre>
+    </details>      
 </code></pre>
 </details>
-    <br />
-<details>
-<summary>Plugins -> 插件相关介绍</summary>
-<pre><code>
-    plugins -> 插件相关介绍
-</code></pre>
-</details>      
     <br />
 <details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
@@ -117,35 +165,96 @@
         -> 蓝图类(BP Class) -> 创建的蓝图类模板
         -> 事件(Event) -> 触发事件节点
         -> 组件(Component) -> Actor模板类添加的组件
+        结构(Struct) - 结构体
+        蓝图函数库(BlueprintFunctionlibraryLib) - 蓝图函数库
+        枚举(Enum) - 枚举
     </code></pre>
     </details>
+        <br />
+    <details>
+    <summary>-> 模型(Model) - 基本模型创建</summary>
+    <pre><code>
+        -> 0基础
+        -> 1光源
+        -> 2过场动画
+        -> 3形状
+        -> 4媒体模板
+        -> 5视觉效果
+        -> 6体积
+        -> 7所有类
+        -> 8放置Actor面板
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> 人工智能(Artificial Intelligence) - AI行为要素</summary>
+    <pre><code>
+        黑板(Blackboard) - AI行为必要数据存储库
+        行为树(Behavior Tree) - AI行为逻辑设定
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> 输入(Input) -> ue5增强输入特性</summary>
+    <pre><code>
+        输入操作 - 条件
+        输入映射情境 - 管理
+        玩家可映射输入配置 - 设置
+        ProjectSetting_ActionMappings - 离散渐进按键预设
+        ProjectSetting_AxisMappings - 连续渐进按键预设
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> Cpp -> c++开发相关笔记</summary>
+    <pre><code>
         <details>
-        <summary>-> 模型(Model)</summary>
+        <summary>-> 宏 -> UE宏预设</summary>
         <pre><code>
-            -> 0基础
-            -> 1光源
-            -> 2过场动画
-            -> 3形状
-            -> 4媒体模板
-            -> 5视觉效果
-            -> 6体积
-            -> 7所有类
-            -> 8放置Actor面板
+            GENERATED_BODY
+            UFunctions
         </code></pre>
         </details>
-    <details>
-    <summary>-> 人工智能(Artificial Intelligence)</summary>
-    <pre><code>
-        黑板(Blackboard)
-        行为树(Behavior Tree)
+            <br />
+        <details>
+        <summary>-> Class -> UE类</summary>
+        <pre><code>
+            <details>
+            <summary>-> 多线程 -> UE多线程汇总</summary>
+            <pre><code>
+                AsyncTask - 并发线程池
+                FRunnable - 线程执行体
+                TaskGraph - 任务图
+                thread - c++基础多线程
+            </code></pre>
+            </details>
+                <br />
+            <details>
+            <summary>-> 异步 -> UE异步汇总</summary>
+            <pre><code>
+                UBlueprintAsyncActionBase - 异步蓝图
+            </code></pre>
+            </details>
+        </code></pre>
+        </details>
     </code></pre>
     </details>
-    -> 输入(Input) -> ue5增强输入特性
-    -> Cpp -> c++开发相关笔记
-        -> 宏
-    -> Project-Build -> 以vs构建工程笔记
-    -> Project-Package -> 不同环境打包工程笔记
-    -> bate -> ue版本控制
+        <br />
+    <details>
+    <summary>-> Project-Build -> 以vs构建工程笔记</summary>
+    <pre><code>
+        Note -> 笔记
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> Project-Package -> 不同环境打包工程笔记</summary>
+    <pre><code>
+        Android -> 打包安卓
+        Windows -> 打包Windows
+    </code></pre>
+    </details> 
+    bate -> ue版本控制
 </code></pre>
 </details>
     <br />
@@ -169,13 +278,15 @@
         -> Unreal_Explorer 392671534
     </code></pre>
     </details>
-        <details>
-        <summary>-> PersonalWebsite</summary>
-        <pre><code>
-            砥才人_代码质疑人生
-            风恋残雪_凡事看本质
-        </code></pre>
-        </details>
+        <br />
+    <details>
+    <summary>-> PersonalWebsite</summary>
+    <pre><code>
+        砥才人_代码质疑人生
+        风恋残雪_凡事看本质
+    </code></pre>
+    </details>
+        <br />
     <details>
     <summary>-> zhihu</summary>
     <pre><code>
