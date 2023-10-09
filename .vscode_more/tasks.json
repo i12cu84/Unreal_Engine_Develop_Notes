@@ -1,68 +1,6 @@
 {
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: g++.exe 生成活动文件",
-            "command": "C:\\Program File\\mingw\\bin\\g++.exe",
-            "args": [
-                //"-fdiagnostics-color=always",
-                //"-g",
-                "-std=c++20",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "调试器生成的任务。"
-        }
-    ],
-    "version": "2.0.0"
-}
-/*
-{
-    "tasks": [
-        {
-            "type": "cppbuild",
-            "label": "C/C++: g++.exe 生成活动文件",
-            "command": "C:\\Program File\\mingw\\bin\\cpp.exe",
-            "args": [
-                // "-fcolor-diagnostics",
-                // "-fansi-escape-codes",
-                //"-g",
-                "-std=c++23",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "调试器生成的任务。"
-        }
-    ],
-    "version": "2.0.0"
-}
-*/
-/*
-{
-    "tasks": [
-        {
             "type": "shell",
             "label": "C/C++: cpp.exe build active file",
             // "command": "C:\\Program Files\\mingw64\\bin\\cpp.exe",
@@ -108,4 +46,3 @@
     ],
     "version": "2.0.0"
 }
-*/

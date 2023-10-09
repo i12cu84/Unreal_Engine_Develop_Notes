@@ -1,24 +1,4 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: Current File",
-            // "type": "node",
-            "request": "launch",
-            // "console":"externalTerminal",
-            "console": "internalConsole",
-            // "console":"integratedTerminal",
-            "stopOnEntry": false,
-            "program": "${file}"
-        },
-        ... // 其他配置
-    ]
-}
-/*
-{
     "version": "0.2.0",
     "configurations": [
         {
@@ -45,4 +25,3 @@
         }
     ]
 }
-*/
