@@ -94,6 +94,7 @@
         [[no_unique_address]] - 优化类成员空间
         assume_aligned - 内存对齐断言
         atomic shared_ptr float - 新增类型
+        auto constainer - 简化容器内部类型推断
         barrier - 原子操作屏障
         basic_osyncstream - 输出流的多线程同步
         bind_front - 函数参数绑定
@@ -108,17 +109,20 @@
         for loop init - 循环初始化
         format - 字符串格式化方法
         function template abbreviation - 函数模板缩写
+        init catch - 支持初始化捕捉
         is_bounded_array - 检查T是否是已知边界的数组类型
         jthread - 新线程
         lambda_template - lambda的template
         lambda_this - lambda的this
-        latch - 同步线程向下计数器
+        latch - 锁存器(同步线程向下计数器)
         lerp - 线性插值
         make_shared support constructed array - make_shared支持构造数组
         midpoint - 计算中点
+        modules - 模块化特性
         numbers - 常量库
         omit tempname - 省略tempname
-        Ranges - 迭代器库的扩展和泛化
+        perfect forwarding - 完美转发
+        Ranges - 范围库(迭代器库的扩展和泛化)
         remove_cvref - 移除类型的顶层const、volatile修饰符
         semaphore - 信号量同步机制
         source_lacation - 源码信息(文件名、行号以及函数名)
@@ -126,6 +130,7 @@
         ssize - 获取容器或数组的大小
         starts_with ends_with - 判断特定字符是否前缀开始/后缀结束
         struct init - 结构体初始化
+        synchronization - 同步库
         to_address - 获取指针的地址
         using enum - 支持using enum
     </code></pre>
