@@ -194,7 +194,7 @@
 </details>
     <br />
 <details>
-<summary>-> Project Notes -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
+<summary>-> Project Note -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
     Lyra Starter Game - 官方天琴座游戏项目
     VRExpPluginExample - OpenXR示例项目
