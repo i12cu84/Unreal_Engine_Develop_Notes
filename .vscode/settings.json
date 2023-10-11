@@ -69,6 +69,11 @@
         "shared_mutex": "cpp",
         "any": "cpp",
         "cstring": "cpp",
-        "coroutine": "cpp"
+        "coroutine": "cpp",
+        "barrier": "cpp",
+        "source_location": "cpp",
+        "latch": "cpp",
+        "ranges": "cpp",
+        "syncstream": "cpp"
     }
 }

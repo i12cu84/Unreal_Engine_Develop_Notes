@@ -137,6 +137,28 @@
     </details>
         <br />
     <details>
+    <summary>-> cpp98 -> C++98标准规范</summary>
+    <pre><code>
+        bool - 支持布尔
+        cast - 支持强制转换 `static_cast`、`dynamic_cast`、`const_cast`和`reinterpret_cast`
+        comma operator - 支持逗号操作符
+        friend - 支持友元
+        inline - 支持内联
+        mutable - 支持可变
+        namespace - 支持命名空间
+        operator - 支持运算符重载
+        RTTI - 支持运行时类型识别(资源获取即初始化)
+        STL - 支持标准模板库
+        template - 支持模板
+        try catch throw - 支持异常处理
+        typedef - 支持类型重命名
+        typeid - 支持运行时类型识别
+        typeof - 支持类型查询
+        virtual - 支持虚函数
+    </code></pre>
+    </details>
+        <br />
+    <details>
     <summary>-> cpptask -> C++小程序</summary>
     <pre><code>
         -> cpp11 -> cpp11标准库示例
