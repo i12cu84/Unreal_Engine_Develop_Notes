@@ -354,7 +354,7 @@
 </details>
     <br />
 <details>
-<summary>-> Unreal Engine From Project -> 实现为主,泛化为辅(Loading...)</summary>
+<summary>-> Unreal Engine from Project -> 实现为主,泛化为辅(Loading...)</summary>
 <pre><code>
     <details>
     <summary>-> bilibili -> b站</summary>
@@ -375,7 +375,7 @@
     </details>
         <br />
     <details>
-    <summary>-> PersonalWebsite -> 个人网站</summary>
+    <summary>-> Website -> 个人网站</summary>
     <pre><code>
         砥才人_代码质疑人生
         风恋残雪_凡事看本质
