@@ -68,6 +68,7 @@
         "map": "cpp",
         "shared_mutex": "cpp",
         "any": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "coroutine": "cpp"
     }
 }
