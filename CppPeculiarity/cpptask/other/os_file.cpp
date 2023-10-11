@@ -1,3 +1,4 @@
+//操作文件 同名不同类型文件 克隆指定位置
 #include <iostream>
 #include <filesystem>
 #include <string>

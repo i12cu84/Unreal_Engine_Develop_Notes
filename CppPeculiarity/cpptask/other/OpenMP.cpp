@@ -1,3 +1,4 @@
+//OpenMP 测试
 #include <iostream>
 #include <vector>
 #include <map>

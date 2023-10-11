@@ -135,29 +135,47 @@
         using enum - 支持using enum
     </code></pre>
     </details>
+        <br />
+    <details>
+    <summary>-> cpptask -> C++小程序</summary>
+    <pre><code>
+        -> cpp11 -> cpp11标准库示例
+        -> cpp14 -> cpp14标准库示例
+        -> cpp17 -> cpp17标准库示例
+        -> cpp20 -> cpp20标准库示例
+        -> cpp98 -> cpp98标准库示例
+        -> other -> 其他代码
+        task - 测试
+    </code></pre>
+    </details>
+    bate more - 标准库版本扩展细分
+    bate - 标准库版本总结
 </code></pre>
 </details>
     <br />
 <details>
-<summary>-> HideLaterFile -> 历史遗留笔记(暂时未知分类集中处)</summary>
+<summary>-> HideLaterFile -> 汇总笔记(环境构建以及其他总结)</summary>
 <pre><code>
-    Construct the Android Packing And Debug -> 构建Android环境的笔记
-    Construct the Android -> 构建Android环境的笔记
-    Construct the cpp -> 构建c++环境的笔记
-    Construct the python from ue5 -> 构建python环境的笔记
-    Construct the vcpkg -> 构建vcpkg的笔记
-    Creash problem -> 目前遇到ue闪退的主要解决方案
-    EncounterProblemsAndMethod -> 目前遇到ue崩溃问题及其解决方案
-    game task -> 各类游戏操作记录
-    node notes -> 节点汇总笔记
+    Construct the Android Packing And Debug - 构建Android环境的笔记
+    Construct the Android - 构建Android环境的笔记
+    Construct the cpp boost - 构建c++ Boost环境的笔记
+    Construct the cpp - 构建c++环境的笔记
+    Construct the cpp - 构建c++标准库20环境的笔记
+    Construct the python from ue5 - 构建python环境的笔记
+    Construct the vcpkg - 构建vcpkg的笔记
+    Creash problem - 目前遇到ue闪退的主要解决方案
+    Debug_Log - 调试编译日志
+    EncounterProblemsAndMethod - 目前遇到ue崩溃问题及其解决方案
+    game task - 各类游戏操作记录
+    node notes - 节点汇总笔记
 </code></pre>
 </details>
     <br />
 <details>
 <summary>-> Project Notes -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
-    VRExpPluginExample -> OpenXR示例项目
-    Lyra Starter Game -> 官方天琴座游戏项目
+    Lyra Starter Game - 官方天琴座游戏项目
+    VRExpPluginExample - OpenXR示例项目
 </code></pre>
 </details>
     <br />
@@ -167,16 +185,19 @@
     <details>
     <summary>-> Git -> Git上传基本指令</summary>
     <pre><code>
-        OutputToGit -> 输出到git仓库
-        ReverseCommit -> 撤销git提交
-        UpdateToGit -> 更新git仓库
+        OutputToGit - 输出到git仓库
+        ReverseCommit - 撤销git提交
+        UpdateToGit - 更新git仓库
     </code></pre>
     </details>
         <br />
     <details>
     <summary>-> Peculiarity -> 特性相关介绍</summary>
     <pre><code>
-        plugins -> 插件相关介绍
+        Chaos - 动态破碎布料解算
+        Lumen - 软件光线追踪技术
+        Nanite - 动态无限面数
+        Niagara - 粒子系统
     </code></pre>
     </details>      
         <br />
@@ -185,7 +206,8 @@
     <pre><code>
         plugins -> 插件相关介绍
     </code></pre>
-    </details>      
+    </details>    
+        cmd - cmd指令  
 </code></pre>
 </details>
     <br />
@@ -255,7 +277,7 @@
     </details>
         <br />
     <details>
-    <summary>-> Cpp -> c++开发相关笔记</summary>
+    <summary>-> Cpp -> UE中c++开发相关笔记</summary>
     <pre><code>
         <details>
         <summary>-> 宏 -> UE宏预设</summary>
@@ -268,6 +290,7 @@
         <details>
         <summary>-> Class -> UE类</summary>
         <pre><code>
+                <br />
             <details>
             <summary>-> 多线程 -> UE多线程汇总</summary>
             <pre><code>
@@ -284,6 +307,7 @@
                 UBlueprintAsyncActionBase - 异步蓝图
             </code></pre>
             </details>
+                <br />
         </code></pre>
         </details>
     </code></pre>
@@ -292,15 +316,15 @@
     <details>
     <summary>-> Project-Build -> 以vs构建工程笔记</summary>
     <pre><code>
-        Note -> 笔记
+        Note - 笔记
     </code></pre>
     </details>
         <br />
     <details>
     <summary>-> Project-Package -> 不同环境打包工程笔记</summary>
     <pre><code>
-        Android -> 打包安卓
-        Windows -> 打包Windows
+        Android - 打包安卓
+        Windows - 打包Windows
     </code></pre>
     </details> 
     bate -> ue版本控制
@@ -311,7 +335,7 @@
 <summary>-> Unreal Engine From Project -> 实现为主,泛化为辅(Loading...)</summary>
 <pre><code>
     <details>
-    <summary>-> bilibili</summary>
+    <summary>-> bilibili -> b站</summary>
     <pre><code>
         -> 谌嘉诚 31898841
         -> 非真实元小仙 352113380
@@ -329,7 +353,7 @@
     </details>
         <br />
     <details>
-    <summary>-> PersonalWebsite</summary>
+    <summary>-> PersonalWebsite -> 个人网站</summary>
     <pre><code>
         砥才人_代码质疑人生
         风恋残雪_凡事看本质
@@ -337,7 +361,7 @@
     </details>
         <br />
     <details>
-    <summary>-> zhihu</summary>
+    <summary>-> zhihu -> 知乎</summary>
     <pre><code>
         大侠刘茗
         大钊_InsideUE4
@@ -366,24 +390,26 @@
         Michael
     </code></pre>
     </details>
+    0MarkdownGrammar - markdown语法
+    1htmlGrammar - markdown-html语法
+    2CopyCode - 特定复制markdown语法
+    Readme - 本根目录内容说明
 </code></pre>
 </details>
     <br />
 <details>
 <summary>-> Unreal Engine Self Project -> ue自身工程代码架构及记录</summary>
 <pre><code>
-    Core_Runtime -> 工程核心
-    DesignProject -> 工程设计
+    Core_Runtime - 工程核心
+    DesignProject - 工程设计
 </code></pre>
 </details>
     <br />
 
-Debug_Log.md -> 调试编译日志
+import - 导入到ue相关内容现象记录
 
-import -> 导入到ue相关内容现象记录
+plugins - 笔者已知的ue相关插件描述
 
-plugins -> 笔者已知的ue相关插件描述
+ResearchBlueprintNodeNow - 目前侧重研究的ue节点
 
-ResearchBlueprintNodeNow -> 目前侧重研究的ue节点
-
-work task -> 笔者目前的**工作重心**
+work task - 笔者目前的**工作重心**

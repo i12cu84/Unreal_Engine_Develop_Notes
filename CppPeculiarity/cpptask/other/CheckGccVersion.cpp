@@ -1,3 +1,4 @@
+//gcc版本检查
 #include <stdio.h>
 #include <stdlib.h>
 

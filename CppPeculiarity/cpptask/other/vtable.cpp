@@ -1,3 +1,4 @@
+//虚表
 #include <iostream>
 using namespace std;
 class Base
