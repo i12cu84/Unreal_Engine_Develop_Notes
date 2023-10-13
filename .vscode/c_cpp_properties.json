@@ -4,6 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "C:\\Program File\\mingw\\include",
+                "C:\\Program File\\mingw\\boost",
                 "${workspaceFolder}/**"
             ],
             "defines": [

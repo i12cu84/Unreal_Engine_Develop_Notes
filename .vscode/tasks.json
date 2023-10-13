@@ -10,7 +10,9 @@
                 "-std=c++20",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-I",
+                "C:\\Program File\\mingw\\boost"
             ],
             "options": {
                 "cwd": "${fileDirname}"
