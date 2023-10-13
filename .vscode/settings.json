@@ -74,6 +74,7 @@
         "source_location": "cpp",
         "latch": "cpp",
         "ranges": "cpp",
-        "syncstream": "cpp"
+        "syncstream": "cpp",
+        "*.ipp": "cpp"
     }
 }
