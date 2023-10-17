@@ -177,7 +177,7 @@
 </details>
     <br />
 <details>
-<summary>-> HideLaterFile -> 汇总笔记(环境构建以及其他总结)</summary>
+<summary>-> OtherFile -> 汇总笔记(环境构建以及其他总结)</summary>
 <pre><code>
     Construct the Android Packing And Debug - 构建Android环境的笔记
     Construct the Android - 构建Android环境的笔记
@@ -195,7 +195,7 @@
 </details>
     <br />
 <details>
-<summary>-> Project Note -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
+<summary>-> ProjectNote -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
     Lyra Starter Game - 官方天琴座游戏项目
     VRExpPluginExample - OpenXR示例项目
