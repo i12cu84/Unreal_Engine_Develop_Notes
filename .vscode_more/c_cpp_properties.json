@@ -13,16 +13,8 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "browse": {
-                "path": [
-                    "${workspaceFolder}"
-                ],
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
-            },
             "cStandard": "c17",
             "cppStandard": "c++20",
-            // "intelliSenseMode": "msvc-x64"
             "intelliSenseMode": "windows-gcc-x64"
         }
     ],

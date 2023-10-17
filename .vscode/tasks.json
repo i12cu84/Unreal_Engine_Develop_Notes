@@ -25,7 +25,52 @@
                 "isDefault": true
             },
             "detail": "调试器生成的任务。"
+        },
+        /*
+        {
+            "type": "shell",
+            "label": "C/C++: cpp.exe build active file",
+            // "command": "C:\\Program Files\\mingw64\\bin\\cpp.exe",
+            "command": "C:\\Program File\\mingw\\bin\\cpp.exe",
+            "args": [
+                // "-g",
+                "-std=c++20",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "C/C++: g++.exe build active file",
+            // "command": "C:\\Program Files\\mingw64\\bin\\g++.exe",
+            "command": "C:\\Program File\\mingw\\bin\\g++.exe",
+            "args": [
+                // "-g",
+                "-std=c++20",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
+        */
     ],
     "version": "2.0.0"
 }
