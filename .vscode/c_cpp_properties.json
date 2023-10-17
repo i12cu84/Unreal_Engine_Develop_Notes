@@ -6,6 +6,7 @@
             "includePath": [
                 "C:\\Program File\\mingw\\include",
                 "C:\\Program File\\mingw\\boost",
+                "C:\\Program File\\mingw\\boost\\stage\\lib",
                 "${workspaceFolder}/**"
             ],
             "defines": [
@@ -14,7 +15,6 @@
                 "_UNICODE"
             ],
             /*
-            
             "browse": {
                 "path": [
                     "${workspaceFolder}"

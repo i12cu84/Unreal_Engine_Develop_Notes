@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "MinGW",
+            "compilerPath": "C:\\Program File\\mingw\\bin\\g++.exe",
+            "includePath": [
+                "C:\\Program File\\mingw\\include",
+                "C:\\Program File\\mingw\\boost",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            /*
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            */
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            // "intelliSenseMode": "msvc-x64"
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}

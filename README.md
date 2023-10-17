@@ -6,6 +6,14 @@
 <summary>-> CppPeculiarity -> C++特性笔记</summary>
 <pre><code>
     <details>
+    <summary>-> boost -> Boost标准规范</summary>
+    <pre><code>
+        (Loading...)
+        sml
+    </code></pre>
+    </details>
+        <br />
+    <details>
     <summary>-> cpp11 -> C++11标准规范</summary>
     <pre><code>
         algorithm - 算法汇总
@@ -159,33 +167,39 @@
     </details>
         <br />
     <details>
-    <summary>-> cpptask -> C++小程序</summary>
+    <summary>-> more -> 其他代码</summary>
     <pre><code>
-        -> boost -> boost标准库示例
-        -> cpp11 -> cpp11标准库示例
-        -> cpp14 -> cpp14标准库示例
-        -> cpp17 -> cpp17标准库示例
-        -> cpp20 -> cpp20标准库示例
-        -> cpp98 -> cpp98标准库示例
-        -> other -> 其他代码
-        task - 测试
+        CheckGccVersion - 获取gcc版本
+        connect_file - 连接文件
+        inherit - 继承
+        max_heap - 最大堆
+        OpenMP - 并行编程
+        os_file - 文件操作(同名不同类型文件 克隆指定位置)
+        power_calculate - 幂次计算 大数乘法
+        quine - quine(自我复制程序)
+        vtable - 虚表
     </code></pre>
     </details>
     bate more - 标准库版本扩展细分
     bate - 标准库版本总结
+    task - 测试Demo
 </code></pre>
 </details>
     <br />
 <details>
 <summary>-> OtherFile -> 汇总笔记(环境构建以及其他总结)</summary>
 <pre><code>
-    Construct the Android Packing And Debug - 构建Android环境的笔记
-    Construct the Android - 构建Android环境的笔记
-    Construct the cpp boost - 构建c++ Boost环境的笔记
-    Construct the cpp - 构建c++环境的笔记
-    Construct the cpp - 构建c++标准库20环境的笔记
-    Construct the python from ue5 - 构建python环境的笔记
-    Construct the vcpkg - 构建vcpkg的笔记
+    <summary>-> construct -> 环境配置</summary>
+    <pre><code>
+        Construct the Android Packing And Debug - 构建Android环境的笔记
+        Construct the Android - 构建Android环境的笔记
+        Construct the cpp boost - 构建c++ Boost环境的笔记
+        Construct the cpp - 构建c++环境的笔记
+        Construct the cpp - 构建c++标准库20环境的笔记
+        Construct the python from ue5 - 构建python环境的笔记
+        Construct the vcpkg - 构建vcpkg的笔记
+    </code></pre>
+    </details>
     Creash problem - 目前遇到ue闪退的主要解决方案
     Debug_Log - 调试编译日志
     EncounterProblemsAndMethod - 目前遇到ue崩溃问题及其解决方案
@@ -215,7 +229,7 @@
     </details>
         <br />
     <details>
-    <summary>-> Peculiarity -> 特性相关介绍</summary>
+    <summary>-> Peculiarity -> UE相关特性介绍</summary>
     <pre><code>
         Chaos - 动态破碎布料解算
         Lumen - 软件光线追踪技术
@@ -225,11 +239,23 @@
     </details>      
         <br />
     <details>
-    <summary>-> Plugins -> 插件相关介绍</summary>
+    <summary>-> Plugins -> UE相关插件介绍</summary>
     <pre><code>
-        plugins -> 插件相关介绍
+        plugins -> UE相关插件介绍汇总
     </code></pre>
-    </details>    
+    </details> 
+        <br />
+    <details>
+    <summary>-> vs code -> visual studio code 配置</summary>
+    <pre><code>
+        c_cpp_properties - c++语言配置
+        keybindings - 快捷键配置
+        launch - 调试配置
+        settings - 设置
+        tasks - 任务配置
+    </code></pre>
+    </details>
+        cloc - 代码统计工具
         cmd - cmd指令  
 </code></pre>
 </details>
