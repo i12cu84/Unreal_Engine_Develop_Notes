@@ -2,17 +2,33 @@
     "tasks": [
         {
             "type": "cppbuild",
+            /*
+                shell: 表示这个任务是一个 shell 命令。
+                process: 表示这个任务是一个可执行文件。
+                npm: 表示这个任务是一个 npm 命令。
+                grunt: 表示这个任务是一个 grunt 命令。
+                gulp: 表示这个任务是一个 gulp 命令。
+                ant: 表示这个任务是一个 ant 命令。
+                msbuild: 表示这个任务是一个 MSBuild 命令。
+            */
             "label": "C/C++: g++.exe 生成活动文件",
             "command": "C:\\Program File\\mingw\\bin\\g++.exe",
             "args": [
-                //"-fdiagnostics-color=always",
-                //"-g",
-                "-std=c++20",
+                // "-c",//-c: 只编译不链接，生成 .o 目标文件。
+                "-fdiagnostics-color=always",//用于在编译错误信息中添加颜色代码，以便更好地区分不同的错误信息
+                //"-g",//-g: 生成调试信息。
+                // "-Wall",//-Wall: 开启所有警告信息。
+                "-std=c++20",//-std=<standard>: 指定使用的 C++ 标准。
                 "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I",
-                "C:\\Program File\\mingw\\boost"
+                // "-O2"//0不优化 1基本优化 2更多优化 3更高级别优化 s优化代码大小
+                // "lm"//-l<library>: 链接指定的库文件。
+                "-o",//-o <file>: 指定输出文件名。
+                "${workspaceFolder}\\temp\\${fileBasenameNoExtension}.exe",
+                // "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-I",//-I <dir>: 添加头文件搜索路径。
+                "C:\\Program File\\mingw\\boost",
+                "-L",//-L <dir>: 添加库文件搜索路径。
+                "C:\\Program File\\mingw\\boost\\stage\\lib"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -25,52 +41,7 @@
                 "isDefault": true
             },
             "detail": "调试器生成的任务。"
-        },
-        /*
-        {
-            "type": "shell",
-            "label": "C/C++: cpp.exe build active file",
-            // "command": "C:\\Program Files\\mingw64\\bin\\cpp.exe",
-            "command": "C:\\Program File\\mingw\\bin\\cpp.exe",
-            "args": [
-                // "-g",
-                "-std=c++20",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build"
-        },
-        {
-            "type": "shell",
-            "label": "C/C++: g++.exe build active file",
-            // "command": "C:\\Program Files\\mingw64\\bin\\g++.exe",
-            "command": "C:\\Program File\\mingw\\bin\\g++.exe",
-            "args": [
-                // "-g",
-                "-std=c++20",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
         }
-        */
     ],
     "version": "2.0.0"
 }
