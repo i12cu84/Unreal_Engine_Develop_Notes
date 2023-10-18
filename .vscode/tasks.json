@@ -23,8 +23,8 @@
                 // "-O2"//0不优化 1基本优化 2更多优化 3更高级别优化 s优化代码大小
                 // "lm"//-l<library>: 链接指定的库文件。
                 "-o",//-o <file>: 指定输出文件名。
-                "${workspaceFolder}\\temp\\${fileBasenameNoExtension}.exe",
-                // "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${workspaceFolder}\\temp\\${fileBasenameNoExtension}.exe",//将文件输出到工程的根目录Temp文件夹下，并以同名.exe作为文件名
+                // "${fileDirname}\\${fileBasenameNoExtension}.exe",//将文件输出到该文件的根目录下，并以同名.exe作为文件名
                 "-I",//-I <dir>: 添加头文件搜索路径。
                 "C:\\Program File\\mingw\\boost",
                 "-L",//-L <dir>: 添加库文件搜索路径。

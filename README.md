@@ -21,6 +21,7 @@
         hana - 编写元编程代码
         interprocess - 在进程间共享数据
         intrusive - 设计高性能容器
+        lexical_cast - 转换字符串
         managed_shared_memory - 共享内存通信
         math - 数学和数值计算
         mp11 - 编译时操作包含类型的数据结构
@@ -35,6 +36,7 @@
         random - 生成伪随机数
         rational - 有理数操作
         regex - 正则表达式支持
+        safe_numerics - 安全数值操作
         signals2 - 于实现信号和槽机制
         spirit - 解析和生成文本
         stacktrace - 获取程序堆栈跟踪信息
@@ -42,6 +44,7 @@
         test - 单元测试
         typeindex - 类型信息
         variant - 变体类型
+        vmd - 预处理宏操作
     </code></pre>
     </details>
         <br />
