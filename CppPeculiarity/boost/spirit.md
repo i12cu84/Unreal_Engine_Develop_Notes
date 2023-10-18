@@ -1,23 +1,24 @@
-Boost.Spirit：用于构建解析器和生成器的库，支持无上下文文法。
-示例：使用Boost.Spirit解析简单的JSON数据。
+Boost.Spirit：提供了一种用于解析和生成文本的库，支持自定义语法和语义。以下是一个简单的Boost.Spirit程序示例，它解析了一个简单的表达式并计算其值：
 
-```cpp
-#include <boost/spirit/home/x3.hpp>
+```
 #include <iostream>
+#include <string>
+#include <boost/spirit/include/qi.hpp>
 
-namespace x3 = boost::spirit::x3;
+namespace qi = boost::spirit::qi;
 
-int main() {
-    std::string json_data = "{ \"name\" : \"John\", \"age\" : 30 }";
-    std::string name;
-    int age;
+int main()
+{
+    std::string input = "1 + 2 * 3";
+    int result;
 
-    auto json_parser = x3::phrase_parse(json_data.begin(), json_data.end(),
-        '{' >> "name" >> ':' >> x3::lexeme[+(x3::char_ - ',')] >> ',' >>
-        "age" >> ':' >> x3::int_ >> '}', x3::space);
+    auto it = input.begin();
+    qi::phrase_parse(it, input.end(),
+                     qi::int_ >> *(('+' >> qi::int_) | ('*' >> qi::int_)),
+                     qi::space, result);
 
-    if (json_parser) {
-        std::cout << "Name: " << name << ", Age: " << age << std::endl;
-    }
+    std::cout << "result = " << result << "\n";
+
+    return 0;
 }
 ```

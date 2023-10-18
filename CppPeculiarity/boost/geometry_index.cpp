@@ -1,26 +1,28 @@
-#include <boost/geometry/index/rtree.hpp>
-#include <boost/geometry/geometries/point.hpp>
 #include <iostream>
+#include <boost/geometry.hpp>
+#include <boost/geometry/index/rtree.hpp>
+
+namespace bg = boost::geometry;
+namespace bgi = boost::geometry::index;
+
+typedef bg::model::point<double, 2, bg::cs::cartesian> point;
+typedef bg::model::box<point> box;
 
 int main() {
-    namespace bg = boost::geometry;
-    namespace bgi = boost::geometry::index;
+    bgi::rtree<box, bgi::quadratic<16>> rtree;
 
-    typedef bg::model::point<float, 2, bg::cs::cartesian> point;
-    typedef std::pair<point, int> value;
+    box b1(point(0.0, 0.0), point(1.0, 1.0));
+    box b2(point(1.0, 1.0), point(2.0, 2.0));
 
-    bgi::rtree<value, bgi::quadratic<16>> rtree;
+    rtree.insert(b1);
+    rtree.insert(b2);
 
-    rtree.insert(std::make_pair(point(1, 1), 1));
-    rtree.insert(std::make_pair(point(2, 2), 2));
-    rtree.insert(std::make_pair(point(3, 3), 3));
+    std::vector<box> result_s;
+    rtree.query(bgi::intersects(box(point(0.5, 0.5), point(1.5, 1.5))), std::back_inserter(result_s));
 
-    bg::model::box<point> query_box(point(0, 0), point(4, 4));
-
-    std::vector<value> result;
-    rtree.query(bgi::intersects(query_box), std::back_inserter(result));
-
-    for (const value& v : result) {
-        std::cout << "Value: " << v.second << std::endl;
+    for (const auto& r : result_s) {
+        std::cout << bg::wkt(r) << std::endl;
     }
+
+    return 0;
 }

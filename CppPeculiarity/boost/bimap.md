@@ -1,18 +1,20 @@
-Boost.Bimap：用于双射（bidirectional map）的库，允许快速双向查找。
-示例：创建一个双射并进行双向查找。
+Boost.Bimap是一个双向映射的容器，它可以通过键或值进行查找。它支持多种数据类型，包括自定义类型。以下是一个简单的Boost.Bimap程序示例，它创建了一个字符串到整数的映射：
 
-```cpp
-#include <boost/bimap.hpp>
+```
 #include <iostream>
+#include <boost/bimap.hpp>
 
-int main() {
-    using namespace boost::bimaps;
+int main()
+{
+    boost::bimap<std::string, int> bm;
 
-    bimap<int, std::string> bm;
-    bm.insert({1, "one"});
-    bm.insert({2, "two"});
+    bm.insert({"one", 1});
+    bm.insert({"two", 2});
+    bm.insert({"three", 3});
 
-    std::cout << "Value for key 1: " << bm.by<left>(1) << std::endl;
-    std::cout << "Key for value 'two': " << bm.by<right>("two") << std::endl;
+    std::cout << "bm[\"one\"] = " << bm.left.at("one") << "\n";
+    std::cout << "bm.right[2] = " << bm.right.at(2) << "\n";
+
+    return 0;
 }
 ```

@@ -1,17 +1,11 @@
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/io.hpp>
-#include <boost/fusion/include/vector.hpp>
 #include <iostream>
-#include <string>
-
-struct person {
-    std::string name;
-    int age;
-};
-
-BOOST_FUSION_ADAPT_STRUCT(person, (std::string, name)(int, age))
+#include <boost/fusion/include/vector.hpp>
+#include <boost/fusion/include/at_c.hpp>
 
 int main() {
-    person p{"Alice", 30};
-    std::cout << boost::fusion::at_c<0>(p) << ", " << boost::fusion::at_c<1>(p) << std::endl;
+    boost::fusion::vector<int, std::string, bool> v(10, "Boost", true);
+    std::cout << boost::fusion::at_c<0>(v) << std::endl;
+    std::cout << boost::fusion::at_c<1>(v) << std::endl;
+    std::cout << std::boolalpha << boost::fusion::at_c<2>(v) << std::endl;
+    return 0;
 }

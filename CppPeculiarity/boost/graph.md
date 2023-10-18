@@ -1,24 +1,37 @@
-Boost.Graph：用于图算法和数据结构的库。
-示例：创建一个简单的有向图并查找最短路径。
+Boost.Graph：提供了一种用于图形和图论算法的库。以下是一个简单的Boost.Graph程序示例，它创建了一个有向图并计算了从顶点0到顶点5的最短路径：
 
-```cpp
+```
+#include <iostream>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
-#include <iostream>
 
-int main() {
-    typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, boost::no_property, boost::property<boost::edge_weight_t, int>> Graph;
-    Graph g;
+using namespace boost;
 
-    boost::add_edge(0, 1, 2, g);
-    boost::add_edge(1, 2, 1, g);
-    boost::add_edge(0, 2, 4, g);
+int main()
+{
+    typedef adjacency_list<vecS, vecS, directedS,
+                            no_property, property<edge_weight_t, int> > Graph;
+    const int num_nodes = 6;
+    enum nodes { A, B, C, D, E, F };
+    char name[] = "ABCDEF";
+    Graph g(num_nodes);
+    add_edge(A, B, 1, g);
+    add_edge(A, C, 2, g);
+    add_edge(B, D, 3, g);
+    add_edge(B, C, 4, g);
+    add_edge(C, D, 5, g);
+    add_edge(E, F, 6, g);
 
-    std::vector<int> distances(boost::num_vertices(g));
-    boost::dijkstra_shortest_paths(g, 0, boost::distance_map(boost::make_iterator_property_map(distances.begin(), boost::get(boost::vertex_index, g)));
+    property_map<Graph, edge_weight_t>::type weightmap = get(edge_weight, g);
 
-    for (std::size_t i = 0; i < distances.size(); ++i) {
-        std::cout << "Shortest distance from vertex 0 to vertex " << i << ": " << distances[i] << std::endl;
-    }
+    std::vector<int> d(num_nodes);
+    dijkstra_shortest_paths(g, A,
+                            distance_map(boost::make_iterator_property_map(d.begin(), get(boost::vertex_index,g)))
+                            .weight_map(weightmap));
+
+    for (int i = 0; i < num_nodes; ++i)
+        std::cout << "distance(" << name[A] << ", " << name[i] << ") = " << d[i] << "\n";
+
+    return 0;
 }
 ```
