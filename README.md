@@ -8,8 +8,40 @@
     <details>
     <summary>-> boost -> Boost标准规范</summary>
     <pre><code>
-        (Loading...)
-        sml
+        accumulators - 用于统计和数据收集
+        bimap - 双向映射的容器
+        circular_buffer - 循环缓冲区
+        date_time - 日期和时间操作
+        endian - 处理不同字节顺序
+        format - 格式化输出
+        fusion - 管理容器
+        geometry_index - 管理空间索引
+        geometry - 处理几何图形
+        graph - 图形和图论算法
+        hana - 编写元编程代码
+        interprocess - 在进程间共享数据
+        intrusive - 设计高性能容器
+        managed_shared_memory - 共享内存通信
+        math - 数学和数值计算
+        mp11 - 编译时操作包含类型的数据结构
+        multi_array - 多维数组
+        multiprecision - 高精度数学计算
+        numeric_conversion - 数值转换
+        optional - 安全地表示可能为空的值
+        program_options - 解析命令行参数和配置文件
+        property_grid - 创建属性网格
+        property_map - 数据关联到图形结构
+        property_tree - 操作XML、INI、JSON等配置文件格式
+        random - 生成伪随机数
+        rational - 有理数操作
+        regex - 正则表达式支持
+        signals2 - 于实现信号和槽机制
+        spirit - 解析和生成文本
+        stacktrace - 获取程序堆栈跟踪信息
+        string_algo - 字符串处理
+        test - 单元测试
+        typeindex - 类型信息
+        variant - 变体类型
     </code></pre>
     </details>
         <br />
