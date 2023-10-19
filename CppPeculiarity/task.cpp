@@ -1,7 +1,11 @@
-#include <boost/multiprecision/cpp_int.hpp>
 #include <iostream>
-int main() {
-    boost::multiprecision::cpp_int big_number = 1234567890123456789012345678901234567890;
-    std::cout << "Big number squared: " << big_number * big_number << std::endl;
+#include <memory>
+int main()
+{
+    int arr[4] = {1, 2, 3, 4};
+    int *p1 = std::assume_aligned<16>(arr);
+    // 使用p1，而不是arr，以确保从对齐假设中受益。
+    // 但是，如果arr没有对齐，无论是否使用p1，程序都具有未定义行为。
+    std::cout << *p1 << '\n';
     return 0;
 }

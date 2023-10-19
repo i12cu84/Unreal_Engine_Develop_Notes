@@ -92,5 +92,5 @@
         "typeindex": "cpp",
         "valarray": "cpp"
     },
-    "pasteImage.path": "${currentFileDir}\\assets"//paste image 插件，将图片存储路径设置到根目录的assets文件夹下
+    "pasteImage.path": "${currentFileDir}/assets"//paste image 插件，将图片存储路径设置到根目录的assets文件夹下
 }

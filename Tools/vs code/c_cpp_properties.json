@@ -2,10 +2,9 @@
     "configurations": [
         {
             "name": "MinGW",
-            "compilerPath": "C:\\Program File\\mingw\\bin\\g++.exe",
+            "compilerPath": "C:/Program File/mingw/bin/g++.exe",
             "includePath": [
-                "C:\\Program File\\mingw\\include",
-                "C:\\Program File\\mingw\\boost",
+                "C:/Program File/mingw/include/**",
                 "${workspaceFolder}/**"
             ],
             "defines": [
@@ -13,18 +12,16 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            /*
             "browse": {
                 "path": [
+                    "C:/Program File/mingw/include/**",
                     "${workspaceFolder}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
             },
-            */
             "cStandard": "c17",
             "cppStandard": "c++20",
-            // "intelliSenseMode": "msvc-x64"
             "intelliSenseMode": "windows-gcc-x64"
         }
     ],

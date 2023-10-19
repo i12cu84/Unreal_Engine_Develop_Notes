@@ -24,6 +24,7 @@
         interprocess - 在进程间共享数据
         intrusive - 设计高性能容器
         lexical_cast - 转换字符串
+        localte - 本地化和国际化
         managed_shared_memory - 共享内存通信
         math - 数学和数值计算
         mp11 - 编译时操作包含类型的数据结构

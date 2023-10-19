@@ -1,54 +1,26 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        /*
-        {//python 调试
-            "name": "Python: Current File",// 配置名称，将会在启动配置的下拉菜单中显示  
-            "type": "node",//正在使用的调试器
-            "request": "launch", // 请求配置类型，可以为launch（启动）或attach（附加） 
-            // "console":"externalTerminal",
-            "console":"internalConsole",
-            // "console":"integratedTerminal",
-            "stopOnEntry": false,
-            "program": "${file}"//要执行的可执行文件的完整路径
-        },
-        */
-        /*
-            ${workspaceFolder}：VS Code 中打开的文件夹目录（通常是项目的位置）。
-            ${workspaceFolderBasename}：没有任何斜杠 (/) 的 VS Code 中打开的文件夹目录。
-            ${file}：目前打开文件的绝对位置。
-            ${relativeFile}：目前打开文件相对于 ${workspaceFolder} 的相对位置。
-            ${fileBasename}：目前打开文件的文件名（有拓展名，如：main.cpp）。
-            ${fileBasenameNoExtension}：目前打开文件的出去拓展名的文件名（无拓展名，如：main）。
-            ${cwd}：task runner 的工作目录。
-            ${fileDirname}：目前打开文件的目录位置。
-            ${fileExtname}：目前打开文件的拓展名。
-            ${lineNumber}：文件中目前被选择的行数。
-            ${selectedText}：文件中目前被选择的内容。
-        */
-        {//c++ 调试
-            "name": "(gdb) Launch", // 配置名称，将会在启动配置的下拉菜单中显示  
-            "type": "cppdbg", // 配置类型，这里只能为cppdbg  
-            "request": "launch", // 请求配置类型，可以为launch（启动）或attach（附加）  
-            "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe", // 将要进行调试的程序的路径  
-            "args": [], // 程序调试时传递给程序的命令行参数，一般设为空即可  
-            "stopAtEntry": false, // 设为true时程序将暂停在程序入口处，一般设置为false  
-            "cwd": "${workspaceFolder}", // 调试程序时的工作目录，一般为${workspaceFolder}即代码所在目录  
-            "environment": [],//环境变量列表
-            "externalConsole": true, // 调试时是否显示控制台窗口，一般设置为true显示控制台  
-            "MIMode": "gdb",//调试器模式
-            "miDebuggerPath": "C:\\Program File\\mingw\bin\\gdb.exe", //调试器路径
-            "preLaunchTask": "g++", // 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  
-            "setupCommands": [//在启动调试会话之前发送给调试器的命令列表
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/Program File/mingw/bin/gdb.exe",
+            "preLaunchTask": "g++",
+            "setupCommands": [
                 {
-                    "description": "Enable pretty-printing for gdb",//启用GDB的pretty-printing功能
+                    "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
             ]
         }
-   ]
+    ]
 }

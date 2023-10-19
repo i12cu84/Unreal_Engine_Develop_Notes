@@ -1,9 +1,0 @@
-[
-    {
-        /*
-        "key": "ctrl+b",
-        "command": "extension.pasteImage",
-        "when": "editorTextFocus"
-        */
-    }
-]
