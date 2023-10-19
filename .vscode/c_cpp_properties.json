@@ -5,8 +5,8 @@
             "compilerPath": "C:\\Program File\\mingw\\bin\\g++.exe",
             "includePath": [
                 "C:\\Program File\\mingw\\include",
-                "C:\\Program File\\mingw\\boost",
-                "C:\\Program File\\mingw\\boost\\stage\\lib",
+                // "C:\\Program File\\mingw\\boost",
+                // "C:\\Program File\\mingw\\boost\\stage\\lib",
                 "${workspaceFolder}/**"
             ],
             "defines": [
@@ -17,8 +17,8 @@
             "browse": {
                 "path": [
                     "C:\\Program File\\mingw\\include",
-                    "C:\\Program File\\mingw\\boost",
-                    "C:\\Program File\\mingw\\boost\\stage\\lib",
+                    // "C:\\Program File\\mingw\\boost",
+                    // "C:\\Program File\\mingw\\boost\\stage\\lib",
                     "${workspaceFolder}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,

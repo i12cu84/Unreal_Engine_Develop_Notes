@@ -11,6 +11,7 @@
         accumulators - 用于统计和数据收集
         bimap - 双向映射的容器
         circular_buffer - 循环缓冲区
+        cpp_int - 高精度整数
         date_time - 日期和时间操作
         endian - 处理不同字节顺序
         format - 格式化输出
@@ -19,6 +20,7 @@
         geometry - 处理几何图形
         graph - 图形和图论算法
         hana - 编写元编程代码
+        histogram - 直方图
         interprocess - 在进程间共享数据
         intrusive - 设计高性能容器
         lexical_cast - 转换字符串
