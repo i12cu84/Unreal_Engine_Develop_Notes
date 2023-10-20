@@ -14,7 +14,7 @@
             ],
             "browse": {
                 "path": [
-                    "C:/Program File/mingw/include/**",
+                    "C:/Program File/mingw/include/stage/lib",
                     "${workspaceFolder}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
@@ -22,7 +22,7 @@
             },
             "cStandard": "c17",
             "cppStandard": "c++20",
-            "intelliSenseMode": "windows-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x86"
         }
     ],
     "version": 4
