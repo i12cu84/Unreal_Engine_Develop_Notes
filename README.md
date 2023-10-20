@@ -23,6 +23,7 @@
         histogram - 直方图
         interprocess - 在进程间共享数据
         intrusive - 设计高性能容器
+        iostreams - 扩展I/O流操作
         lexical_cast - 转换字符串
         localte - 本地化和国际化
         managed_shared_memory - 共享内存通信

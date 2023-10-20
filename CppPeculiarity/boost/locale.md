@@ -1,6 +1,6 @@
 Boost.Locale：用于本地化和国际化的库。
 示例：将日期时间格式化为不同语言。
-
+注意:记得加上链路库
 ```cpp
 #include <iostream>
 #include <boost/locale.hpp>
