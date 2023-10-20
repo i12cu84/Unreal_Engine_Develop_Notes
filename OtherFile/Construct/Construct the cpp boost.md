@@ -112,3 +112,17 @@ boost解压到mingw/include
     ]
 }
 ```
+
+当然lib的链路命名具备一定规范:
+它们的区别在于编译器版本、使用的 CPU 位数和编译选项等。具体来说：
+
+vc143 表示编译器版本是 Visual Studio 2019。
+mt 表示这是一个使用多线程（multithreaded）C 代码库（也就是所谓的“MT”版本）。
+gd 表示这是一个带有调试信息（debugging information）的版本。
+x32 和 x64 分别表示这是 32 位和 64 位版本。
+因此，这四个库文件的区别在于：
+
+libboost_fiber-vc143-mt-gd-x32-1_83 是一个带有调试信息的 32 位版本。
+libboost_fiber-vc143-mt-gd-x64-1_83 是一个带有调试信息的 64 位版本。
+libboost_fiber-vc143-mt-x32-1_83 是一个不带调试信息的 32 位版本。
+libboost_fiber-vc143-mt-x64-1_83 是一个不带调试信息的 64 位版本。
