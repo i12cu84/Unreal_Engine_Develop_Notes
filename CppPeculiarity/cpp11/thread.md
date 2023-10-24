@@ -1,3 +1,38 @@
+C++11引入了一个新的线程库，其中最重要的类是`std::thread`。它允许您在单个程序中同时运行多个线程，从而提高了程序的性能。以下是一些关于`std::thread`的重要信息：
+
+- `std::thread`是一个表示单个线程的线程类。
+- 要启动一个线程，只需创建一个新的线程对象，并将要调用的执行代码（即可调用对象）传递到对象的构造函数中。
+- 一旦创建了对象，就会启动一个新线程，该线程将执行可调用对象中指定的代码。
+- 可以使用`join()`函数等待子线程完成执行。
+- 可以使用`detach()`函数将当前线程对象所代表的执行实例与此线程对象分离，使得线程可以单独执行。
+- 可以使用`get_id()`函数获取线程ID。
+- 可以使用`joinable()`函数检查线程是否可被join。
+
+这里是一个简单的示例程序：
+
+```c++
+#include <iostream>
+#include <thread>
+
+using namespace std;
+
+void thread_function()
+{
+    cout << "Hello from thread!" << endl;
+}
+
+int main()
+{
+    thread t(&thread_function);
+    t.join();
+    cout << "Hello from main!" << endl;
+    return 0;
+}
+```
+
+当然有更多....
+
+```cpp
 #include <iostream>
 #include <thread>
 #include <string>
@@ -6,6 +41,38 @@
 #include <Windows.h>
 using namespace std;
 #if 1
+
+int main()
+{
+	auto func = []()
+	{
+		for (int i = 0; i < 10; ++i)
+		{
+			cout << i << " ";
+		}
+		cout << endl;
+	};
+	std::thread t(func);
+	if (t.joinable())
+	{
+		t.detach();
+	}
+	auto func1 = [](int k)
+	{
+		for (int i = 0; i < k; ++i)
+		{
+			cout << i << " ";
+		}
+		cout << endl;
+	};
+	std::thread tt(func1, 20);
+	if (tt.joinable())
+	{
+		tt.join();
+	}
+	return 0;
+}
+#elif 1
 void thread_one(){
     puts("hello");
 }
@@ -126,3 +193,4 @@ int main(int argc, char *argv[])
     return 0;
 }
 #endif
+```

@@ -56,12 +56,15 @@
     <summary>-> cpp11 -> C++11标准规范</summary>
     <pre><code>
         algorithm - 算法汇总
+        alignment specifiers - 校准说明符
         atomic - 原子操作
+        auto - 自适应类型
         call_once once_flag - 进程单例模式
         chrono - 时间操作库
         cite move forwared - 左值引用、右值引用、移动语义、完美转发
         condition_variable - 条件变量
         constexpr - 常量表达式
+        decltype - 获取目标类型
         default - class的默认函数
         delegate constructor - 委托构造函数
         delete - class的禁用函数
@@ -81,6 +84,7 @@
         sizeof - 新方法(可计算class)
         static_assert - 静态断言
         thread_local - 线程局部变量
+        thread - 线程池
         tie - 包装成元组的函数
         tuple - 元组
         union - 联合体
@@ -93,15 +97,17 @@
     <summary>-> cpp14 -> C++14标准规范</summary>
     <pre><code>
         [[deprecated]] - function的弃用
+        auto lambda - lambda支持auto形参
         auto return - 自动返回类型
+        constexpr more - 常量更多的特性
         constexpr template - 模板常量
         exchange - 交换
         integer_sequence - 整数序列
         make_unique - 智能指针-唯一指针
-        other name template - 模板重载
         quoted - 字符串添加引号
         shared_timed_mutex shared_lock - 读写锁(共享锁)
         template fun - 模板函数
+        other name template - 模板重载
     </code></pre>
     </details>
         <br />
@@ -125,6 +131,7 @@
         lambda *this - lambda函数的this引用捕获
         make_from_tuple - 元组转类构造对象
         maybe_unused - 可能未使用修饰
+        more structured binding - 更多的结构化绑定
         nested namespace - 命名空间嵌套
         optional - 可能含无值模板
         shared_mutex - 读写锁
