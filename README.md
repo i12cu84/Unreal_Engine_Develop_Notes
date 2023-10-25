@@ -59,6 +59,7 @@
         alignment specifiers - 校准说明符
         atomic - 原子操作
         auto - 自适应类型
+        bind - lambda绑定函数
         call_once once_flag - 进程单例模式
         chrono - 时间操作库
         cite move forwared - 左值引用、右值引用、移动语义、完美转发
@@ -73,7 +74,6 @@
         final override - 虚函数的结束与重写
         for loop - for循环新方式
         forward_list - 顺序容器
-        function bind lambda - 函数
         future async - 期望、异步
         inherited constructors - 继承构造函数
         lock - 锁管理
@@ -83,6 +83,7 @@
         regex - 正则表达式
         sizeof - 新方法(可计算class)
         static_assert - 静态断言
+        Tail return type - 函数尾部定义返回类型
         thread_local - 线程局部变量
         thread - 线程池
         tie - 包装成元组的函数
@@ -128,6 +129,7 @@
         if init - if初始化
         infer_type - 类型自推导
         inline type - 内联变量
+        invoke - 调用任何类型的可调用对象
         lambda *this - lambda函数的this引用捕获
         make_from_tuple - 元组转类构造对象
         maybe_unused - 可能未使用修饰
@@ -209,6 +211,14 @@
         typeid - 支持运行时类型识别
         typeof - 支持类型查询
         virtual - 支持虚函数
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> cppcollect -> c++ 各版本同一特性改进汇总</summary>
+    <pre><code>
+        lambda - 匿名函数
+        ptr - 指针
     </code></pre>
     </details>
         <br />

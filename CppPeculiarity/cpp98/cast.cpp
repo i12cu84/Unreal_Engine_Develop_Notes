@@ -1,3 +1,5 @@
+#if 1
+//static_cast
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -112,3 +114,89 @@ int main()
     }
     return 0;
 }
+
+#elif 1
+//rinterpret_cast
+#include <iostream>
+using namespace std;
+int main()
+{
+     int num = 0x00636261; // 用16进制表示32位int，0x61是字符'a'的ASCII码
+     int *pnum = &num;
+     char *pstr = reinterpret_cast<char *>(pnum);
+     cout << pnum << " " << *pnum << endl
+          << static_cast<void *>(pstr) << " " << pstr << endl;
+     // 0x45639ffd24 6513249
+     // 0x45639ffd24 abc
+     bool b1 = 1;
+     int a = 196;
+     bool b2 = *reinterpret_cast<bool *>(&a);
+     cout << (b1 == b2) << endl
+          << int(b1) << " " << b1 << endl
+          << int(b2) << " " << b2 << endl;
+     // 0
+     // 1 1
+     // 196 196
+     unsigned int b = reinterpret_cast<unsigned int &>(a);
+     cout << a << " " << b << endl;
+     // 196 196
+     return 0;
+}
+
+#elif 1
+//dynamic_cast
+#include <iostream>
+#include <exception>
+using namespace std;
+class AClass{
+  virtual void dummy() {}
+};
+class BClass : public AClass{
+public:
+  int a;
+};
+int main(){
+  try  {
+    AClass *abc = new BClass;
+    AClass *aac = new AClass;
+    BClass *bc;
+    bc = dynamic_cast<BClass *>(abc);
+    if (bc == nullptr)
+      cout << "1" << endl;
+    // null
+    bc = dynamic_cast<BClass *>(aac); // will null
+    if (bc == nullptr)
+      cout << "2" << endl;
+    // 2
+  }
+  catch (exception &e)
+  {
+    cout << "Exception: " << e.what();
+  }
+  return 0;
+}
+
+#elif 1
+//const_cast
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a;
+    const int &b = a;
+    int &c = const_cast<int &>(b);
+    cout << a << " " << b << " " << c << endl;
+    // 0 0 0
+    a = 1;
+    cout << a << " " << b << " " << c << endl;
+    // 1 1 1
+    const_cast<int &>(b) = 2;
+    cout << a << " " << b << " " << c << endl;
+    // 2 2 2
+    c = 3;
+    cout << a << " " << b << " " << c << endl;
+    // 3 3 3
+    return 0;
+}
+
+#endif
