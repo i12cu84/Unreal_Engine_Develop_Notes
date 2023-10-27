@@ -256,11 +256,13 @@
         Construct the vcpkg - 构建vcpkg的笔记
     </code></pre>
     </details>
+    agreement - 开源协议汇总
     Creash problem - 目前遇到ue闪退的主要解决方案
     Debug_Log - 调试编译日志
     EncounterProblemsAndMethod - 目前遇到ue崩溃问题及其解决方案
     game task - 各类游戏操作记录
     node notes - 节点汇总笔记
+    OpenMoreLib - Open前缀三方扩展库
 </code></pre>
 </details>
     <br />

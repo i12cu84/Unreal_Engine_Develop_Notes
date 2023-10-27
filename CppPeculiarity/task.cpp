@@ -1,5 +1,12 @@
 #if 1
 #include <iostream>
+using namespace std;
+int main()
+{
+
+}
+#elif 1
+#include <iostream>
 #include <functional>
 
 template<typename T>
@@ -18,19 +25,9 @@ int main()
 {
     //使用adds
     // std::cout<<adds(1,2,3,4,5)<<std::endl;
-    /*
-    */
     std::function<int(int, int)> func=adds<int,int>;
     int result1 = func(3, 4);
     std::cout << "Result (using std::bind): " << result1 << std::endl;
-    
-    /*
-    std::function<int(int, int)> func=adds<int(int,int)>();
-    int result1 = func(3, 4);
-    std::cout << "Result (using std::bind): " << result1 << std::endl;
-
-    */
-
     return 0;
 }
 

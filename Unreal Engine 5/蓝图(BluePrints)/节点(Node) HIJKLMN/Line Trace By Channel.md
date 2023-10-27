@@ -8,3 +8,6 @@
 
 2.以鼠标点击为方案进行射线检测
 ![](../../../assets/2023-10-25-17-22-23.png)
+
+更多资料
+https://docs.unrealengine.com/5.0/zh-CN/using-a-single-line-trace-raycast-by-channel-in-unreal-engine/
