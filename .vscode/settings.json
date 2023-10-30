@@ -90,7 +90,11 @@
         "scoped_allocator": "cpp",
         "stdfloat": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "cuchar": "cpp",
+        "expected": "cpp",
+        "spanstream": "cpp",
+        "stacktrace": "cpp"
     },
     "pasteImage.path": "${projectRoot}/assets"//paste image 插件，将图片存储路径设置到根目录的assets文件夹下
 }
