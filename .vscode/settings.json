@@ -96,5 +96,9 @@
         "spanstream": "cpp",
         "stacktrace": "cpp"
     },
-    "pasteImage.path": "${projectRoot}/assets"//paste image 插件，将图片存储路径设置到根目录的assets文件夹下
+    "pasteImage.path": "${projectRoot}/assets",//paste image 插件，将图片存储路径设置到根目录的assets文件夹下
+    "markdown.copyFiles.destination": {// vs code 1.79版本以上 图片保存到根目录assets文件夹下以image命名
+        "**/*": "${documentWorkspaceFolder}/assets/image.png"
+    },
+    "code-runner.runInTerminal": false
 }

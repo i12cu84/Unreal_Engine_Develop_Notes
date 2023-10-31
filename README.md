@@ -307,6 +307,7 @@
     <details>
     <summary>-> vs code -> visual studio code 配置</summary>
     <pre><code>
+        add_plugins - 目前存在的插件
         c_cpp_properties - c++语言配置
         keybindings - 快捷键配置
         launch - 调试配置

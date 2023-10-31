@@ -1,4 +1,4 @@
-// 大数四则运算
+// 大数四则运算(含扩展的小数点运算)
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -7,35 +7,10 @@ using namespace std;
 int i, len, sum[MAX] = {0};
 char num1[MAX] = "3234567891234567891234";
 char num2[MAX] = "2345678912345678913345";
+char num3[MAX] = "32345678912345678912.34";
+char num4[MAX] = "23456789123456789133.45";
 char sum2[MAX] = {0};
 // 大数加法
-int Addition(char num1[], char num2[], int sum[]);
-// 大数减法
-int Subtraction(char num1[], char num2[], int sum[]);
-// 大数乘法
-int Multiplication(char num1[], char num2[], int sum[]);
-// 大数除法(精确个位数)
-int Division(char num1[], char num2[], char sum[]);
-
-template <typename T>
-void PrintSum(int len, T sum[])
-{
-    for (int i = len - 1; i >= 0; i--)
-        cout << sum[i];
-    cout << endl;
-}
-int main()
-{
-#if 1
-    PrintSum(Addition(num1, num2, sum),sum);
-    PrintSum(Subtraction(num1, num2, sum),sum);
-    PrintSum(Multiplication(num1, num2, sum),sum);
-    PrintSum(Division(num1, num2, sum2),sum2);
-#elif 1
-#endif
-    return 0;
-}
-
 int Addition(char num1[], char num2[], int sum[])
 {
     int i, j, len, n2[MAX] = {0}, len1 = strlen(num1), len2 = strlen(num2);
@@ -57,7 +32,7 @@ int Addition(char num1[], char num2[], int sum[])
         len++;
     return len;
 }
-
+// 大数减法
 int Subtraction(char num1[], char num2[], int sum[])
 {
     int i, j, len, blag = 0, n2[MAX] = {0}, len1 = strlen(num1), len2 = strlen(num2);
@@ -110,7 +85,7 @@ int Subtraction(char num1[], char num2[], int sum[])
     }
     return len;
 }
-
+// 大数乘法
 int Multiplication(char num1[], char num2[], int sum[])
 {
     int i, j, len, len1 = strlen(num1), len2 = strlen(num2), a[MAX + 10] = {0}, b[MAX + 10] = {0}, c[MAX * 2 + 10] = {0};
@@ -134,7 +109,7 @@ int Multiplication(char num1[], char num2[], int sum[])
         sum[i] = c[i];
     return len;
 }
-
+// 大数除法(精确个位数)
 int Division(char num1[], char num2[], char sum[])
 {
     auto SubStract = [](int *p1, int len1, int *p2, int len2) -> int
@@ -190,4 +165,157 @@ int Division(char num1[], char num2[], char sum[])
         sum[j] = num_c[i] + '0';
     sum[j] = '\0';
     return len;
+}
+
+void Delect_Char(char str1[], char Aim, int len)
+{
+    for (int i = 0; i < len; i++)
+        if (str1[i] == Aim)
+        {
+            if (i == len - 1)
+            {
+                len--;
+                return;
+            }
+            for (int j = i; j < len; j++)
+                str1[j] = str1[j + 1];
+            len--;
+            i--;
+        }
+}
+void AddZero_Char(char str1[], int len)
+{
+    int lenth = strlen(str1);
+    for (int i = 0; i < len; i++)
+    {
+        str1[lenth + i] = '0';
+    }
+}
+int GetPointNum(char str1[])
+{
+    int Num = 0;
+    bool IsFind = false;
+    for (int i = 0; i < strlen(str1); i++)
+    {
+        if (str1[i] == '.')
+        {
+            Num = i;
+            IsFind = true;
+            break;
+        }
+    }
+    return IsFind ? strlen(str1) - Num - 1 : Num;
+}
+void AddPoint_Char(char str1[], int len)
+{
+    int lenth = strlen(str1);
+    for (int i = 0; i < len + 1; i++)
+    {
+        str1[lenth + 1] = str1[lenth];
+        lenth--;
+    }
+    str1[lenth + 1] = '.';
+}
+template <typename T>
+void PrintSum(int len, T sum[], bool outputendl = true)
+{
+    for (int i = len - 1; i >= 0; i--)
+        cout << sum[i];
+    if (outputendl)
+        cout << endl;
+}
+template <typename T>
+void PrintSum(int len, T sum[], int ZeroNum)
+{
+    for (int i = len - 1; i >= 0; i--)
+    {
+        cout << sum[i];
+        if (i - ZeroNum == 0)
+        {
+            cout << ".";
+        }
+    }
+    cout << endl;
+}
+int main()
+{
+#if 1
+    PrintSum(Addition(num1, num2, sum), sum);       // 5580246803580246804579
+    PrintSum(Subtraction(num1, num2, sum), sum);    // 888888978888888977889
+    PrintSum(Multiplication(num1, num2, sum), sum); // 7587257693019357461682497036550397271117730
+    PrintSum(Division(num1, num2, sum2), sum2);     // 1
+#elif 1
+    // 含小数点大数加法
+    int first = GetPointNum(num3);
+    int second = GetPointNum(num4);
+    Delect_Char(num3, '.', strlen(num3));
+    Delect_Char(num4, '.', strlen(num4));
+    AddZero_Char(num3, second);
+    AddZero_Char(num4, first);
+    auto AddtionNum = Addition(num3, num4, sum);
+    PrintSum(AddtionNum, sum, first + second); // 5580246803580246804579.0000
+#elif 1
+    // 含小数点大数减法
+    int first = GetPointNum(num3);
+    int second = GetPointNum(num4);
+    Delect_Char(num3, '.', strlen(num3));
+    Delect_Char(num4, '.', strlen(num4));
+    AddZero_Char(num3, second);
+    AddZero_Char(num4, first);
+    auto SubtractionNum = Subtraction(num3, num4, sum);
+    PrintSum(SubtractionNum, sum, first + second); // 8888889788888889778.8900
+#elif 1
+    // 含小数点大数乘法
+    int first = GetPointNum(num3);
+    int second = GetPointNum(num4);
+    Delect_Char(num3, '.', strlen(num3));
+    Delect_Char(num4, '.', strlen(num4));
+    auto MultiplicationNum = Multiplication(num3, num4, sum);
+    PrintSum(MultiplicationNum, sum, first + second); // 758725769301935746168249703655039727111.7730
+#elif 1
+    // 含小数点大数除法
+    char num5[MAX] = "6666.66";
+    char num6[MAX] = "11";
+    char num7[MAX] = "0.11";
+    char num8[MAX] = "0.00011";
+    int arg, first, second;
+    auto Dc = [&]()
+    {
+        if (arg == 0)
+        {
+            PrintSum(Division(num5, num6, sum2), sum2);
+        }
+        else if (arg > 0)
+        {
+            auto DivisionNum = Division(num5, num6, sum2);
+            PrintSum(DivisionNum, sum2, arg);
+        }
+        else
+        {
+            PrintSum(Division(num5, num6, sum2), sum2, false);
+            for (; arg; arg++)
+                cout << "0";
+        }
+    };
+    // 含小数点大数除法
+    first = GetPointNum(num5);
+
+    second = GetPointNum(num6);
+    arg = first - second;
+    Delect_Char(num5, '.', strlen(num5));
+    Delect_Char(num6, '.', strlen(num6));
+    Dc(); // 606.06
+
+    second = GetPointNum(num7);
+    arg = first - second;
+    Delect_Char(num7, '.', strlen(num7));
+    Dc(); // 60606
+
+    second = GetPointNum(num8);
+    arg = first - second;
+    Delect_Char(num8, '.', strlen(num8));
+    Dc(); // 60606000
+
+#endif
+    return 0;
 }

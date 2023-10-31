@@ -12,16 +12,20 @@
                 "-o",//-o <file>: 指定输出文件名。
                 "${workspaceFolder}/temp/${fileBasenameNoExtension}.exe",//将文件输出到工程的根目录Temp文件夹下，并以同名.exe作为文件名
                 // "${fileDirname}/${fileBasenameNoExtension}.exe",//将文件输出到该文件的根目录下，并以同名.exe作为文件名
+                /*
                 "-I",//-I <dir>: 添加头文件搜索路径。
                 "C:/Program File/mingw/include",
                 "-L",//-L <dir>: 添加库文件搜索路径。
                 "C:/Program File/mingw/lib",
+                */
+                /*
                 "-lboost_context-vc143-mt-x64-1_83",
                 "-lboost_fiber-vc143-mt-x64-1_83",
                 "-lboost_log-vc143-mt-x64-1_83",
                 "-lboost_wserialization-vc143-mt-x64-1_83",
                 "-lboost_serialization-vc143-mt-gd-x64-1_83",
                 "-lboost_timer-vc143-mt-gd-x64-1_83",
+                */
                 // "-lbfd",
                 // "-lctf",
                 // "-lctf-nobfd",
