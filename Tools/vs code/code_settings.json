@@ -1,0 +1,92 @@
+//文件存于C:\Users\i12cu84\AppData\Roaming\Code\User\settings.json
+{
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "files.autoSave": "afterDelay",
+    "explorer.confirmDelete": false,
+    "workbench.editor.tabSizingFixedMaxWidth": 100,
+    "workbench.editor.tabSizing": "fixed",
+    "workbench.editor.tabSizingFixedMinWidth": 100,
+    "Codegeex.Privacy": false,
+    "Codegeex.Explanation.LanguagePreference": "zh-CN",
+    "workbench.iconTheme": "vscode-icons",
+    "vscode-office.openOutline": false,
+    "vscode-office.editorLanguage": "zh_CN",
+    "vscode-office.autoTheme": false,
+    "window.zoomLevel": -1,
+    "code-runner.executorMap": {
+        "javascript": "node",
+        "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
+        "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "zig": "zig run",
+        "cpp": "cd $dir && g++ -std=c++20 $fileName -I \"C:/Program File/mingw/include\" -o  $workspaceRoot/temp/$fileNameWithoutExt.exe && $dir$fileNameWithoutExt",
+        /*
+            $workspaceRoot: The path of the folder opened in VS Code
+            $dir: The directory of the code file being run
+            $dirWithoutTrailingSlash: The directory of the code file being run without a trailing slash
+            $fullFileName: The full name of the code file being run
+            $fileName: The base name of the code file being run, that is the file without the directory
+            $fileNameWithoutExt: The base name of the code file being run without its extension
+            $driveLetter: The drive letter of the code file being run (Windows only)
+            $pythonPath: The path of Python interpreter (set by Python: Select Interpreter command)
+        */
+        "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "php": "php",
+        "python": "python -u",
+        "perl": "perl",
+        "perl6": "perl6",
+        "ruby": "ruby",
+        "go": "go run",
+        "lua": "lua",
+        "groovy": "groovy",
+        "powershell": "powershell -ExecutionPolicy ByPass -File",
+        "bat": "cmd /c",
+        "shellscript": "bash",
+        "fsharp": "fsi",
+        "csharp": "scriptcs",
+        "vbscript": "cscript //Nologo",
+        "typescript": "ts-node",
+        "coffeescript": "coffee",
+        "scala": "scala",
+        "swift": "swift",
+        "julia": "julia",
+        "crystal": "crystal",
+        "ocaml": "ocaml",
+        "r": "Rscript",
+        "applescript": "osascript",
+        "clojure": "lein exec",
+        "haxe": "haxe --cwd $dirWithoutTrailingSlash --run $fileNameWithoutExt",
+        "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
+        "racket": "racket",
+        "scheme": "csi -script",
+        "ahk": "autohotkey",
+        "autoit": "autoit3",
+        "dart": "dart",
+        "pascal": "cd $dir && fpc $fileName && $dir$fileNameWithoutExt",
+        "d": "cd $dir && dmd $fileName && $dir$fileNameWithoutExt",
+        "haskell": "runghc",
+        "nim": "nim compile --verbosity:0 --hints:off --run",
+        "lisp": "sbcl --script",
+        "kit": "kitc --run",
+        "v": "v run",
+        "sass": "sass --style expanded",
+        "scss": "scss --style expanded",
+        "less": "cd $dir && lessc $fileName $fileNameWithoutExt.css",
+        "FortranFreeForm": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "fortran-modern": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "fortran_fixed-form": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "fortran": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "sml": "cd $dir && sml $fileName",
+        "mojo": "mojo run"
+    },
+    "cph.language.cpp.SubmissionCompiler": "GNU G++20 11.2.0 (64 bit, winlibs)",
+    "cph.language.cpp.Args": "-std=c++20",
+    "explorer.confirmDragAndDrop": false,
+    "git.confirmSync": false,
+    "cmake.configureOnOpen": true,
+    "editor.codeActionsOnSave": {
+
+    },
+    "debug.onTaskErrors": "showErrors",
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.runInTerminal": true
+}

@@ -166,7 +166,7 @@ int Division(char num1[], char num2[], char sum[])
     sum[j] = '\0';
     return len;
 }
-
+// 用于删除小数点
 void Delect_Char(char str1[], char Aim, int len)
 {
     for (int i = 0; i < len; i++)
@@ -183,6 +183,7 @@ void Delect_Char(char str1[], char Aim, int len)
             i--;
         }
 }
+// 用于末尾添加0
 void AddZero_Char(char str1[], int len)
 {
     int lenth = strlen(str1);
@@ -191,6 +192,7 @@ void AddZero_Char(char str1[], int len)
         str1[lenth + i] = '0';
     }
 }
+// 获取小数点位置
 int GetPointNum(char str1[])
 {
     int Num = 0;
@@ -206,6 +208,7 @@ int GetPointNum(char str1[])
     }
     return IsFind ? strlen(str1) - Num - 1 : Num;
 }
+// 在指定位置添加小数点
 void AddPoint_Char(char str1[], int len)
 {
     int lenth = strlen(str1);
@@ -216,6 +219,7 @@ void AddPoint_Char(char str1[], int len)
     }
     str1[lenth + 1] = '.';
 }
+// 输出打印结果
 template <typename T>
 void PrintSum(int len, T sum[], bool outputendl = true)
 {
@@ -224,6 +228,7 @@ void PrintSum(int len, T sum[], bool outputendl = true)
     if (outputendl)
         cout << endl;
 }
+// 输出打印结果
 template <typename T>
 void PrintSum(int len, T sum[], int ZeroNum)
 {
