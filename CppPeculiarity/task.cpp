@@ -1,11 +1,28 @@
-#if 0
+#if 1
+#include <boost/circular_buffer.hpp>
 #include <iostream>
-using namespace std;
-int main()
-{
-    cout<<"task"<<endl;
-    return 0;
+
+int main() {
+    boost::circular_buffer<int> buffer(5);
+    buffer.push_back(1);
+    buffer.push_back(2);
+    buffer.push_back(3);
+
+    for (int value : buffer) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
+
+    buffer.push_back(4);
+    buffer.push_back(5);
+
+    for (int value : buffer) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
 }
+
+
 #elif 0
 #include <iostream>
 #include <functional>

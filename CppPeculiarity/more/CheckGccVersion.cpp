@@ -1,7 +1,6 @@
 //gcc版本检查
-#include <stdio.h>
-#include <stdlib.h>
-
+#include <iostream>
+using namespace std;
 int main()
 {
     printf("%ld\n",__cplusplus);
@@ -14,4 +13,5 @@ C++98	__cplusplus = 199711L	ISO/IEC 14882:1998
 C++11	__cplusplus = 201103L	ISO/IEC 14882:2011
 C++14	__cplusplus = 201402L	ISO/IEC 14882:2014
 C++17	__cplusplus = 201703L	ISO/IEC 14882:2017
+C++20   __cplusplus = 202002L   ISO/IEC 14882:2020
 */
