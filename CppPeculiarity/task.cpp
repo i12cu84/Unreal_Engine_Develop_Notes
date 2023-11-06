@@ -1,29 +1,75 @@
+#include <iostream>
+#include <string>
+#include <regex>
+using namespace std;
 #if 1
-#include <boost/circular_buffer.hpp>
+bool validateIdCard(const std::string &idNumber)
+{
+    std::regex pattern("^[1-9]\\d{5}(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\\d|3[01])\\d{3}([0-9Xx])$");
+    if (std::regex_match(idNumber, pattern))
+    {
+        int factors[] = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+        int checkSum = 0;
+        for (int i = 0; i < 17; ++i)
+        {
+            checkSum += (idNumber[i] - '0') * factors[i];
+        }
+        int modResult = checkSum % 11;
+        char checkDigit = (modResult == 2) ? 'X' : ('0' + (12 - modResult) % 11);
+        if (idNumber.back() == checkDigit)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int main()
+{
+}
+#elif 1
+
+#include <iostream>
+#include <functional>
+
+template<typename T>
+T subtracts(T a)
+{
+    return a;
+}
+
+template<typename T,typename ... arg>
+T subtracts(T a, arg ... args)
+{
+    return a-subtracts(args ...);
+}
+
+int main()
+{
+    
+}
+
+#elif 0
+
+#include <boost/fiber/all.hpp>
 #include <iostream>
 
 int main() {
-    boost::circular_buffer<int> buffer(5);
-    buffer.push_back(1);
-    buffer.push_back(2);
-    buffer.push_back(3);
+    boost::fibers::fiber fib([]() {
+        std::cout << "Fiber started." << std::endl;
+    });
 
-    for (int value : buffer) {
-        std::cout << value << " ";
-    }
-    std::cout << std::endl;
-
-    buffer.push_back(4);
-    buffer.push_back(5);
-
-    for (int value : buffer) {
-        std::cout << value << " ";
-    }
-    std::cout << std::endl;
+    fib.join();
+    std::cout << "Fiber finished." << std::endl;
 }
-
-
-#elif 0
+#elif 1
 #include <iostream>
 #include <functional>
 
@@ -41,24 +87,11 @@ T adds(T a,arg... args)
 
 int main()
 {
-    //使用adds
-    // std::cout<<adds(1,2,3,4,5)<<std::endl;
-    std::function<int(int, int)> func=adds<int,int>;
-    int result1 = func(3, 4);
-    std::cout << "Result (using std::bind): " << result1 << std::endl;
+    std::cout << "num: " << adds(3) << std::endl;
+    std::cout << "num: " << adds(3, 4) << std::endl;
+    std::cout << "num: " << adds(3, 4,8) << std::endl;
     return 0;
 }
 
-#elif 1
-#include <iostream>
-#include <memory>
-int main()
-{
-    int arr[4] = {1, 2, 3, 4};
-    int *p1 = std::assume_aligned<16>(arr);
-    // 使用p1，而不是arr，以确保从对齐假设中受益。
-    // 但是，如果arr没有对齐，无论是否使用p1，程序都具有未定义行为。
-    std::cout << *p1 << '\n';
-    return 0;
-}
+
 #endif

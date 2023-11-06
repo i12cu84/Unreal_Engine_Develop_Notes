@@ -8,7 +8,9 @@
     <details>
     <summary>-> boost -> Boost标准规范</summary>
     <pre><code>
+        a_more_wil_done_task - 目前正在研究的库（未完成）
         accumulators - 用于统计和数据收集
+        atomic - 原子操作
         bimap - 双向映射的容器
         circular_buffer - 循环缓冲区
         cpp_int - 高精度整数
