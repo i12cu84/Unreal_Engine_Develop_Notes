@@ -3,6 +3,46 @@
 #include <regex>
 using namespace std;
 #if 1
+struct Test{
+    int n;
+    Test()
+    {
+        this->n=1;
+    }
+    
+    void print()
+    {
+        cout<<n<<endl;
+    }
+}test;
+int main()
+{
+    test.print();
+}
+
+#elif 1
+void print_null(int * p_null)
+{
+    if (p_null)
+    {
+        cout << "p_null is not null" << endl;
+    }
+    else
+    {
+        cout << "p_null is null" << endl;
+    }
+}
+
+int main ()
+{
+    int n=NULL;
+    int* p_null=&n;
+    int* p_nullptr=nullptr;
+
+    print_null(p_null);
+    print_null(p_nullptr);
+}
+#elif 1
 bool validateIdCard(const std::string &idNumber)
 {
     std::regex pattern("^[1-9]\\d{5}(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\\d|3[01])\\d{3}([0-9Xx])$");
