@@ -3,6 +3,19 @@
 #include <regex>
 using namespace std;
 #if 1
+class A{
+    int a;
+};
+class A{
+    int b;
+    A(int _a,int _b):a(_a),b(_b){}
+    
+};
+int main()
+{
+    A a(1,2);
+}
+#elif 1
 struct Test{
     int n;
     Test()
