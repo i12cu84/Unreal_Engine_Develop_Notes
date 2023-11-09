@@ -3,6 +3,19 @@
 #include <regex>
 using namespace std;
 #if 1
+#define FUNC_RETVAL(func,classname,ret) \
+class classname:{\
+public:\
+    classname(int _ret):ret(_ret)\
+    {\
+    }\
+    int ret;\
+    void func(){cout<<ret<<endl;};\
+};
+int main()
+{
+}
+#elif 1
 class A{
     int a;
 };
