@@ -3,42 +3,8 @@
 #include <iostream>
 using namespace std;
 #if 1
-#include <iostream>
-using namespace std;
 
-#define FUNC_RETVAL(func, classname, ret) \
-class classname { \
-public: \
-    classname(int _ret) : ret(_ret) {} \
-    int ret; \
-    void func() { cout << ret << endl; } \
-};
 
-int main()
-{
-    FUNC_RETVAL(myFunction, MyClass, rep); // 示例化 MyClass
-    MyClass myObject(123); // 创建 MyClass 对象
-    myObject.myFunction();
-
-    return 0;
-}
-
-/*
-#define FUNC_RETVAL(func,classname,ret) \
-class classname:{\
-public:\
-    classname(int _ret):ret(_ret)\
-    {\
-    }\
-    int ret;\
-    void func(){cout<<ret<<endl;};\
-}test;
-int main()
-{
-    FUNC_RETVAL(func, MyClass, 42);
-    test.func();
-}
-*/
 #elif 1
 class A{
     int a;
