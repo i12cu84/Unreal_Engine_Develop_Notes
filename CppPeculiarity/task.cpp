@@ -4,6 +4,20 @@
 using namespace std;
 #if 1
 
+#include <stdio.h>
+
+// 定义一个打印日志的宏
+#define LOGFUNC(fmt, ...) printf(fmt, __VA_ARGS__)
+
+int main() {
+    int x = 42;
+    double y = 3.14;
+
+    // 使用宏打印日志
+    LOGFUNC("x = %d, y = %.2f\n", x, y);
+
+    return 0;
+}
 
 #elif 1
 class A{
