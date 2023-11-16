@@ -4,164 +4,108 @@
 using namespace std;
 #if 1
 
-#include <stdio.h>
+#include<stdio.h>
+//#include<stdlib.h>
+#include<stdarg.h>//ANSI C可变参数的头文件
 
-// 定义一个打印日志的宏
-#define LOGFUNC(fmt, ...) printf(fmt, __VA_ARGS__)
+int print(char* format, ...) {
+    va_list ap;
+    int n;
+    va_start(ap, format);
+    n = vprintf(format, ap);
+    va_end(ap);
+    return 0;
+}
 
 int main() {
-    int x = 42;
-    double y = 3.14;
-
-    // 使用宏打印日志
-    LOGFUNC("x = %d, y = %.2f\n", x, y);
-
+    int ch1 = 10, ch2 = 20;
+    print("%d\t%d\n%d\n", ch1, ch2, ch2);
     return 0;
 }
 
 #elif 1
-class A{
-    int a;
-};
-class A{
-    int b;
-    A(int _a,int _b):a(_a),b(_b){}
-    
-};
-int main()
-{
-    A a(1,2);
+
+#include <stdarg.h>  
+#include <stdio.h>
+
+void custom_printf(const char *format, ...) {  
+    va_list args;  
+    va_start(args, format);
+
+    int i;  
+    for (i = 0; format[i] != '\0'; i++) {  
+        if (format[i] == '%') {  
+            switch (format[i + 1]) {  
+                case 'd': {  
+                    int num = va_arg(args, int);  
+                    printf("%d", num);  
+                    break;  
+                }  
+                case 'f': {  
+                    float num = va_arg(args, float);  
+                    printf("%.2f", num);  
+                    break;  
+                }  
+                case 's': {  
+                    const char *str = va_arg(args, const char *);  
+                    printf("%s", str);  
+                    break;  
+                }  
+                default:  
+                    printf("Invalid format specifier\n");  
+                    break;  
+            }  
+        } else {  
+            printf("%c", format[i]);  
+        }  
+    }
+
+    va_end(args);  
 }
+
+int main() {  
+    custom_printf("Hello, %s!\n", "World");  
+    custom_printf("Number: %d\n", 42);  
+    custom_printf("Pi: %.2f\n", 3.141592653589793);
+
+    return 0;  
+}
+
 #elif 1
-struct Test{
-    int n;
-    Test()
-    {
-        this->n=1;
-    }
-    
-    void print()
-    {
-        cout<<n<<endl;
-    }
-}test;
-int main()
-{
-    test.print();
-}
+#include <stdio.h>
 
-#elif 1
-void print_null(int * p_null)
-{
-    if (p_null)
-    {
-        cout << "p_null is not null" << endl;
-    }
-    else
-    {
-        cout << "p_null is null" << endl;
-    }
-}
+#define MY_VAR my_var
 
-int main ()
-{
-    int n=NULL;
-    int* p_null=&n;
-    int* p_nullptr=nullptr;
-
-    print_null(p_null);
-    print_null(p_nullptr);
-}
-#elif 1
-bool validateIdCard(const std::string &idNumber)
-{
-    std::regex pattern("^[1-9]\\d{5}(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\\d|3[01])\\d{3}([0-9Xx])$");
-    if (std::regex_match(idNumber, pattern))
-    {
-        int factors[] = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
-        int checkSum = 0;
-        for (int i = 0; i < 17; ++i)
-        {
-            checkSum += (idNumber[i] - '0') * factors[i];
-        }
-        int modResult = checkSum % 11;
-        char checkDigit = (modResult == 2) ? 'X' : ('0' + (12 - modResult) % 11);
-        if (idNumber.back() == checkDigit)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
-int main()
-{
-}
-#elif 1
-
-#include <iostream>
-#include <functional>
-
-template<typename T>
-T subtracts(T a)
-{
-    return a;
-}
-
-template<typename T,typename ... arg>
-T subtracts(T a, arg ... args)
-{
-    return a-subtracts(args ...);
-}
-
-int main()
-{
-    
-}
-
-#elif 0
-
-#include <boost/fiber/all.hpp>
-#include <iostream>
+#define DEFINE_MY_VAR(var, num) int var ## num
 
 int main() {
-    boost::fibers::fiber fib([]() {
-        std::cout << "Fiber started." << std::endl;
-    });
-
-    fib.join();
-    std::cout << "Fiber finished." << std::endl;
+    DEFINE_MY_VAR(my_var, 1);
+    printf("my_var1 = %d\n", my_var1);
+    return 0;
 }
+
 #elif 1
 #include <iostream>
 #include <functional>
 
-template<typename T>
+template <typename T>
 T adds(T a)
 {
     return a;
 }
 
-template<typename T,typename ... arg>
-T adds(T a,arg... args)
+template <typename T, typename... arg>
+T adds(T a, arg... args)
 {
-    return a+adds(args...);
+    return a + adds(args...);
 }
 
 int main()
 {
-    std::cout << "num: " << adds(3) << std::endl;
-    std::cout << "num: " << adds(3, 4) << std::endl;
-    std::cout << "num: " << adds(3, 4,8) << std::endl;
+    cout << "num: " << adds(3) << endl;
+    cout << "num: " << adds(3, 4) << endl;
+    cout << "num: " << adds(3, 4, 8) << endl;
     return 0;
 }
-
 
 #endif
