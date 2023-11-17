@@ -2,6 +2,29 @@
 #include <functional>
 using namespace std;
 #if 0
+
+#elif 1
+
+#include <stdio.h>
+ 
+int main()
+{
+    printf("FILE:%s,LINE:%d\r\n",__FILE__, __LINE__);
+    printf("DATA:%s\r\n",__DATE__);
+    printf("TIME:%s\r\n",__TIME__);
+    printf("STDC:%d\r\n",__STDC__);
+    // printf("STDC_VERSION:%d\r\n",__STDC_VERSION__);
+    printf("STDC_HOSTED:%d\r\n",__STDC_HOSTED__);
+#ifdef __cplusplus
+    printf("cplusplus:%d\r\n", __cplusplus);    
+#else
+    printf("complied by c\r\n");    
+#endif
+    
+    return 0;
+}
+
+#elif 1
 class Calculator {  
 public:  
     // 绑定回调函数  

@@ -1,3 +1,5 @@
+#include <cstdio>
+#include <climits>
 #include <iostream>
 using namespace std;
 #if 0
@@ -10,6 +12,16 @@ int main()
     cout << CNT4(A, B, C, D) << endl;
     return 0;
 }
+#elif 1
+#define STR(s)     #s
+#define CONS(a,b)  int(a##e##b)
+int main()
+{
+	printf(STR(vck));//vck	
+	printf("%d\n", CONS(2,3));//2e3 -> 2000
+	return 0;
+}
+
 #elif 1
 
 // 定义一个打印日志的宏

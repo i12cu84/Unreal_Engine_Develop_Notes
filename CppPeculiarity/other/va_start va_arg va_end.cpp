@@ -4,11 +4,7 @@
 #include <stdlib.h>
 #include <iostream>
 using namespace std;
-#if 0
-
-#include <stdio.h>  
-#include <stdarg.h>
-
+#if 1
 void print_vars(int num1, ...) {  
     va_list va_args;  
     va_start(va_args, num1);

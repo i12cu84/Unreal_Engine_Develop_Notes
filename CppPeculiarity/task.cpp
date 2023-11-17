@@ -4,72 +4,34 @@
 using namespace std;
 #if 1
 
-#include<stdio.h>
-//#include<stdlib.h>
-#include<stdarg.h>//ANSI C可变参数的头文件
+// fn_tbl.c: 以表格形式输出一个函数的值。该程序使用了嵌套的宏
+// -------------------------------------------------------------
+#include <stdio.h>
+#include <math.h>                          // 函数cos()和exp()的原型
 
-int print(char* format, ...) {
-    va_list ap;
-    int n;
-    va_start(ap, format);
-    n = vprintf(format, ap);
-    va_end(ap);
-    return 0;
-}
+#define PI              3.141593
+#define STEP    (PI/8)
+#define AMPLITUDE       1.0
+#define ATTENUATION     0.1                      // 声波传播的衰减指数
+#define DF(x)   exp(-ATTENUATION*(x))
+#define FUNC(x) (DF(x) * AMPLITUDE * cos(x)) // 震动衰减
 
-int main() {
-    int ch1 = 10, ch2 = 20;
-    print("%d\t%d\n%d\n", ch1, ch2, ch2);
-    return 0;
+// 针对函数输出：
+#define STR(s) #s
+#define XSTR(s) STR(s)                   // 将宏s展开，然后字符串化
+int main()
+{
+  double x = 0.0;
+  printf( "\nFUNC(x) = %s\n", XSTR(FUNC(x)) );          // 输出该函数
+  printf("\n %10s %25s\n", "x", STR(y = FUNC(x)) );             // 表格的标题
+  printf("-----------------------------------------\n");
+
+  for ( ; x < 2*PI + STEP/2; x += STEP )
+    printf( "%15f %20f\n", x, FUNC(x) );
+  return 0;
 }
 
 #elif 1
-
-#include <stdarg.h>  
-#include <stdio.h>
-
-void custom_printf(const char *format, ...) {  
-    va_list args;  
-    va_start(args, format);
-
-    int i;  
-    for (i = 0; format[i] != '\0'; i++) {  
-        if (format[i] == '%') {  
-            switch (format[i + 1]) {  
-                case 'd': {  
-                    int num = va_arg(args, int);  
-                    printf("%d", num);  
-                    break;  
-                }  
-                case 'f': {  
-                    float num = va_arg(args, float);  
-                    printf("%.2f", num);  
-                    break;  
-                }  
-                case 's': {  
-                    const char *str = va_arg(args, const char *);  
-                    printf("%s", str);  
-                    break;  
-                }  
-                default:  
-                    printf("Invalid format specifier\n");  
-                    break;  
-            }  
-        } else {  
-            printf("%c", format[i]);  
-        }  
-    }
-
-    va_end(args);  
-}
-
-int main() {  
-    custom_printf("Hello, %s!\n", "World");  
-    custom_printf("Number: %d\n", 42);  
-    custom_printf("Pi: %.2f\n", 3.141592653589793);
-
-    return 0;  
-}
 
 #elif 1
 #include <stdio.h>
