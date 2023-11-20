@@ -5,24 +5,19 @@ using namespace std;
 
 #elif 1
 
-#include <stdio.h>
- 
-int main()
-{
-    printf("FILE:%s,LINE:%d\r\n",__FILE__, __LINE__);
-    printf("DATA:%s\r\n",__DATE__);
-    printf("TIME:%s\r\n",__TIME__);
-    printf("STDC:%d\r\n",__STDC__);
-    // printf("STDC_VERSION:%d\r\n",__STDC_VERSION__);
-    printf("STDC_HOSTED:%d\r\n",__STDC_HOSTED__);
-#ifdef __cplusplus
-    printf("cplusplus:%d\r\n", __cplusplus);    
-#else
-    printf("complied by c\r\n");    
-#endif
-    
-    return 0;
-}
+#define VLIB_REGISTER_NODE(x,...)                                       \
+    __VA_ARGS__ vlib_node_registration_t x;                             \
+static void __vlib_add_node_registration_##x (void)                     \
+    __attribute__((__constructor__)) ;                                  \
+static void __vlib_add_node_registration_##x (void)                     \
+{                                                                       \
+    vlib_main_t * vm = vlib_get_main();                                 \
+    x.next_registration = vm->node_main.node_registrations;             \
+    vm->node_main.node_registrations = &x;                              \
+}                                                                       \
+__VA_ARGS__ vlib_node_registration_t x
+
+
 
 #elif 1
 class Calculator {  
