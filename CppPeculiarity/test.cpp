@@ -5,11 +5,14 @@ using namespace std;
 
 #elif 1
 
+
+#elif 1
+//这个写法很怪,目前不知道怎么补充
+
 #define VLIB_REGISTER_NODE(x,...)                                       \
     __VA_ARGS__ vlib_node_registration_t x;                             \
 static void __vlib_add_node_registration_##x (void)                     \
-    __attribute__((__constructor__)) ;                                  \
-static void __vlib_add_node_registration_##x (void)                     \
+    __attribute__((__constructor__))                                    \
 {                                                                       \
     vlib_main_t * vm = vlib_get_main();                                 \
     x.next_registration = vm->node_main.node_registrations;             \
@@ -17,62 +20,12 @@ static void __vlib_add_node_registration_##x (void)                     \
 }                                                                       \
 __VA_ARGS__ vlib_node_registration_t x
 
-
-
-#elif 1
-class Calculator {  
-public:  
-    // 绑定回调函数  
-    void setOperation(std::function<double(double, double)> operation) {  
-        _operation = operation;  
-    }
-    double calculate(double a, double b) {  
-        return _operation(a, b);  
-    }
-private:  
-    std::function<double(double, double)> _operation;  
-};
-// 回调函数原型声明  
-double add(double a, double b){  
-    return a + b;  
-} 
-int main() {  
-    Calculator calculator;
-
-    // 设置回调函数  
-    calculator.setOperation(add);  
-    std::cout << "和：" << calculator.calculate(5, 3) << std::endl;
-
-    return 0;  
-}
-#elif 1
-#include <iostream>
-
-// 原有的 typedef
-typedef void (*CallbackFunc)(int);
-
-// 可变参数模板函数
-template <typename... Args>
-void print_callback(Args... args) {
-    // 使用逗号表达式展开参数包
-    ((std::cout << args << " "), ...);
-    std::cout << std::endl;
-}
-
-int main() {
-    int x = 10;
-    double y = 3.14;
-    const char* str = "Hello, world!";
-
-    // 调用可变参数模板函数
-    print_callback(x, y, str);
-
-    // 使用原有的 typedef
-    CallbackFunc callback = print_callback;
-    callback(x);
+int main()
+{
 
     return 0;
 }
+
 #elif 1
 template <typename... Args>
 void print_callback(Args... args) {
