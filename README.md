@@ -138,6 +138,7 @@
         more structured binding - 更多的结构化绑定
         nested namespace - 命名空间嵌套
         optional - 可能含无值模板
+        remove_reference - 移除引用修饰
         shared_mutex - 读写锁
         string_view - 字符串复制类型
         structured binding - 结构化绑定
@@ -211,7 +212,6 @@
         try catch throw - 支持异常处理
         typedef - 支持类型重命名
         typeid - 支持运行时类型识别
-        typeof - 支持类型查询
         virtual - 支持虚函数
     </code></pre>
     </details>
@@ -247,6 +247,7 @@
 <details>
 <summary>-> OtherFile -> 汇总笔记(环境构建以及其他总结)</summary>
 <pre><code>
+    <details>
     <summary>-> construct -> 环境配置</summary>
     <pre><code>
         Construct the Android Packing And Debug - 构建Android环境的笔记
