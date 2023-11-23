@@ -1,8 +1,11 @@
+#include <stdio.h>
 #include <cstdio>
 #include <climits>
 #include <iostream>
 using namespace std;
+
 #if 0
+
 #define ABCD "1234"
 #define CNT4(A, B, C, D) A##B##C##D
 int main()
@@ -12,7 +15,19 @@ int main()
     cout << CNT4(A, B, C, D) << endl;
     return 0;
 }
+
 #elif 1
+
+#define MY_VAR my_var
+#define DEFINE_MY_VAR(var, num) int var ## num
+int main() {
+    DEFINE_MY_VAR(my_var, 1);
+    printf("my_var1 = %d\n", my_var1);
+    return 0;
+}
+
+#elif 1
+
 #define STR(s)     #s
 #define CONS(a,b)  int(a##e##b)
 int main()
@@ -30,15 +45,14 @@ int main()
 int main() {
     int x = 42;
     double y = 3.14;
-
     // 使用宏打印日志
     LOGFUNC("hello world\n");
     LOGFUNC("x = %d, y = %.2f\n", x, y);
-
     // LOGFUNC2("hello world\n");//error
     LOGFUNC2("x = %d, y = %.2f\n", x, y);
     return 0;
 }
+
 #endif
 /*
 在上面的示例中，我们定义了一个名为 LOGFUNC 的宏，它接受一个格式化字符串 fmt 和可变数量的参数 ...。在 main 函数中，我们使用这个宏来打印变量 x 和 y 的值。注意，##__VA_ARGS__ 用于处理可变参数，确保在没有参数时不会产生编译错误。
