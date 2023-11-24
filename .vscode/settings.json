@@ -101,5 +101,4 @@
         "**/*": "${documentWorkspaceFolder}/assets/image.png"
     },
     "code-runner.runInTerminal": true,
-    
 }

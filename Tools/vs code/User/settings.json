@@ -1,13 +1,11 @@
-//文件存于C:\Users\i12cu84\AppData\Roaming\Code\User\settings.json
 {
     "workbench.colorTheme": "One Dark Pro Darker",
     "files.autoSave": "afterDelay",
     "explorer.confirmDelete": false,
     "workbench.editor.tabSizingFixedMaxWidth": 100,
     "workbench.editor.tabSizing": "fixed",
-    "workbench.editor.tabSizingFixedMinWidth": 100,
     "Codegeex.Privacy": false,
-    "Codegeex.Explanation.LanguagePreference": "zh-CN",
+    "Codegeex.Explanation.LanguagePreference": "中文",
     "workbench.iconTheme": "vscode-icons",
     "vscode-office.openOutline": false,
     "vscode-office.editorLanguage": "zh_CN",
@@ -16,10 +14,12 @@
     "code-runner.executorMap": {
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
-        "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "c": "cd $dir && gcc -std=c17 $fileName -o $workspaceRoot\\temp\\$fileNameWithoutExt.exe && $workspaceRoot\\temp\\$fileNameWithoutExt",
+        // "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++ -std=c++20 $fileName -I\"C:\\Program File\\mingw\\include\" -o $workspaceRoot\\temp\\$fileNameWithoutExt.exe && $workspaceRoot\\temp\\$fileNameWithoutExt",
+        // "cpp": "cd $dir && g++ -std=c++20 $fileName -I\"C:/Program File/mingw/include\" -o  $workspaceRoot/temp/$fileNameWithoutExt.exe && $dir$fileNameWithoutExt",
         "zig": "zig run",
-        "cpp": "cd $dir && g++ -std=c++20 $fileName -I \"C:/Program File/mingw/include\" -o  $workspaceRoot/temp/$fileNameWithoutExt.exe && $dir$fileNameWithoutExt",
-        /*
+        /*        
             $workspaceRoot: The path of the folder opened in VS Code
             $dir: The directory of the code file being run
             $dirWithoutTrailingSlash: The directory of the code file being run without a trailing slash
@@ -88,5 +88,6 @@
     },
     "debug.onTaskErrors": "showErrors",
     "code-runner.clearPreviousOutput": true,
-    "code-runner.runInTerminal": true
+    "code-runner.runInTerminal": true,
+    "editor.fontLigatures": false,
 }

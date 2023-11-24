@@ -4,12 +4,6 @@ using namespace std;
 #if 0
 
 #elif 1
-int main()
-{
-    int i=333;
-    cout<<i<<endl;
-}
-#elif 1
 // fold fun
 template <typename... Args>
 void print_callback(Args... args)
@@ -34,8 +28,6 @@ int main()
     print_callback(x, y, str);
     return 0;
 }
-
-
 
 #elif 1
 // 这个写法很怪,目前不知道怎么补充

@@ -13,7 +13,7 @@
                 "-I",
                 "C:/Program File/mingw/include",
                 "-L",
-                "C:/Program File/mingw/lib",
+                "C:/Program File/mingw/lib"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -25,6 +25,27 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "detail": "调试器生成的任务。"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: clang++.exe 生成活动文件",
+            "command": "C:\\Program File\\LLVM\\bin\\clang++.exe",
+            "args": [
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
             "detail": "调试器生成的任务。"
         }
     ],

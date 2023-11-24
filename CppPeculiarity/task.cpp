@@ -8,5 +8,9 @@ using namespace std;
 
 #elif 1
 
-
+int main()
+{
+    cout<<"1"<<endl;
+    return 0;
+}
 #endif
