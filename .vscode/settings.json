@@ -100,6 +100,6 @@
     "markdown.copyFiles.destination": {// vs code 1.79版本以上 图片保存到根目录assets文件夹下以image命名
         "**/*": "${documentWorkspaceFolder}/assets/image.png"
     },
-    "code-runner.runInTerminal": false,
+    "code-runner.runInTerminal": true,
     
 }

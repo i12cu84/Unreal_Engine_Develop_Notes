@@ -4,6 +4,12 @@ using namespace std;
 #if 0
 
 #elif 1
+int main()
+{
+    int i=333;
+    cout<<i<<endl;
+}
+#elif 1
 // fold fun
 template <typename... Args>
 void print_callback(Args... args)
