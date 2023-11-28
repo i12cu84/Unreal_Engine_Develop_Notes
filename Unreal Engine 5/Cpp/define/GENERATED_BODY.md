@@ -1,3 +1,40 @@
+GENERATED_BODY 宏在 Unreal Engine 中用于生成代码模板。当您创建一个派生类并使用此宏时，引擎将自动生成一个包含类构造函数、类析构函数、默认构造函数和蓝牙（Blueprint）构造函数的代码模板。这个宏有助于确保派生类具有正确的基础类实现，并简化创建新类的过程。
+以下是如何使用 GENERATED_BODY 宏的示例：
+cpp
+复制
+// 声明一个名为 "UMyBaseClass" 的基础类
+UCLASS()
+class MYGAME_API UMyBaseClass : public UObject
+{
+    GENERATED_BODY()
+public:
+    // 定义一个名为 "MyFunction" 的 UFUNCTION
+    UFUNCTION(BlueprintCallable, Category = "MyFunctions")
+    void MyFunction();
+};
+// 声明一个名为 "UMyDerivedClass" 的派生类
+UCLASS()
+class MYGAME_API UMyDerivedClass : public UMyBaseClass
+{
+    GENERATED_BODY()
+public:
+    // 重写基类的 MyFunction 函数
+    UFUNCTION(BlueprintCallable, Category = "MyFunctions")
+    void MyFunction() override;
+    // 添加一个新的 UFUNCTION
+    UFUNCTION(BlueprintCallable, Category = "MyDerivedFunctions")
+    void MyDerivedFunction();
+};
+在这个例子中，我们声明了一个名为 UMyDerivedClass 的派生类，它继承了 UMyBaseClass 基础类。通过使用 GENERATED_BODY 宏，引擎将自动生成以下代码：
+基类的构造函数和析构函数
+派生类的构造函数（包括蓝牙构造函数）
+派生类的默认构造函数
+这使得创建新类变得更加简单，因为您不需要手动实现这些代码。同时，这有助于确保派生类正确地继承了基础类的功能。
+请注意，尽管 GENERATED_BODY 宏对简化类创建过程很有帮助，但在某些情况下，您可能需要手动编写代码以实现特定的功能。在这种情况下，不使用 GENERATED_BODY 宏，而是手动编写相关代码。
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+解析内部
+
 宏GENERATED_BODY
 GENERATED_BODY宏定义在引擎源文件Engine/Source/Runtime/CoreUObject/Public/UObjectMacros.h中，下面是源码的部分摘录：
 

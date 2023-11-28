@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#if 0
+#if 1
 
 #define ABCD "1234"
 #define CNT4(A, B, C, D) A##B##C##D

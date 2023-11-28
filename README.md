@@ -399,17 +399,27 @@
     <summary>-> Cpp -> UE中c++开发相关笔记</summary>
     <pre><code>
         <details>
-        <summary>-> 宏 -> UE宏预设</summary>
+        <summary>-> define -> UE宏预设</summary>
         <pre><code>
-            GENERATED_BODY
-            UFunctions
+            GENERATED_BODY - 生成代码模板
+            RIGVM_METHOD - 蓝图中的虚拟机方法
+            UCLASS - 类
+            UCLASSES - 组类声明
+            UDELEGATE - 事件委托
+            UENUM - 枚举
+            UFUNCTION - 蓝图中调用的函数
+            UFUNCTIONPOINTER - 函数指针
+            UINTERFACE - 接口
+            UMETA - 类、属性或函数添加元数据
+            UPARAM - 声明函数的参数
+            UPROPERTY - 定义属性元数据和变量说明符
+            USTRUCT - 结构体
         </code></pre>
         </details>
             <br />
         <details>
         <summary>-> Class -> UE类</summary>
         <pre><code>
-                <br />
             <details>
             <summary>-> 多线程 -> UE多线程汇总</summary>
             <pre><code>
@@ -426,7 +436,6 @@
                 UBlueprintAsyncActionBase - 异步蓝图
             </code></pre>
             </details>
-                <br />
         </code></pre>
         </details>
     </code></pre>
