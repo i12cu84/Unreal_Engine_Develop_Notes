@@ -4,6 +4,7 @@ using namespace std;
 #if 0
 
 #elif 1
+}
 
 #elif 1
 
@@ -33,16 +34,6 @@ std::string combined_string = BODY_MACRO_COMBINE_INNER(str1, " ", str2);
 std::cout << combined_string << std::endl;
 
 // 输出结果：Hello World
-
-
-
-
-
-
-
-
-
-
 
 #elif 1
 // 这个写法很怪,目前不知道怎么补充

@@ -1,7 +1,14 @@
 # Unreal_Engine_Develop_Notes
 
--> assets -> 有关所有notes的markdown图片
 
+
+<details>
+<summary>-> assets -> 有关所有notes的markdown图片</summary>
+<pre><code>
+    [持续补充,将会适配到所有markdown中]
+</code></pre>
+</details>
+    <br />
 <details>
 <summary>-> CppPeculiarity -> C++特性笔记</summary>
 <pre><code>
@@ -51,6 +58,14 @@
         typeindex - 类型信息
         variant - 变体类型
         vmd - 预处理宏操作
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> common -> c++ 各版本同一特性改进汇总</summary>
+    <pre><code>
+        lambda - 匿名函数
+        ptr - 指针
     </code></pre>
     </details>
         <br />
@@ -217,15 +232,39 @@
     </details>
         <br />
     <details>
-    <summary>-> cppcollect -> c++ 各版本同一特性改进汇总</summary>
+    <summary>-> other -> 其他特性(不知道版本)</summary>
     <pre><code>
-        lambda - 匿名函数
-        ptr - 指针
+        __DATE__ - 获取当前日期
+        __FILE__ - 获取当前文件名
+        __FUNCTION__ - 获取当前函数名
+        __LINE__ - 获取当前行号
+        __STDC__ - 获取编译器是否符合标准
+        __TIME__ - 获取当前时间
+        __VA_ARGS__ - 获取可变参数
+        # - 宏定义覆盖运算符
+        ## - 连接运算符
+        #define typedef - 宏定义与类型重命名
+        #define - 宏定义
+        #if defined - 检查蒂宏定义
+        #ifdef #pragram once - 头文件编译一次方法
+        #undef - 宏定义取消
+        args sum - 可变形参
+        args template - 可变形参模板类
+        callback - 回调函数
+        fold - 可变形参折叠表达式
+        fun ptr typedef - 可变形参函数重定义(或许仍可以拓展)
+        point add - 指针累加运算符分析
+        sizeof strlen - 字符串占用区分
+        struct using - 结构体中using类型别名
+        two meaning - 二义性(nullptr定义区分的起因)
+        typeof decltype - 获取变量类型
+        va_start va_arg va_end - 可变参数关键字(初始化/获取/结束)
+        vprintf - printf调用源代码
     </code></pre>
     </details>
         <br />
     <details>
-    <summary>-> more -> 其他代码</summary>
+    <summary>-> source -> 其他代码</summary>
     <pre><code>
         CheckGccVersion - 获取gcc版本
         connect_file - 连接文件
@@ -241,6 +280,13 @@
     bate more - 标准库版本扩展细分
     bate - 标准库版本总结
     task - 测试Demo
+</code></pre>
+</details>
+    <br />
+<details>
+<summary>-> image -> 图片素材</summary>
+<pre><code>
+    [持续补充]
 </code></pre>
 </details>
     <br />
@@ -278,8 +324,50 @@
 </details>
     <br />
 <details>
+<summary>-> Temp -> 临时文件夹</summary>
+<pre><code>
+    c/c++类代码在该项目下编译后执行文件将存于此处为缓存,可删除
+</code></pre>
+</details>
+    <br />
+<details>
+<summary>-> shared -> 知识分享</summary>
+<pre><code>
+    <details>
+    <summary>-> doc -> 文档</summary>
+    <pre><code>
+        BIOS UEFI - 系统引导
+        NTFS EFI FAT - 存储格式
+        pwa公共标准 - 渐进式web应用
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> private -> 笔者公开分享私有知识(转载请注明出处)</summary>
+    <pre><code>
+        [持续补充]
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> public -> 已知可公开分享知识</summary>
+    <pre><code>
+        c++编程规范-101条规则准则与最佳实践
+    </code></pre>
+    </details>
+</code></pre>
+</details>
+    <br />
+<details>
 <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
 <pre><code>
+    <details>
+    <summary>-> cmd -> windows指令</summary>
+    <pre><code>
+        cmd - cmd指令汇总及介绍
+    </code></pre>
+    </details>
+        <br />
     <details>
     <summary>-> Compiler -> 编译器</summary>
     <pre><code>
@@ -326,7 +414,8 @@
     </code></pre>
     </details>
         cloc - 代码统计工具
-        cmd - cmd指令  
+        linux_debug_method - linux代码调试方法
+        windows_debug_method - windows代码调试方法
 </code></pre>
 </details>
     <br />
