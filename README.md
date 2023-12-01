@@ -336,8 +336,10 @@
     <details>
     <summary>-> doc -> 文档</summary>
     <pre><code>
+        agreement - 协议
         BIOS UEFI - 系统引导
         NTFS EFI FAT - 存储格式
+        port - 端口
         pwa公共标准 - 渐进式web应用
     </code></pre>
     </details>
@@ -414,6 +416,7 @@
     </code></pre>
     </details>
         cloc - 代码统计工具
+        GDA - Android apk 解析工具
         linux_debug_method - linux代码调试方法
         windows_debug_method - windows代码调试方法
 </code></pre>
