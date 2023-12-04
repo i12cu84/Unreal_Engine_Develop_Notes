@@ -342,6 +342,13 @@
 <summary>-> shared -> 知识分享</summary>
 <pre><code>
     <details>
+    <summary>-> bin -> Windows执行文件</summary>
+    <pre><code>
+        WindowsFileMoveToAndroid - 移动到Android文件夹的脚本
+    </code></pre>
+    </details>
+        <br />
+    <details>
     <summary>-> doc -> 文档</summary>
     <pre><code>
         agreement - 协议
@@ -378,13 +385,6 @@
 <details>
 <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
 <pre><code>
-    <details>
-    <summary>-> cmd -> windows指令</summary>
-    <pre><code>
-        cmd - cmd指令汇总及介绍
-    </code></pre>
-    </details>
-        <br />
     <details>
     <summary>-> Compiler -> 编译器</summary>
     <pre><code>
@@ -489,7 +489,7 @@
         Nanite - 动态无限面数
         Niagara - 粒子系统
     </code></pre>
-    </details>      
+    </details>
         <br />
     <details>
     <summary>-> Plugins -> UE相关插件介绍</summary>
@@ -509,6 +509,27 @@
         tasks - 任务配置
     </code></pre>
     </details>
+        <br />
+    <details>
+    <summary>-> Windows -> Windows相关工具</summary>
+    <pre><code>
+        <details>
+        <summary>-> cmd -> windows指令</summary>
+        <pre><code>
+            cmd - cmd指令汇总及介绍
+        </code></pre>
+        </details>
+            <br />
+        <details>
+        <summary>-> Batch Script -> 批处理脚本</summary>
+        <pre><code>
+            Code - 指令整合
+            Install_[Android_Project_Name]-arm64 - 安装安卓脚本
+            Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
+        </code></pre>
+        </details> 
+    </code></pre>
+    </details> 
         cloc - 代码统计工具
         GDA - Android apk 解析工具
         linux_debug_method - linux代码调试方法

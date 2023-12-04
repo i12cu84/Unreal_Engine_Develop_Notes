@@ -4,7 +4,7 @@ using namespace std;
 #if 0
 
 #elif 1
-}
+
 
 #elif 1
 
