@@ -36,12 +36,12 @@ call other_script.bat
 if %var%==value (
     goto LabelName
 )
-16. **setlocal** 和 **endlocal** 在脚本中创建局部环境变量。
+16. setlocal和endlocal在脚本中创建局部环境变量。
 setlocal
 set LOCAL_VAR=value
 ...
 endlocal
-17. **rem** 添加注释，不会执行。
+17. rem 添加注释，不会执行。
 rem This is a comment
 18. 暂停脚本的执行，等待用户按下任意键继续。
 pause

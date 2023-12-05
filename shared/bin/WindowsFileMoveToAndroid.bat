@@ -1,4 +1,5 @@
-//该文件是windows 脚本 将 C:\Users\chru\Desktop\test路径下的所有文件迁移到安卓手机的/sdcard/Android/data/com.YourCompany.Repair/files/UnrealGame/Repair/路径下
+//该文件是windows脚本(Batch Script)
+//将 C:\Users\chru\Desktop\test路径下的所有文件迁移到安卓手机的/sdcard/Android/data/com.YourCompany.Repair/files/UnrealGame/Repair/路径下
 //chru 是我系统电脑的用户名
 //Repair是ue的项目名字(安卓版)
 //该项目是用于为原有安装的ue项目安装后的基础上额外添加一些配置文件
