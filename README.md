@@ -523,7 +523,10 @@
         <details>
         <summary>-> Batch Script -> 批处理脚本</summary>
         <pre><code>
-            Code - 指令整合
+            cmd_ode - cmd指令整合
+            code_powershell - powershell指令整合
+            compare batch_script cmd - 两者差异
+            compare powershell cmd - 两者差异
             Install_[Android_Project_Name]-arm64 - 安装安卓脚本
             Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
         </code></pre>
