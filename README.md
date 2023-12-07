@@ -344,6 +344,7 @@
     <details>
     <summary>-> bin -> Windows执行文件</summary>
     <pre><code>
+        WindowsFileMoveTo - 移动到路径文件夹的脚本
         WindowsFileMoveToAndroid - 移动到Android文件夹的脚本
     </code></pre>
     </details>
@@ -385,6 +386,13 @@
 <details>
 <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
 <pre><code>
+    <details>
+    <summary>-> Andriod -> 安卓</summary>
+    <pre><code>
+        adb - 安卓调试工具
+    </code></pre>
+    </details>
+        <br />
     <details>
     <summary>-> Compiler -> 编译器</summary>
     <pre><code>
@@ -514,23 +522,30 @@
     <summary>-> Windows -> Windows相关工具</summary>
     <pre><code>
         <details>
-        <summary>-> cmd -> windows指令</summary>
+        <summary>-> Batch Script -> 批处理脚本</summary>
+        <pre><code>
+            BatchScript - Batch Script指令整合
+            Install_[Android_Project_Name]-arm64 - 安装安卓脚本
+            Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
+            WindowsFileMoveToAndroid - 跨设备文件迁移脚本
+        </code></pre>
+        </details> 
+            <br />
+        <details>
+        <summary>-> cmd -> cmd工具</summary>
         <pre><code>
             cmd - cmd指令汇总及介绍
         </code></pre>
         </details>
             <br />
         <details>
-        <summary>-> Batch Script -> 批处理脚本</summary>
+        <summary>-> powershell -> powershell工具</summary>
         <pre><code>
-            cmd_ode - cmd指令整合
-            code_powershell - powershell指令整合
-            compare batch_script cmd - 两者差异
-            compare powershell cmd - 两者差异
-            Install_[Android_Project_Name]-arm64 - 安装安卓脚本
-            Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
+            powershell - powershell指令汇总及介绍
         </code></pre>
-        </details> 
+        </details>
+        compare batch_script cmd - 两者差异
+        compare powershell cmd - 两者差异
     </code></pre>
     </details> 
         cloc - 代码统计工具
