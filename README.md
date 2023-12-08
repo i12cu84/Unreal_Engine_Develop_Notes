@@ -390,6 +390,14 @@
     <summary>-> Andriod -> 安卓</summary>
     <pre><code>
         adb - 安卓调试工具
+        fastboot - 安卓快速启动
+    </code></pre>
+    </details>
+        <br />
+    <details>
+    <summary>-> browser -> 浏览器</summary>
+    <pre><code>
+        console - js命令行
     </code></pre>
     </details>
         <br />
@@ -503,6 +511,14 @@
     <summary>-> Plugins -> UE相关插件介绍</summary>
     <pre><code>
         plugins -> UE相关插件介绍汇总
+    </code></pre>
+    </details> 
+        <br />
+    <details>
+    <summary>-> UE -> UE相关工具介绍</summary>
+    <pre><code>
+        UBT - 虚幻编译工具 UnrealBuildTool
+        UHT - 虚幻头工具 UnrealHeaderTool
     </code></pre>
     </details> 
         <br />

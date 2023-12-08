@@ -27,5 +27,7 @@
         "ms-vscode.remote-explorer",                        // remote explorer 链接远程服务器
         "albert.tabout",                                    // tabout - tab 切出括号
         "vscode-icons-team.vscode-icons",                   // vscode-icons - 图标
+
+        "bito.bito",                                        // 基于GPT4 AI
     ]
 }
