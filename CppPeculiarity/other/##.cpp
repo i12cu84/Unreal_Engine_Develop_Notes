@@ -6,6 +6,16 @@ using namespace std;
 
 #if 1
 
+#define DEFINE_MY_VAR(var, num) int var##num
+int main() {
+	DEFINE_MY_VAR(my_var, 1);
+	my_var1 = 10;
+	printf("my_var1 = %d\n", my_var1);
+	return 0;
+}
+
+#elif 1
+
 #define ABCD "1234"
 #define CNT4(A, B, C, D) A##B##C##D
 int main()
