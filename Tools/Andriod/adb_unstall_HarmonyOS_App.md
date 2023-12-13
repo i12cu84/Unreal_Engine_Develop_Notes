@@ -7,19 +7,23 @@
 使用搜索到的回答发现频频出错,推测是包名错误的
 
 使用adb来检索包名
+
 ```
 adb shell pm list packages //查找手机安装的所有包名
 adb shell "dumpsys window w |grep \/ |grep name=" //查看正在运行的应用的包名
 ```
+
 得到结论:
 
 日历的包名是"com.huawei.calendar",图库的包名是"com.huawei.photos"
 
 启用adb代码即可卸载
+
 ```
 adb shell pm uninstall --user 0 com.huawei.photos
 adb shell pm uninstall --user 0 com.huawei.calendar
 ```
+
 其他什么adb使用啊,工具使用啊什么的我就不赘述了,以上.
 
 相关资料

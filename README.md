@@ -1,14 +1,12 @@
 # Unreal_Engine_Develop_Notes
 
-
-
 <details>
 <summary>-> assets -> 有关所有notes的markdown图片</summary>
 <pre><code>
     [持续补充,将会适配到所有markdown中]
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> build -> ue自身工程代码架构及记录</summary>
 <pre><code>
@@ -16,7 +14,7 @@
     DesignProject - 工程设计
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> CppPeculiarity -> C++特性笔记</summary>
 <pre><code>
@@ -68,7 +66,7 @@
         vmd - 预处理宏操作
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> common -> c++ 各版本同一特性改进汇总</summary>
     <pre><code>
@@ -76,7 +74,7 @@
         ptr - 指针
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> cpp11 -> C++11标准规范</summary>
     <pre><code>
@@ -118,7 +116,7 @@
         volatile - 易变的
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> cpp14 -> C++14标准规范</summary>
     <pre><code>
@@ -136,7 +134,7 @@
         other name template - 模板重载
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> cpp17 -> C++17标准规范</summary>
     <pre><code>
@@ -168,7 +166,7 @@
         variant monostate - 变体容器
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> cpp20 -> C++20标准规范</summary>
     <pre><code>
@@ -217,7 +215,7 @@
         using enum - 支持using enum
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> cpp98 -> C++98标准规范</summary>
     <pre><code>
@@ -238,7 +236,7 @@
         virtual - 支持虚函数
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> other -> 其他特性(不知道版本)</summary>
     <pre><code>
@@ -270,7 +268,7 @@
         vprintf - printf调用源代码
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> source -> 其他代码</summary>
     <pre><code>
@@ -290,14 +288,14 @@
     task - 测试Demo
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> image -> 图片素材</summary>
 <pre><code>
     [持续补充]
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> OtherFile -> 汇总笔记(环境构建以及其他总结)</summary>
 <pre><code>
@@ -322,7 +320,7 @@
     OpenMoreLib - Open前缀三方扩展库
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> ProjectNote -> 搜集到有关的项目,对其的解析笔记(Loading...)</summary>
 <pre><code>
@@ -330,14 +328,14 @@
     VRExpPluginExample - OpenXR示例项目
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> Temp -> 临时文件夹</summary>
 <pre><code>
     c/c++类代码在该项目下编译后执行文件将存于此处为缓存,可删除
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> shared -> 知识分享</summary>
 <pre><code>
@@ -348,7 +346,7 @@
         WindowsFileMoveToAndroid - 移动到Android文件夹的脚本
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> doc -> 文档</summary>
     <pre><code>
@@ -359,21 +357,21 @@
         pwa公共标准 - 渐进式web应用
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> local -> 局部内容更新</summary>
     <pre><code>
         HotUpdateHotFix -> 热更新
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> private -> 笔者公开分享私有知识(转载请注明出处)</summary>
     <pre><code>
         AutoAgree.js -> 自动点赞脚本
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> public -> 已知可公开分享知识</summary>
     <pre><code>
@@ -382,7 +380,7 @@
     </details>
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
 <pre><code>
@@ -393,21 +391,21 @@
         fastboot - 安卓快速启动
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> browser -> 浏览器</summary>
     <pre><code>
         console - js命令行
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Compiler -> 编译器</summary>
     <pre><code>
         c_cpp - c和cpp的编译器汇总及介绍
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Git -> Git上传基本指令</summary>
     <pre><code>
@@ -416,7 +414,7 @@
         UpdateToGit - 更新git仓库
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Linux -> Linux系统中工具常用指令</summary>
     <pre><code>
@@ -432,7 +430,7 @@
             netstat -> 提供网络连接、路由表、接口统计等信息
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> 2Network analysis tools -> 网络分析工具</summary>
         <pre><code>
@@ -442,7 +440,7 @@
             nethogs -> 监视每个进程的网络带宽使用
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> 3Process management and viewing tools -> 进程管理和查看工具</summary>
         <pre><code>
@@ -452,7 +450,7 @@
             lsof -> 列出所有打开的文件和它们的进程
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> 4Development and debugging tools -> 开发和调试工具</summary>
         <pre><code>
@@ -462,7 +460,7 @@
             pt-pmp -> 查看进程的调用栈
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> 5Other Useful Tools -> 其他实用工具</summary>
         <pre><code>
@@ -473,7 +471,7 @@
             nagios -> 网络和服务器监控工具
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> 6software testing tool -> 软件测试工具</summary>
         <pre><code>
@@ -481,7 +479,7 @@
             Allure -> 用于自动化测试的报告工具
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> 7Package management tools -> 软件包管理工具</summary>
         <pre><code>
@@ -495,7 +493,7 @@
         </details>
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Peculiarity -> UE相关特性介绍</summary>
     <pre><code>
@@ -506,14 +504,14 @@
         Niagara - 粒子系统
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Plugins -> UE相关插件介绍</summary>
     <pre><code>
         plugins -> UE相关插件介绍汇总
     </code></pre>
     </details> 
-        <br />
+    <br>
     <details>
     <summary>-> UE -> UE相关工具介绍</summary>
     <pre><code>
@@ -521,7 +519,7 @@
         UHT - 虚幻头工具 UnrealHeaderTool
     </code></pre>
     </details> 
-        <br />
+    <br>
     <details>
     <summary>-> vs code -> visual studio code 配置</summary>
     <pre><code>
@@ -533,7 +531,7 @@
         tasks - 任务配置
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Windows -> Windows相关工具</summary>
     <pre><code>
@@ -546,14 +544,14 @@
             WindowsFileMoveToAndroid - 跨设备文件迁移脚本
         </code></pre>
         </details> 
-            <br />
+        <br>
         <details>
         <summary>-> cmd -> cmd工具</summary>
         <pre><code>
             cmd - cmd指令汇总及介绍
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> powershell -> powershell工具</summary>
         <pre><code>
@@ -570,7 +568,7 @@
         windows_debug_method - windows代码调试方法
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
 <pre><code>
@@ -584,7 +582,7 @@
     -> book notes -> 书籍相关笔记
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> Unreal Engine5 -> ue5相关的笔记(Loading...)</summary>
 <pre><code>
@@ -601,7 +599,7 @@
         枚举(Enum) - 枚举
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> 模型(Model) - 基本模型创建</summary>
     <pre><code>
@@ -616,7 +614,7 @@
         -> 8放置Actor面板
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> 人工智能(Artificial Intelligence) - AI行为要素</summary>
     <pre><code>
@@ -624,7 +622,7 @@
         行为树(Behavior Tree) - AI行为逻辑设定
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> 输入(Input) -> ue5增强输入特性</summary>
     <pre><code>
@@ -635,7 +633,7 @@
         ProjectSetting_AxisMappings - 连续渐进按键预设
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Cpp -> UE中c++开发相关笔记</summary>
     <pre><code>
@@ -657,7 +655,7 @@
             USTRUCT - 结构体
         </code></pre>
         </details>
-            <br />
+        <br>
         <details>
         <summary>-> Class -> UE类</summary>
         <pre><code>
@@ -670,7 +668,7 @@
                 thread - c++基础多线程
             </code></pre>
             </details>
-                <br />
+            <br>
             <details>
             <summary>-> 异步 -> UE异步汇总</summary>
             <pre><code>
@@ -681,14 +679,14 @@
         </details>
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Project-Build -> 以vs构建工程笔记</summary>
     <pre><code>
         Note - 笔记
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Project-Package -> 不同环境打包工程笔记</summary>
     <pre><code>
@@ -699,7 +697,7 @@
     bate -> ue版本控制
 </code></pre>
 </details>
-    <br />
+<br>
 <details>
 <summary>-> Unreal Engine from Project -> 实现为主,泛化为辅(Loading...)</summary>
 <pre><code>
@@ -720,7 +718,7 @@
         -> Unreal_Explorer 392671534
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> Website -> 个人网站</summary>
     <pre><code>
@@ -728,35 +726,52 @@
         风恋残雪_凡事看本质
     </code></pre>
     </details>
-        <br />
+    <br>
     <details>
     <summary>-> zhihu -> 知乎</summary>
     <pre><code>
+        菜小弟
         大侠刘茗
         大钊_InsideUE4
         戴巍
         房燕良
         放牛的星星
+        飞翔的子明
         孤傲雕
+        锅约科
         技术宅阿棍儿
         篮子悠悠
+        灵知子
         南京周润发
+        南山烟雨珠江潮
+        牛岱
+        清风亦枫
         日天
         小熊猫吃牙膏
         星辰大海
         喧嚣
+        杨睿涵
+        一块大饼
         一头神秘鸟
+        易米八一
         这像画码
         佐味_图解ue4源码
+        bluecoder
         DrakFlameMaster
         davidpp
         Elvic Liang
         FlyingTree
+        IceBear
         Jerish
         Jiff
+        Jone
         LRyir
         Mantra
         Michael
+        Mick235711
+        MoonChildnSky
+        rayhunter
+        ShaVenZz
     </code></pre>
     </details>
     0MarkdownGrammar - markdown语法
@@ -765,7 +780,7 @@
     Readme - 本根目录内容说明
 </code></pre>
 </details>
-    <br />
+<br>
 
 import - 导入到ue相关内容现象记录
 
