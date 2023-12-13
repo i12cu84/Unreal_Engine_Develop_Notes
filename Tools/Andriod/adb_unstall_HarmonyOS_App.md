@@ -1,0 +1,29 @@
+笔者在使用[鸿蒙工具箱-LowSDK23.06](https://url97.ctfile.com/f/45097797-877088385-1bb099?p=2766)(bilibili找到的,作者一只靓仔琦)后
+
+发现鸿蒙系统仍有"日历"和"图库"两个预装app无法卸载
+
+(我用的是鸿蒙2系统,不想升级,别问为什么,都是血泪)
+
+使用搜索到的回答发现频频出错,推测是包名错误的
+
+使用adb来检索包名
+```
+adb shell pm list packages //查找手机安装的所有包名
+adb shell "dumpsys window w |grep \/ |grep name=" //查看正在运行的应用的包名
+```
+得到结论:
+
+日历的包名是"com.huawei.calendar",图库的包名是"com.huawei.photos"
+
+启用adb代码即可卸载
+```
+adb shell pm uninstall --user 0 com.huawei.photos
+adb shell pm uninstall --user 0 com.huawei.calendar
+```
+其他什么adb使用啊,工具使用啊什么的我就不赘述了,以上.
+
+相关资料
+https://zhuanlan.zhihu.com/p/671816189
+https://www.zhihu.com/question/323392548/answer/1097522100
+https://www.cnblogs.com/ximaomao/p/14081479.html
+https://rescenter.top/newsinfoview-105.html
