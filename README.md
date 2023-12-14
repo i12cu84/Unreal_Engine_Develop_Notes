@@ -3,7 +3,7 @@
 <details>
 <summary>-> assets -> 有关所有notes的markdown图片</summary>
 <pre><code>
-    [持续补充,将会适配到所有markdown中]
+    [持续补充,将会适配到有需要的markdown中]
 </code></pre>
 </details>
 <br>
@@ -515,6 +515,13 @@
     <details>
     <summary>-> UE -> UE相关工具介绍</summary>
     <pre><code>
+        <details>
+        <summary>-> component -> ue工程模块解析</summary>
+        <pre><code>
+            DelegateCombinations - 委托模块
+        </code></pre>
+        </details>
+        <br>
         UBT - 虚幻编译工具 UnrealBuildTool
         UHT - 虚幻头工具 UnrealHeaderTool
     </code></pre>
