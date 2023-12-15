@@ -203,7 +203,7 @@ static_assert(_MSC_VER >= 1929, "Visual Studio 2019 v16.11 or greater is require
 #pragma warning(disable : 4255) // 'function':没有给出函数原型:将'()'转换为'(void)' https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4255
 #pragma warning(disable : 4263) // 'function':成员函数不覆盖任何基类虚成员函数https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4263
 #pragma warning(disable : 4264) // ` virtual_function `:基类` class `中的虚成员函数没有可用的重载;功能隐藏https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4264
-#pragma warning(3 : 4265)		// 'class':类有虚函数，但析构函数不是虚函数https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4265
+#pragma warning(3 : 4265)       // 'class':类有虚函数，但析构函数不是虚函数https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4265
 #pragma warning(disable : 4287) // ` operator `:无符号/负常量不匹配https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4264
 #pragma warning(disable : 4289) // 非标准扩展used: 'var':在for循环中声明的循环控制变量在for循环作用域之外使用https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4289
 
