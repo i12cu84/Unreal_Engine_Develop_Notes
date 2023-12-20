@@ -11,7 +11,7 @@ fbx格式:
 max格式:
     3dmax 预先操作 (选中模型转换为可编辑网格) -> datasmith直连导入ue后为静态网格体
 
-rvt格式:
+revit格式:
     revit datasmith直连导入资源 -> 有静态网格与Actor
 
 mistake:

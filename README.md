@@ -340,6 +340,13 @@
 <summary>-> shared -> 知识分享</summary>
 <pre><code>
     <details>
+    <summary>-> app -> Python执行文件</summary>
+    <pre><code>
+        [详细功能在文件中有注释,不赘述]
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> bin -> Windows执行文件</summary>
     <pre><code>
         WindowsFileMoveTo - 移动到路径文件夹的脚本
@@ -378,6 +385,13 @@
         c++编程规范-101条规则准则与最佳实践
     </code></pre>
     </details>
+    <br>
+    <details>
+    <summary>-> source -> C++执行文件</summary>
+    <pre><code>
+        [详细功能在文件中有注释,不赘述]
+    </code></pre>
+    </details>
 </code></pre>
 </details>
 <br>
@@ -403,6 +417,7 @@
     <summary>-> Compiler -> 编译器</summary>
     <pre><code>
         c_cpp - c和cpp的编译器汇总及介绍
+        python - python的库汇总及介绍
     </code></pre>
     </details>
     <br>
