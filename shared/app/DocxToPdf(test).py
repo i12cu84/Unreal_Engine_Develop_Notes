@@ -1,4 +1,4 @@
-#Word转Pdf (coding) 有折损版
+#Word转Pdf (coding) 指定字体版
 from docx import Document
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
