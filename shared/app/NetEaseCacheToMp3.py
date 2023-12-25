@@ -4,7 +4,7 @@ import re
 import requests
 import json
 
-def generate_files(path):
+def NetEaseCacheToMp3(path):
     # 初始化一个字典，用于将歌曲ID映射到文件名
     id2file = {}
     # 获取指定路径下的所有文件列表
@@ -51,4 +51,4 @@ def generate_files(path):
 # 指定歌曲缓存路径
 path = r'C:/Users/i12cu84/Downloads/Cache/'
 # 调用函数开始处理歌曲文件
-generate_files(path)
+NetEaseCacheToMp3(path)
