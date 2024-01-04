@@ -8,14 +8,6 @@
 </details>
 <br>
 <details>
-<summary>-> build -> ue自身工程代码架构及记录</summary>
-<pre><code>
-    Core_Runtime - 工程核心
-    DesignProject - 工程设计
-</code></pre>
-</details>
-<br>
-<details>
 <summary>-> CppPeculiarity -> C++特性笔记</summary>
 <pre><code>
     <details>
@@ -300,7 +292,17 @@
 <summary>-> OtherFile -> 汇总笔记(环境构建以及其他总结)</summary>
 <pre><code>
     <details>
-    <summary>-> construct -> 环境配置</summary>
+    <summary>-> build -> ue自身工程代码架构及记录</summary>
+    <pre><code>
+        CoreRuntime - 工程核心
+        DesignProject - 工程设计
+        ImportModel - 工程模型导入
+        RootDirectory - 工程目录
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Construct -> 环境配置</summary>
     <pre><code>
         Construct the Android Packing And Debug - 构建Android环境的笔记
         Construct the Android - 构建Android环境的笔记
@@ -311,10 +313,16 @@
         Construct the vcpkg - 构建vcpkg的笔记
     </code></pre>
     </details>
+    <br>
+    <details>
+    <summary>-> Log -> 日志</summary>
+    <pre><code>
+        Creash problem - 目前遇到ue闪退的主要解决方案
+        Debug_Log - 调试编译日志
+        EncounterProblemsAndMethod - 目前遇到ue崩溃问题及其解决方案
+    </code></pre>
+    </details>
     agreement - 开源协议汇总
-    Creash problem - 目前遇到ue闪退的主要解决方案
-    Debug_Log - 调试编译日志
-    EncounterProblemsAndMethod - 目前遇到ue崩溃问题及其解决方案
     game task - 各类游戏操作记录
     node notes - 节点汇总笔记
     OpenMoreLib - Open前缀三方扩展库
@@ -369,6 +377,84 @@
     <summary>-> local -> 局部内容更新</summary>
     <pre><code>
         HotUpdateHotFix -> 热更新
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> modules -> 算法模块</summary>
+    <pre><code>
+        <details>
+        <summary>-> DeepLearningAlgorithm -> 深度学习算法</summary>
+        <pre><code>
+            Convolutional Neural Networks -> 卷积神经网络
+            Recurrent Neural Networks -> 循环神经网络
+            Long Short-Term Memory Networks -> 长短期记忆网络
+            Gated Recurrent Unit -> 门控循环单元
+            Autoencoders -> 自编码器
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> EvolutionaryAlgorithm -> 进化算法</summary>
+        <pre><code>
+            GeneticAlgorithm -> 遗传算法
+            ParticleSwarmOptimization -> 粒子群优化
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> MachineLearningAlgorithm -> 机器学习算法</summary>
+        <pre><code>
+            LinearRegression -> 线性回归
+            LogisticRegression -> 逻辑回归
+            DecisionTrees -> 决策树
+            RandomForests -> 随机森林
+            SupportVectorMachines -> 支持向量机
+            NeuralNetworks -> 神经网络
+            Adaboost -> 集成算法
+            GradientBoosting -> 梯度提升
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> NaturalLanguageProcessingAlgorithm -> 自然语言处理算法(NLP算法)</summary>
+        <pre><code>
+            NaiveBayes -> 朴素贝叶斯
+            LogisticRegression -> 逻辑回归
+            SupportVectorMachine(SVN) -> 支持向量机
+            ConvolutionalNeuralNetwork(CNN) -> 卷积神经网络
+            RecurrentNeuralNetwork(RNN) -> 循环神经网络
+            LongShortTermMemory(LSTM) -> 长短时记忆网络
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> OtherAlgorithm -> 其他算法</summary>
+        <pre><code>
+            KNN(K-NearestNeighbors) -> K最近邻
+            MarkovChains -> 马尔可夫链
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> ReinforcementLearningAlgorithm -> 强化学习算法</summary>
+        <pre><code>
+            Q-Learning -> Q学习
+            Deep Q-Network -> 深度Q网络
+            Policy Gradient -> 策略梯度
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> UnsupervisedLearningArithmeticAlgorithm -> 算法模块</summary>
+        <pre><code>
+            Unsupervised-Learning-Arithmetic-Algorithm -> 无监督学习算法
+            K-Means Clustering -> K均值聚类
+            Hierarchical Clustering -> 层次聚类
+            Principal Component Analysis -> 主成分分析
+            Autoencoders -> 自编码器
+        </code></pre>
+        </details>
     </code></pre>
     </details>
     <br>

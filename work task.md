@@ -1,11 +1,9 @@
 now:
 
-Android输入与widget行为事件与交互(ing~)
+character action
 
-will:
+will maybe:
 
 粒子特效
-
-unforget:
 
 局域网内联机
