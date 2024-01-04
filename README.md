@@ -487,6 +487,7 @@
     <details>
     <summary>-> Andriod -> 安卓</summary>
     <pre><code>
+        adb_unstall_HarmonyOS_App - 安卓卸载鸿蒙应用
         adb - 安卓调试工具
         fastboot - 安卓快速启动
     </code></pre>
@@ -609,9 +610,9 @@
     <details>
     <summary>-> Plugins -> UE相关插件介绍</summary>
     <pre><code>
-        plugins -> UE相关插件介绍汇总
+        plugins -> UE相关插件介绍描述汇总
     </code></pre>
-    </details> 
+    </details>
     <br>
     <details>
     <summary>-> UE -> UE相关工具介绍</summary>
@@ -619,8 +620,12 @@
         <details>
         <summary>-> code -> ue工程模块解析(version 5.2.1)</summary>
         <pre><code>
+            AugmentedReality - 增强现实
+            Chaos - 动态破碎布料解算
             Delegate - 委托
             Engine - 引擎
+            Input - 输入
+            Misc - 杂项
             UObject - 对象
             Windows - Windows配置
         </code></pre>
@@ -629,17 +634,31 @@
         UBT - 虚幻编译工具 UnrealBuildTool
         UHT - 虚幻头工具 UnrealHeaderTool
     </code></pre>
-    </details> 
+    </details>
     <br>
     <details>
     <summary>-> vs code -> visual studio code 配置</summary>
     <pre><code>
-        add_plugins - 目前存在的插件
-        c_cpp_properties - c++语言配置
-        keybindings - 快捷键配置
-        launch - 调试配置
-        settings - 设置
-        tasks - 任务配置
+        <details>
+        <summary>-> .vscode -> 配置文件</summary>
+        <pre><code>
+            c_cpp_properties - c++语言配置
+            extensions - 插件配置(含介绍)
+            keybindings - 快捷键配置
+            launch - 调试配置
+            settings - 设置
+            tasks - 任务配置
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> User -> 配置文件(用户目录)</summary>
+        <pre><code>
+            keybindings - 快捷键配置
+            settings - 设置
+        </code></pre>
+        </details>
+        regex find and replace - 搜索替换正则表达式
     </code></pre>
     </details>
     <br>
@@ -652,9 +671,10 @@
             BatchScript - Batch Script指令整合
             Install_[Android_Project_Name]-arm64 - 安装安卓脚本
             Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
+            WindowsFileMoveTo - 同设备文件迁移脚本
             WindowsFileMoveToAndroid - 跨设备文件迁移脚本
         </code></pre>
-        </details> 
+        </details>
         <br>
         <details>
         <summary>-> cmd -> cmd工具</summary>
@@ -672,7 +692,7 @@
         compare batch_script cmd - 两者差异
         compare powershell cmd - 两者差异
     </code></pre>
-    </details> 
+    </details>
         cloc - 代码统计工具
         GDA - Android apk 解析工具
         linux_debug_method - linux代码调试方法
@@ -683,14 +703,76 @@
 <details>
 <summary>-> Unreal Engine4 -> ue4相关的笔记(Done)</summary>
 <pre><code>
-    -> 0【虚幻4】UE4初学者系列教程合集-全中文新手入门教程 BV164411Y732
-    -> 1 siki Cpp基础 BV1Wt4y1Q7ED
-    -> 2 siki 动作游戏入门 BV1Ki4y1V78e
-    -> 3 官网 开始入门
-    -> 4 siki Unreal蓝图案例 BV1F7411L7pg
-    -> 5 siki 换装系统 BV1p64y1F7fh
-    -> 6 背包系统 BV1r4411d76g
-    -> book notes -> 书籍相关笔记
+    <details>
+    <summary>-> 0【虚幻4】UE4初学者系列教程合集-全中文新手入门教程 BV164411Y732</summary>
+    <pre><code>
+        基础笔记
+        蓝图笔记
+        AI行为树
+        动画入门
+        节点笔记
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> 1 siki Cpp基础 BV1Wt4y1Q7ED</summary>
+    <pre><code>
+        code - 代码
+        cpp基础
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> 2 siki 动作游戏入门 BV1Ki4y1V78e</summary>
+    <pre><code>
+        人物移动动画
+        动画重定向
+        视角攻击
+        人物碰撞
+        血条受伤及动画
+        动画及行为树
+        敌人的攻击
+        行为树
+        动画融合
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> 3 官网 开始入门e</summary>
+    <pre><code>
+        相关网址
+        走向喜欢引擎
+        AEC蓝图案例课程
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> 4 siki Unreal蓝图案例 BV1F7411L7pg</summary>
+    <pre><code>
+        note - 笔记
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> 5 siki 换装系统 BV1p64y1F7fh</summary>
+    <pre><code>
+        note - 笔记
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> 6 背包系统 BV1r4411d76g</summary>
+    <pre><code>
+        note - 笔记
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> book notes -> 书籍相关笔记</summary>
+    <pre><code>
+        UnrealEngine4蓝图完全学习教程
+    </code></pre>
+    </details>
 </code></pre>
 </details>
 <br>
@@ -747,26 +829,6 @@
     <br>
     <details>
     <summary>-> Cpp -> UE中c++开发相关笔记</summary>
-    <pre><code>
-        <details>
-        <summary>-> define -> UE宏预设</summary>
-        <pre><code>
-            GENERATED_BODY - 生成代码模板
-            RIGVM_METHOD - 蓝图中的虚拟机方法
-            UCLASS - 类
-            UCLASSES - 组类声明
-            UDELEGATE - 事件委托
-            UENUM - 枚举
-            UFUNCTION - 蓝图中调用的函数
-            UFUNCTIONPOINTER - 函数指针
-            UINTERFACE - 接口
-            UMETA - 类、属性或函数添加元数据
-            UPARAM - 声明函数的参数
-            UPROPERTY - 定义属性元数据和变量说明符
-            USTRUCT - 结构体
-        </code></pre>
-        </details>
-        <br>
         <details>
         <summary>-> Class -> UE类</summary>
         <pre><code>
@@ -786,6 +848,26 @@
                 UBlueprintAsyncActionBase - 异步蓝图
             </code></pre>
             </details>
+            TEXT FNAME FSTRING - 三大文本类型转换
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> define -> UE宏预设</summary>
+        <pre><code>
+            GENERATED_BODY - 生成代码模板
+            RIGVM_METHOD - 蓝图中的虚拟机方法
+            UCLASS - 类
+            UCLASSES - 组类声明
+            UDELEGATE - 事件委托
+            UENUM - 枚举
+            UFUNCTION - 蓝图中调用的函数
+            UFUNCTIONPOINTER - 函数指针
+            UINTERFACE - 接口
+            UMETA - 类、属性或函数添加元数据
+            UPARAM - 声明函数的参数
+            UPROPERTY - 定义属性元数据和变量说明符
+            USTRUCT - 结构体
         </code></pre>
         </details>
     </code></pre>
@@ -804,7 +886,7 @@
         Android - 打包安卓
         Windows - 打包Windows
     </code></pre>
-    </details> 
+    </details>
     bate -> ue版本控制
 </code></pre>
 </details>
@@ -895,11 +977,9 @@
 </details>
 <br>
 
-import - 导入到ue相关内容现象记录
-
-plugins - 笔者已知的ue相关插件描述
+READNE - 展示当前路径文件夹内容(即当前文件)[其余同名文件不做赘述]
 
 ResearchBlueprintNodeNow - 目前侧重研究的ue节点
 
-work task - 笔者目前的**工作重心**
+work task - 笔者目前的工作重心
 
