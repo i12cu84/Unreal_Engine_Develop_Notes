@@ -348,6 +348,27 @@
 <summary>-> shared -> 知识分享</summary>
 <pre><code>
     <details>
+    <summary>-> algorithm -> 常规算法</summary>
+    <pre><code>
+        AVL-Tree-Cpp - AVL树
+        Bezier-Curve-Cpp - 贝塞尔曲线
+        B-Plus-Tree-Cpp - B+树
+        BRDF-Cpp - 双向反射分布函数
+        BSP-Tree-Cpp - 二叉空间划分
+        BSSRDF-Cpp - 双向散射表面反射分布函数
+        BVH-Cpp - 层次包围盒
+        Convex-hull-Algorithm-Cpp - 凸包
+        Huffman-Compression-Algorithm-Cpp - 哈夫曼编码
+        KD-Tree-Cpp - KD树
+        MCPT-Cpp - 蒙特卡洛路径追踪
+        NURBS-Cpp - 非均匀有理B样条曲线
+        Octree-Cpp - 八叉树
+        Ray-Tracing-Cpp - 光线追踪
+        Red-Black-Tree-Cpp - 红黑树
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> app -> Python执行文件</summary>
     <pre><code>
         [详细功能在文件中有注释,不赘述]
@@ -359,6 +380,98 @@
     <pre><code>
         WindowsFileMoveTo - 移动到路径文件夹的脚本
         WindowsFileMoveToAndroid - 移动到Android文件夹的脚本
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> data -> 数值处理</summary>
+    <pre><code>
+        <details>
+        <summary>-> Data-Mining-Algorithm-Matlab -> 数据挖掘</summary>
+        <pre><code>
+            Apriori - 关联规则挖掘算法
+            K-means - K-均值算法
+            Hierarchical clustering - 分层聚类
+            ID3 - 决策树
+            Naive bayes classifier - 朴素贝叶斯分类器
+            Support vector machine - 支持向量机
+            Fuzzy C-means clustering algorithm - 模糊c均值聚类算法
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> Intelligent-Computing-Matlab -> 智能计算</summary>
+        <pre><code>
+            BP neural network - BP神经网络
+            Hopfield neural network - Hopfield神经网络
+            Radial basis function - 径向基函数
+            Genetic algorithm - 遗传算法
+            Particle swarm optimization - 粒子群优化算法
+            Ant colony algorithm - 蚁群算法
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> Numerical-Algebra-Matlab -> 数值代数</summary>
+        <pre><code>
+            Gaussian elimination method - 高斯消去法
+            Column pivot elimination - 列轴消元法
+            Chasing method - 追逐法
+            Root-squaring method - Root-squaring方法
+            Jacobi iteration method - 雅可比迭代法
+            Gaussian iteration method - 高斯迭代法
+            JOR method - 约旦迭代法
+            SOR method - 超松弛迭代法
+            Steepest descent method - 最速下降法
+            Conjugate gradient methods - 共轭梯度法
+            The steepest descent method and the rate of convergence - 最速下降法和收敛速度
+            Newton iteration method - 牛顿迭代法
+            Secant method - 割线法
+            Iteration method - 迭代法
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> Numerical-Approximation-Matlab -> 数值逼近</summary>
+        <pre><code>
+            Lagrange's interpolation - 拉格朗日插值
+            Newton interpolation - 牛顿插值
+            Analogue function - 模拟
+            Hermite interpolation function - 埃尔米特插值
+            Spline interpolation - 样条插值
+            Polynomial canonical orthogonal fit - 多项式正则正交拟合
+            Newton-cotes formula - 牛顿-柯特斯公式
+            Euler's method - 欧拉方法
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> Numerical-Methods-for-PDE-Matlab -> 偏微分方程数值解法</summary>
+        <pre><code>
+            PDE fun - 数值解法函数
+            Finite difference method - 有限差分法
+            Finite element difference method - 有限元差分法
+            Calculus of differences - 差分演算
+            Two dimensional heat conduction equation - 二维热传导方程
+            ADI - 求解偏微分方程的数值方法
+            Wave equation - 波动方程
+            Diffusion-convection equation - 对流扩散方程
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> Optimization-Theory-and-Algorithms-Matlab -> 最优化理论</summary>
+        <pre><code>
+            Linear programming - 线性规划
+            Golden cut algorithm - 黄金分割算法
+            Ternary quadratic interpolation method - 三元二次插值法
+            Steepest descent method - 最速下降法
+            Newton method - 牛顿法
+            Conjugate gradient methods - 共轭梯度法
+            Uadratic programming - 二次规划
+            Rosen's gradient projection method - 梯度投影法
+        </code></pre>
+        </details>
     </code></pre>
     </details>
     <br>
@@ -381,7 +494,7 @@
     </details>
     <br>
     <details>
-    <summary>-> modules -> 算法模块</summary>
+    <summary>-> modules -> 机器学习算法模块</summary>
     <pre><code>
         <details>
         <summary>-> DeepLearningAlgorithm -> 深度学习算法</summary>
@@ -429,7 +542,7 @@
         </details>
         <br>
         <details>
-        <summary>-> OtherAlgorithm -> 其他算法</summary>
+        <summary>-> OtherArtificialIntelligenceAlgorithm -> 其他人工智能算法</summary>
         <pre><code>
             KNN(K-NearestNeighbors) -> K最近邻
             MarkovChains -> 马尔可夫链
@@ -459,8 +572,24 @@
     </details>
     <br>
     <details>
+    <summary>-> paper -> 毕业设计</summary>
+    <pre><code>
+        [已整理,不赘述]
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> plugins -> UE插件</summary>
+    <pre><code>
+        lib - 蓝图库插件
+        TP - 添加Tag/导出Tag插件
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> private -> 笔者公开分享私有知识(转载请注明出处)</summary>
     <pre><code>
+        AutoHotkey-quick-click-Follow - 自动跟随脚本
         AutoAgree.js -> 自动点赞脚本
     </code></pre>
     </details>

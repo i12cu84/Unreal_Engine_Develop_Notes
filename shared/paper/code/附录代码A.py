@@ -1,0 +1,10 @@
+import pandas as pd
+a2=pd.read_excel(r"C:\Users\LENOVO\Desktop\国赛\C\工作簿1.xlsx")
+a2['信誉评级A企业']=(a2['贷款年利率'])*(1-a2['信誉等级A'])
+a2['信誉评级B企业']=(a2['贷款年利率'])*(1-a2['信誉等级B'])
+a2['信誉评级C企业']=(a2['贷款年利率'])*(1-a2['信誉等级C'])
+del(a2['信誉等级A'])
+del(a2['信誉等级B'])
+del(a2['信誉等级C'])
+del(a2['贷款年利率'])
+a2.to_csv(r'C:\Users\LENOVO\Desktop\国赛\C\附件A的数据.csv', encoding='utf_8_sig')
