@@ -494,6 +494,13 @@
     </details>
     <br>
     <details>
+    <summary>-> log -> unity开发日志</summary>
+    <pre><code>
+        [详情看本作者上传的同名库,库中有demo,不赘述]
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> modules -> 机器学习算法模块</summary>
     <pre><code>
         <details>
