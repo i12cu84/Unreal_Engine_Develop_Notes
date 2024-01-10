@@ -587,18 +587,10 @@
     </details>
     <br>
     <details>
-    <summary>-> plugins -> UE插件</summary>
-    <pre><code>
-        lib - 蓝图库插件
-        TP - 添加Tag/导出Tag插件
-    </code></pre>
-    </details>
-    <br>
-    <details>
     <summary>-> private -> 笔者公开分享私有知识(转载请注明出处)</summary>
     <pre><code>
         AutoHotkey-quick-click-Follow - 自动跟随脚本
-        AutoAgree.js -> 自动点赞脚本
+        AutoAgree.js - 自动点赞脚本
     </code></pre>
     </details>
     <br>
@@ -660,74 +652,74 @@
         <details>
         <summary>-> 1System monitoring tool -> 系统监控工具</summary>
         <pre><code>
-            vmstat -> 提供系统运行状态信息，如CPU使用率、内存使用情况、磁盘I/O等
-            iostat -> 用于监控系统硬盘的使用情况
-            sar（System Activity Reporter） -> 收集和报告系统活动的工具，提供全面的系统性能分析
-            htop -> 进程监控工具，提供了丰富的界面来查看系统的实时进程和资源使用情况
-            iotop -> 磁盘I/O监测工具，用于监控系统中的磁盘I/O活动
-            free -> 显示内存的使用情况
-            netstat -> 提供网络连接、路由表、接口统计等信息
+            vmstat - 提供系统运行状态信息，如CPU使用率、内存使用情况、磁盘I/O等
+            iostat - 用于监控系统硬盘的使用情况
+            sar（System Activity Reporter） - 收集和报告系统活动的工具，提供全面的系统性能分析
+            htop - 进程监控工具，提供了丰富的界面来查看系统的实时进程和资源使用情况
+            iotop - 磁盘I/O监测工具，用于监控系统中的磁盘I/O活动
+            free - 显示内存的使用情况
+            netstat - 提供网络连接、路由表、接口统计等信息
         </code></pre>
         </details>
         <br>
         <details>
         <summary>-> 2Network analysis tools -> 网络分析工具</summary>
         <pre><code>
-            tcpdump -> 网络数据包捕获和分析工具
-            iftop -> 监控网络带宽使用情况
-            iptraf -> 提供实时的IP网络监控
-            nethogs -> 监视每个进程的网络带宽使用
+            tcpdump - 网络数据包捕获和分析工具
+            iftop - 监控网络带宽使用情况
+            iptraf - 提供实时的IP网络监控
+            nethogs - 监视每个进程的网络带宽使用
         </code></pre>
         </details>
         <br>
         <details>
         <summary>-> 3Process management and viewing tools -> 进程管理和查看工具</summary>
         <pre><code>
-            ps -> 查看当前运行的进程
-            pstack -> 显示进程的调用栈
-            fuser -> 通过文件或文件结构来识别使用该文件的进程
-            lsof -> 列出所有打开的文件和它们的进程
+            ps - 查看当前运行的进程
+            pstack - 显示进程的调用栈
+            fuser - 通过文件或文件结构来识别使用该文件的进程
+            lsof - 列出所有打开的文件和它们的进程
         </code></pre>
         </details>
         <br>
         <details>
         <summary>-> 4Development and debugging tools -> 开发和调试工具</summary>
         <pre><code>
-            gdb -> 程序调试器
-            make -> 自动化构建工具
-            pt-query-digest -> 查询MySQL数据库的性能
-            pt-pmp -> 查看进程的调用栈
+            gdb - 程序调试器
+            make - 自动化构建工具
+            pt-query-digest - 查询MySQL数据库的性能
+            pt-pmp - 查看进程的调用栈
         </code></pre>
         </details>
         <br>
         <details>
         <summary>-> 5Other Useful Tools -> 其他实用工具</summary>
         <pre><code>
-            byobu、tmux、screen -> 终端复用和会话管理工具，允许在多个会话之间切换
-            dstat -> 综合监控系统运行状态
-            arpwatch -> 监控以太网活动
-            suricata -> 网络安全监控工具
-            nagios -> 网络和服务器监控工具
+            byobu、tmux、screen - 终端复用和会话管理工具，允许在多个会话之间切换
+            dstat - 综合监控系统运行状态
+            arpwatch - 监控以太网活动
+            suricata - 网络安全监控工具
+            nagios - 网络和服务器监控工具
         </code></pre>
         </details>
         <br>
         <details>
         <summary>-> 6software testing tool -> 软件测试工具</summary>
         <pre><code>
-            pytest -> 流行的Python测试框架
-            Allure -> 用于自动化测试的报告工具
+            pytest - 流行的Python测试框架
+            Allure - 用于自动化测试的报告工具
         </code></pre>
         </details>
         <br>
         <details>
         <summary>-> 7Package management tools -> 软件包管理工具</summary>
         <pre><code>
-            yum -> 基于RPM的Linux软件包管理工具
-            apt-get -> 基于Debian的Linux软件包管理工具
-            pacman -> 基于Arch Linux的软件包管理工具
-            emerge -> 基于Gentoo的软件包管理工具
-            pkg -> 基于NetBSD的软件包管理工具
-            pkg_add -> 基于OpenBSD的软件包管理工具
+            yum - 基于RPM的Linux软件包管理工具
+            apt-get - 基于Debian的Linux软件包管理工具
+            pacman - 基于Arch Linux的软件包管理工具
+            emerge - 基于Gentoo的软件包管理工具
+            pkg - 基于NetBSD的软件包管理工具
+            pkg_add - 基于OpenBSD的软件包管理工具
         </code></pre>
         </details>
     </code></pre>
@@ -747,7 +739,9 @@
     <details>
     <summary>-> Plugins -> UE相关插件介绍</summary>
     <pre><code>
-        plugins -> UE相关插件介绍描述汇总
+        lib - 蓝图库插件
+        TP - 添加Tag/导出Tag插件
+        plugins - UE相关插件介绍描述汇总
     </code></pre>
     </details>
     <br>
@@ -1025,7 +1019,7 @@
         Windows - 打包Windows
     </code></pre>
     </details>
-    bate -> ue版本控制
+    bate - ue版本控制
 </code></pre>
 </details>
 <br>

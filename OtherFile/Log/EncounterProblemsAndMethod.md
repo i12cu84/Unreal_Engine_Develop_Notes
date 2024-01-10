@@ -170,6 +170,8 @@ command -> Android.NewKeyboard 0~2
 https://docs.unrealengine.com/5.2/zh-CN/setting-up-android-virtual-keyboard-in-unreal-engine-projects/
 (可能可行的方案)用lua调用java的启用虚拟键盘的方案
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 problem:(打包报错)
 PackagingResults: Error: Couldn't find file for package /Game/NewLevelSequence requested by async loading code. NameToLoad: /Game/NewLevelSequence
 method:
