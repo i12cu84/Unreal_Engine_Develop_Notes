@@ -308,7 +308,7 @@
         Construct the Android - 构建Android环境的笔记
         Construct the cpp boost - 构建c++ Boost环境的笔记
         Construct the cpp - 构建c++环境的笔记
-        Construct the cpp - 构建c++标准库20环境的笔记
+        Construct the cpp20 - 构建c++标准库20环境的笔记
         Construct the python from ue5 - 构建python环境的笔记
         Construct the Twin cranes - 构建小鹤双拼(Windows)环境的笔记
         Construct the vcpkg - 构建vcpkg的笔记
@@ -1114,4 +1114,3 @@ READNE - 展示当前路径文件夹内容(即当前文件)[其余同名文件�
 ResearchBlueprintNodeNow - 目前侧重研究的ue节点
 
 work task - 笔者目前的工作重心
-
