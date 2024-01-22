@@ -45,6 +45,7 @@
 - 安卓11支持
 
 warning:4版本突发到5版本会有很大的变化(得不偿失,不建议跳)
+迁移指南:https://docs.unrealengine.com/5.0/zh-CN/unreal-engine-5-migration-guide/
 
 5.0 (真实化版)
 - 颠覆性UI更迭(! 目前十分不适应)
@@ -97,5 +98,6 @@ and so on
 - 用户界面和功能改进: 用户界面得到了优化和更新，许多现有功能也得到了改进和增强。
 - 支持新的硬件和平台: 增加了对新的硬件和平台的支持，包括对苹果 M1 芯片的支持。
 - 多线程和并行处理: 增强了多线程和并行处理能力，提高了引擎的性能和效率。
+- 更多相关内容传送阵:https://docs.unrealengine.com/5.3/zh-CN/unreal-engine-5.3-release-notes/
 
 ‽
