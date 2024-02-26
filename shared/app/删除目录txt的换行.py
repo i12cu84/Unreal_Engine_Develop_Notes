@@ -1,7 +1,6 @@
-#根目录txt查找替换
 import os
 
-def replace_content(directory, old_content, new_content):
+def remove_newlines(directory):
     # 遍历指定目录
     for foldername, subfolders, filenames in os.walk(directory):
         for filename in filenames:
@@ -11,18 +10,14 @@ def replace_content(directory, old_content, new_content):
                 # 打开并读取文件内容
                 with open(filepath, 'r', encoding='utf-8') as file:
                     content = file.read()
-                    # 替换指定的内容
-                    content = content.replace(old_content, new_content)
+                    # 去除换行符
+                    content_without_newlines = content.replace('\n', '')
                     # 写回文件
                     with open(filepath, 'w', encoding='utf-8') as f:
-                        f.write(content)
-                print(f"文件'{filename}'中的'{old_content}'已替换为'{new_content}'。")
+                        f.write(content_without_newlines)
+                print(f"文件'{filename}'中的换行符已去除。")
 
 # 输入目录路径
 directory_path = os.getcwd()
-# 输入要替换的字符串
-old_content = input("请输入要替换的内容：")
-# 输入替换后的字符串
-new_content = input("请输入新的内容：")
-replace_content(directory_path, old_content, new_content)
+remove_newlines(directory_path)
 print("操作完成。")

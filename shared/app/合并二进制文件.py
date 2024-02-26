@@ -1,4 +1,3 @@
-#Merge-Binary-File
 def merge_binary_files(input_files, output_file):
     try:
         with open(output_file, 'wb') as output:

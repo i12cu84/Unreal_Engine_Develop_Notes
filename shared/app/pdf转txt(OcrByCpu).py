@@ -1,5 +1,3 @@
-#pdf转txt(用ocr识别图片) cpu处理
-
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" #bug:
 import fnmatch

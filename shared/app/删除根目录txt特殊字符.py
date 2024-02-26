@@ -1,4 +1,3 @@
-#删除根目录txt特殊字符
 import os
 import string
 

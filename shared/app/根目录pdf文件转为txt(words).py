@@ -1,4 +1,3 @@
-#遍历根目录pdf文件转为txt(同名命名)
 import os
 import PyPDF2
 

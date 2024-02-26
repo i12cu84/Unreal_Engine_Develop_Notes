@@ -1,0 +1,28 @@
+路径:C:\Windows\System32\drivers\etc
+域名解析：hosts文件允许你手动指定域名和IP地址的对应关系，这样你可以将特定域名映射到特定的IP地址。这在开发、测试或绕过DNS解析时很有用。
+本地环回：你可以使用hosts文件将本地环回地址（127.0.0.1）与一个域名关联，从而实现将域名指向本地计算机，常用于本地测试网站或应用。
+广告屏蔽：通过将广告服务器的域名映射到无效的IP地址（通常是本地环回地址或其他无效地址），可以在一定程度上阻止广告显示。
+安全性：通过编辑hosts文件，你可以阻止访问一些已知的恶意网站或不受信任的域名，从而提高系统的安全性。
+加速访问：有时候将特定域名映射到一个更快的IP地址可以加速访问速度，尤其是在访问某些内容被封锁或限制的情况下。
+
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost

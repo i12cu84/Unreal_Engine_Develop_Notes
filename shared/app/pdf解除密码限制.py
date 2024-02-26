@@ -1,4 +1,3 @@
-#pdf解除密码限制
 import PyPDF2
 
 # 读取原始PDF文件

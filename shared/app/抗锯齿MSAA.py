@@ -1,4 +1,3 @@
-#MSAA
 import pygame
 import sys
 

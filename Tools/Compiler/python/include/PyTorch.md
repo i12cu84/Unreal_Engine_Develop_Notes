@@ -22,4 +22,4 @@ cuDNN版本：对于某些PyTorch版本，可能还需要安装特定版本的NV
 为了验证你所下载的PyTorch版本是否与你的设备兼容，建议在正式安装之前，先查看PyTorch官方网站上的兼容性指南，并仔细阅读与你的操作系统、Python版本、CUDA版本和其他相关依赖项相匹配的安装说明。此外，还可以参考社区论坛中的相关讨论，看看其他用户是否有相似配置的成功安装经验。
 
 下载路径
-https://pytorch.org/
+https://pytorch.org/get-started/locally/

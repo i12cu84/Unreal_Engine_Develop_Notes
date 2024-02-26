@@ -1,4 +1,3 @@
-#epub转pdf
 import os
 import pypandoc
 

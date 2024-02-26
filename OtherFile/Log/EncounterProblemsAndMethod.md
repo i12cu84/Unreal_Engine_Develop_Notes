@@ -135,7 +135,7 @@ problem:
 生成B widget时,可以对B widget操作事件,但更早生成的A widget却无法操作
 被覆盖的widget无法触发事件,可能是被不可见的窗口而遮盖导致
 method:
-1.Canvas Panel中设置Visibility - Not Hit-Testable(Self Only)
+Canvas Panel中设置Visibility - Not Hit-Testable(Self Only)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -144,7 +144,7 @@ problem:
 case:
 例如按W进行前进时,鼠标按下widget的button,则前进事件中断,导致无法前进
 method:
-1.将button控件改成image控件,按下事件绑定到image中即可
+将button控件改成image控件,按下事件绑定到image中
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -163,7 +163,7 @@ method:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 problem:(暂时未解决,原因未知)
-使用Widget中的TextBox模块,在Android里无法启动虚拟按键
+使用Widget中的TextBox模块,在Android里无法呼出启动虚拟按键
 method:
 项目设置 -> Android -> APK Packaging -> Enable improved virtual keyboard 打勾
 command -> Android.NewKeyboard 0~2
@@ -178,3 +178,18 @@ method:
 打包时因添加素材而缺失其中某些文件导致错误,
 本次错误是在UE5工程中使用了UE4的character,替换成UE5的character即可修复成功
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+problem:(运行Android报错)
+No Google Play Store Key
+No obb found and no store key to try to download. please set one up in android project settings
+method:
+项目设置 -> 平台 -> Android -> Package game data inside .apk? (打勾)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+problem:(运行Visual Studio工程)
+IntelliSense 和浏览的信息将不能用于c++项目,因为未能打开c++浏览数据库文件 ...\Browse.VC.db进行写入
+如果解决方案目录是只读的,则还会影响其他功能
+method:
+同时开了两个VS工程,关掉一个即可

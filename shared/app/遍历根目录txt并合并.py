@@ -1,4 +1,3 @@
-#遍历根目录txt并合并
 import os
 
 def merge_txt_files(root_dir):
