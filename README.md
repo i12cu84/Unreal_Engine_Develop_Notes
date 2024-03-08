@@ -15,9 +15,10 @@
     <pre><code>
         Construct the Android Packing And Debug - 构建Android环境的笔记
         Construct the Android - 构建Android环境的笔记
+        Construct the Clangd from LLVM - 构建c++ clangd环境的笔记
         Construct the cpp boost - 构建c++ Boost环境的笔记
-        Construct the cpp - 构建c++环境的笔记
         Construct the cpp20 - 构建c++标准库20环境的笔记
+        Construct the MinGW - 构建c++环境的笔记
         Construct the python from ue5 - 构建python环境的笔记
         Construct the Twin cranes - 构建小鹤双拼(Windows)环境的笔记
         Construct the vcpkg - 构建vcpkg的笔记
@@ -50,6 +51,12 @@
 <summary>-> shared -> 知识分享</summary>
 <pre><code>
     <details>
+    <summary>-> Adobe -> Adobe</summary>
+    <pre><code>
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> algorithm -> 常规算法</summary>
     <pre><code>
         AVL-Tree-Cpp - AVL树
@@ -71,9 +78,24 @@
     </details>
     <br>
     <details>
+    <summary>-> Andriod -> 安卓</summary>
+    <pre><code>
+        adb_unstall_HarmonyOS_App - 安卓卸载鸿蒙应用
+        adb - 安卓调试工具
+        fastboot - 安卓快速启动
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> app -> Python执行文件</summary>
     <pre><code>
         [详细功能在文件名和代码开头中有注释,不赘述]
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> AutoDesk -> AutoDesk</summary>
+    <pre><code>
     </code></pre>
     </details>
     <br>
@@ -82,6 +104,21 @@
     <pre><code>
         WindowsFileMoveTo - 移动到路径文件夹的脚本
         WindowsFileMoveToAndroid - 移动到Android文件夹的脚本
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> browser -> 浏览器</summary>
+    <pre><code>
+        console - js命令行
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Compiler -> 编译器</summary>
+    <pre><code>
+        c_cpp - c和cpp的编译器汇总及介绍
+        python - python的库汇总及介绍
     </code></pre>
     </details>
     <br>
@@ -189,16 +226,148 @@
     </details>
     <br>
     <details>
-    <summary>-> local -> 局部内容更新</summary>
+    <summary>-> Git -> Git上传基本指令</summary>
     <pre><code>
-        HotUpdateHotFix -> 热更新
+        OutputToGit - 输出到git仓库
+        ReverseCommit - 撤销git提交
+        UpdateToGit - 更新git仓库
     </code></pre>
     </details>
     <br>
     <details>
-    <summary>-> log -> unity开发日志</summary>
+    <summary>-> JetBrains -> JetBrains系列IDE</summary>
     <pre><code>
-        [详情看本作者上传的同名库,库中有demo,不赘述]
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Adobe -> Adobe</summary>
+    <pre><code>
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Andriod -> 安卓</summary>
+    <pre><code>
+        adb_unstall_HarmonyOS_App - 安卓卸载鸿蒙应用
+        adb - 安卓调试工具
+        fastboot - 安卓快速启动
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> AutoDesk -> AutoDesk</summary>
+    <pre><code>
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> browser -> 浏览器</summary>
+    <pre><code>
+        console - js命令行
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Compiler -> 编译器</summary>
+    <pre><code>
+        c_cpp - c和cpp的编译器汇总及介绍
+        python - python的库汇总及介绍
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Git -> Git上传基本指令</summary>
+    <pre><code>
+        OutputToGit - 输出到git仓库
+        ReverseCommit - 撤销git提交
+        UpdateToGit - 更新git仓库
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Linux -> Linux系统中工具常用指令</summary>
+    <pre><code>
+        <details>
+        <summary>-> 1System monitoring tool -> 系统监控工具</summary>
+        <pre><code>
+            vmstat - 提供系统运行状态信息，如CPU使用率、内存使用情况、磁盘I/O等
+            iostat - 用于监控系统硬盘的使用情况
+            sar（System Activity Reporter） - 收集和报告系统活动的工具，提供全面的系统性能分析
+            htop - 进程监控工具，提供了丰富的界面来查看系统的实时进程和资源使用情况
+            iotop - 磁盘I/O监测工具，用于监控系统中的磁盘I/O活动
+            free - 显示内存的使用情况
+            netstat - 提供网络连接、路由表、接口统计等信息
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> 2Network analysis tools -> 网络分析工具</summary>
+        <pre><code>
+            tcpdump - 网络数据包捕获和分析工具
+            iftop - 监控网络带宽使用情况
+            iptraf - 提供实时的IP网络监控
+            nethogs - 监视每个进程的网络带宽使用
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> 3Process management and viewing tools -> 进程管理和查看工具</summary>
+        <pre><code>
+            ps - 查看当前运行的进程
+            pstack - 显示进程的调用栈
+            fuser - 通过文件或文件结构来识别使用该文件的进程
+            lsof - 列出所有打开的文件和它们的进程
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> 4Development and debugging tools -> 开发和调试工具</summary>
+        <pre><code>
+            gdb - 程序调试器
+            make - 自动化构建工具
+            pt-query-digest - 查询MySQL数据库的性能
+            pt-pmp - 查看进程的调用栈
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> 5Other Useful Tools -> 其他实用工具</summary>
+        <pre><code>
+            byobu、tmux、screen - 终端复用和会话管理工具，允许在多个会话之间切换
+            dstat - 综合监控系统运行状态
+            arpwatch - 监控以太网活动
+            suricata - 网络安全监控工具
+            nagios - 网络和服务器监控工具
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> 6software testing tool -> 软件测试工具</summary>
+        <pre><code>
+            pytest - 流行的Python测试框架
+            Allure - 用于自动化测试的报告工具
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> 7Package management tools -> 软件包管理工具</summary>
+        <pre><code>
+            yum - 基于RPM的Linux软件包管理工具
+            apt-get - 基于Debian的Linux软件包管理工具
+            pacman - 基于Arch Linux的软件包管理工具
+            emerge - 基于Gentoo的软件包管理工具
+            pkg - 基于NetBSD的软件包管理工具
+            pkg_add - 基于OpenBSD的软件包管理工具
+        </code></pre>
+        </details>
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> local -> 局部内容更新</summary>
+    <pre><code>
+        HotUpdateHotFix -> 热更新
     </code></pre>
     </details>
     <br>
@@ -288,6 +457,26 @@
     </details>
     <br>
     <details>
+    <summary>-> Peculiarity -> UE相关特性介绍</summary>
+    <pre><code>
+        Chaos - 动态破碎布料解算
+        Feflect - 反射技术
+        Lumen - 软件光线追踪技术
+        Nanite - 动态无限面数
+        Niagara - 粒子系统
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Plugins -> UE相关插件介绍</summary>
+    <pre><code>
+        lib - 蓝图库插件
+        TP - 添加Tag/导出Tag插件
+        plugins - UE相关插件介绍描述汇总
+    </code></pre>
+    </details>
+    <br>
+    <details>
     <summary>-> private -> 笔者公开分享私有知识(转载请注明出处)</summary>
     <pre><code>
         AutoHotkey-quick-click-Follow - 自动跟随脚本
@@ -308,6 +497,83 @@
         [详细功能在文件中有注释,不赘述]
     </code></pre>
     </details>
+    <br>
+    <details>
+    <summary>-> UE -> UE相关工具介绍</summary>
+    <pre><code>
+        UBT - 虚幻编译工具 UnrealBuildTool
+        UHT - 虚幻头工具 UnrealHeaderTool
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Unity -> Uinty相关项目</summary>
+    <pre><code>
+        [详细功能在文件中有注释,不赘述]
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> vs code -> visual studio code 配置</summary>
+    <pre><code>
+        <details>
+        <summary>-> .vscode -> 配置文件</summary>
+        <pre><code>
+            c_cpp_properties - c++语言配置
+            extensions - 插件配置(含介绍)
+            keybindings - 快捷键配置
+            launch - 调试配置
+            settings - 设置
+            tasks - 任务配置
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> User -> 配置文件(用户目录)</summary>
+        <pre><code>
+            keybindings - 快捷键配置
+            settings - 设置
+        </code></pre>
+        </details>
+        regex find and replace - 搜索替换正则表达式
+    </code></pre>
+    </details>
+    <br>
+    <details>
+    <summary>-> Windows -> Windows相关工具</summary>
+    <pre><code>
+        <details>
+        <summary>-> Batch Script -> 批处理脚本</summary>
+        <pre><code>
+            BatchScript - Batch Script指令整合
+            Install_[Android_Project_Name]-arm64 - 安装安卓脚本
+            Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
+            WindowsFileMoveTo - 同设备文件迁移脚本
+            WindowsFileMoveToAndroid - 跨设备文件迁移脚本
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> cmd -> cmd工具</summary>
+        <pre><code>
+            cmd - cmd指令汇总及介绍
+        </code></pre>
+        </details>
+        <br>
+        <details>
+        <summary>-> powershell -> powershell工具</summary>
+        <pre><code>
+            powershell - powershell指令汇总及介绍
+        </code></pre>
+        </details>
+        compare batch_script cmd - 两者差异
+        compare powershell cmd - 两者差异
+    </code></pre>
+    </details>
+        cloc - 代码统计工具
+        GDA - Android apk 解析工具
+        linux_debug_method - linux代码调试方法
+        windows_debug_method - windows代码调试方法
 </code></pre>
 </details>
 <br>
@@ -666,225 +932,6 @@
         VRExpPluginExample - OpenXR示例项目
     </code></pre>
     </details>
-</code></pre>
-</details>
-<br>
-<details>
-<summary>-> Tools -> 与UE配套的相关工具(Loading...)</summary>
-<pre><code>
-    <details>
-    <summary>-> Adobe -> Adobe</summary>
-    <pre><code>
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Andriod -> 安卓</summary>
-    <pre><code>
-        adb_unstall_HarmonyOS_App - 安卓卸载鸿蒙应用
-        adb - 安卓调试工具
-        fastboot - 安卓快速启动
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> AutoDesk -> AutoDesk</summary>
-    <pre><code>
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> browser -> 浏览器</summary>
-    <pre><code>
-        console - js命令行
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Compiler -> 编译器</summary>
-    <pre><code>
-        c_cpp - c和cpp的编译器汇总及介绍
-        python - python的库汇总及介绍
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Git -> Git上传基本指令</summary>
-    <pre><code>
-        OutputToGit - 输出到git仓库
-        ReverseCommit - 撤销git提交
-        UpdateToGit - 更新git仓库
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Linux -> Linux系统中工具常用指令</summary>
-    <pre><code>
-        <details>
-        <summary>-> 1System monitoring tool -> 系统监控工具</summary>
-        <pre><code>
-            vmstat - 提供系统运行状态信息，如CPU使用率、内存使用情况、磁盘I/O等
-            iostat - 用于监控系统硬盘的使用情况
-            sar（System Activity Reporter） - 收集和报告系统活动的工具，提供全面的系统性能分析
-            htop - 进程监控工具，提供了丰富的界面来查看系统的实时进程和资源使用情况
-            iotop - 磁盘I/O监测工具，用于监控系统中的磁盘I/O活动
-            free - 显示内存的使用情况
-            netstat - 提供网络连接、路由表、接口统计等信息
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> 2Network analysis tools -> 网络分析工具</summary>
-        <pre><code>
-            tcpdump - 网络数据包捕获和分析工具
-            iftop - 监控网络带宽使用情况
-            iptraf - 提供实时的IP网络监控
-            nethogs - 监视每个进程的网络带宽使用
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> 3Process management and viewing tools -> 进程管理和查看工具</summary>
-        <pre><code>
-            ps - 查看当前运行的进程
-            pstack - 显示进程的调用栈
-            fuser - 通过文件或文件结构来识别使用该文件的进程
-            lsof - 列出所有打开的文件和它们的进程
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> 4Development and debugging tools -> 开发和调试工具</summary>
-        <pre><code>
-            gdb - 程序调试器
-            make - 自动化构建工具
-            pt-query-digest - 查询MySQL数据库的性能
-            pt-pmp - 查看进程的调用栈
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> 5Other Useful Tools -> 其他实用工具</summary>
-        <pre><code>
-            byobu、tmux、screen - 终端复用和会话管理工具，允许在多个会话之间切换
-            dstat - 综合监控系统运行状态
-            arpwatch - 监控以太网活动
-            suricata - 网络安全监控工具
-            nagios - 网络和服务器监控工具
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> 6software testing tool -> 软件测试工具</summary>
-        <pre><code>
-            pytest - 流行的Python测试框架
-            Allure - 用于自动化测试的报告工具
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> 7Package management tools -> 软件包管理工具</summary>
-        <pre><code>
-            yum - 基于RPM的Linux软件包管理工具
-            apt-get - 基于Debian的Linux软件包管理工具
-            pacman - 基于Arch Linux的软件包管理工具
-            emerge - 基于Gentoo的软件包管理工具
-            pkg - 基于NetBSD的软件包管理工具
-            pkg_add - 基于OpenBSD的软件包管理工具
-        </code></pre>
-        </details>
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Peculiarity -> UE相关特性介绍</summary>
-    <pre><code>
-        Chaos - 动态破碎布料解算
-        Feflect - 反射技术
-        Lumen - 软件光线追踪技术
-        Nanite - 动态无限面数
-        Niagara - 粒子系统
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Plugins -> UE相关插件介绍</summary>
-    <pre><code>
-        lib - 蓝图库插件
-        TP - 添加Tag/导出Tag插件
-        plugins - UE相关插件介绍描述汇总
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> UE -> UE相关工具介绍</summary>
-    <pre><code>
-        UBT - 虚幻编译工具 UnrealBuildTool
-        UHT - 虚幻头工具 UnrealHeaderTool
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> vs code -> visual studio code 配置</summary>
-    <pre><code>
-        <details>
-        <summary>-> .vscode -> 配置文件</summary>
-        <pre><code>
-            c_cpp_properties - c++语言配置
-            extensions - 插件配置(含介绍)
-            keybindings - 快捷键配置
-            launch - 调试配置
-            settings - 设置
-            tasks - 任务配置
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> User -> 配置文件(用户目录)</summary>
-        <pre><code>
-            keybindings - 快捷键配置
-            settings - 设置
-        </code></pre>
-        </details>
-        regex find and replace - 搜索替换正则表达式
-    </code></pre>
-    </details>
-    <br>
-    <details>
-    <summary>-> Windows -> Windows相关工具</summary>
-    <pre><code>
-        <details>
-        <summary>-> Batch Script -> 批处理脚本</summary>
-        <pre><code>
-            BatchScript - Batch Script指令整合
-            Install_[Android_Project_Name]-arm64 - 安装安卓脚本
-            Uninstall_[Android_Project_Name]-arm64 - 卸载安卓脚本
-            WindowsFileMoveTo - 同设备文件迁移脚本
-            WindowsFileMoveToAndroid - 跨设备文件迁移脚本
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> cmd -> cmd工具</summary>
-        <pre><code>
-            cmd - cmd指令汇总及介绍
-        </code></pre>
-        </details>
-        <br>
-        <details>
-        <summary>-> powershell -> powershell工具</summary>
-        <pre><code>
-            powershell - powershell指令汇总及介绍
-        </code></pre>
-        </details>
-        compare batch_script cmd - 两者差异
-        compare powershell cmd - 两者差异
-    </code></pre>
-    </details>
-        cloc - 代码统计工具
-        GDA - Android apk 解析工具
-        linux_debug_method - linux代码调试方法
-        windows_debug_method - windows代码调试方法
 </code></pre>
 </details>
 <br>

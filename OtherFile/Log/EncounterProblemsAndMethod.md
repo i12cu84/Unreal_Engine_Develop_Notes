@@ -193,3 +193,24 @@ IntelliSense 和浏览的信息将不能用于c++项目,因为未能打开c++浏
 如果解决方案目录是只读的,则还会影响其他功能
 method:
 同时开了两个VS工程,关掉一个即可
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+problem:失去焦距后没有声音(Android打包后并不能实现..)
+失去软件焦距后,软件声音失去声音
+method:
+1.file:
+DefaultEngine.ini以及BaseEngine.ini加入
+[Audio]
+UnfocusedVolumeMultiplier=1.0
+2.setting
+Level Editor -> Miscellaneous -> Sound -> Allow Background Audio
+3.cpp
+UFUNCTION(BlueprintCallable, Category = "")
+static float SetSUVM()
+{
+	FApp::SetUnfocusedVolumeMultiplier(1.0f);
+	return FApp::GetUnfocusedVolumeMultiplier();
+}
+
+🤣👉🏻🤡

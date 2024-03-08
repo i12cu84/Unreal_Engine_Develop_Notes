@@ -2,6 +2,18 @@
 
 
 <details>
+<summary>ce [事件名]</summary>
+<pre><code>
+关卡蓝图通信(事件为在关卡蓝图中CustomEvent蓝图的名字)
+</code></pre>
+</details>
+
+严重性	代码	说明	项目	文件	行	禁止显示状态
+错误	LNK1181	无法打开输入文件“..\Intermediate\Build\Win64\x64\UnrealEditor\Development\UnrealEditor.lib”	UPlayer	C:\Users\chru\Desktop\UPlayer\Intermediate\ProjectFiles\LINK	1	
+
+
+
+<details>
 <summary>Shot</summary>
 <pre><code>
 游戏内截图,存储到[项目名字]\Saved\Screenshots\WindowsEditor\ScreenShot[图片编号].png

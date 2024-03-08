@@ -48,6 +48,6 @@ def NetEaseCacheToMp3(path):
                     print(f'success {mp3_file_name}')
 
 # 指定歌曲缓存路径
-path = r'C:/Users/i12cu84/Downloads/Cache/'
+path = r'C:/Users/chru/Downloads/Cache/'
 # 调用函数开始处理歌曲文件
 NetEaseCacheToMp3(path)

@@ -64,3 +64,4 @@ anaconda -> coding
     conda update anaconda-client (升级客户端)
     conda update -f anaconda-client (升级安装依赖包)
     conda info --envs (查看所有环境)
+    conda clean ... (清理pkgs缓存,参考内容https://zhuanlan.zhihu.com/p/190777953)

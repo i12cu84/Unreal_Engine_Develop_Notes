@@ -1,6 +1,8 @@
 download url -> https://www.boost.org/
 download 1.83.0 fast -> https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.7z
 
+相关资料https://blog.csdn.net/Aliven888/article/details/111153535
+
 启动 cmd 
 -> cd C:\Program File\boost
 -> bootstrap.bat
