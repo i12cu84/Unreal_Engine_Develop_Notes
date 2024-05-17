@@ -1,3 +1,4 @@
+```
 编辑任意一次提交:
     1.  git rebase -i HEAD-n 从当前位置往回偏移n次
         git rebase -i HEAD^^^^ 从当前位置往回偏移四次(对应四个^)
@@ -28,6 +29,11 @@
 撤销分支删除:
     1.找到已删除分支的引用 code git reflog
     2.撤销并切换到对应分支
-        git checkout <code>
+        git checkout <branch-code>
         git checkout -b <删除的分支名>
     
+报错:LF will be replaced by CRLF the next time Git touches it
+    1.git config --global core.autocrlf true
+    解决方案:https://blog.csdn.net/u012757419/article/details/105614028
+    
+```

@@ -54,395 +54,394 @@
  */
 UCLASS()
 class UFileOperationsBPLibrary : public UBlueprintFunctionLibrary {
-    GENERATED_UCLASS_BODY()
+  GENERATED_UCLASS_BODY()
 
-    UFUNCTION(BlueprintCallable,
-        meta = (DisplayName = "Execute Sample function",
-            Keywords = "FileOperations sample test testing"),
-        Category = "FileOperationsTesting")
-    static float FileOperationsSampleFunction(float Param);
+  UFUNCTION(BlueprintCallable,
+            meta = (DisplayName = "Execute Sample function",
+                    Keywords = "FileOperations sample test testing"),
+            Category = "FileOperationsTesting")
+  static float FileOperationsSampleFunction(float Param);
 
-    // ¶ÁÈ¡ÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static FString ReadStringToFile(FString Dir) {
-        FString Result;
-        FFileHelper::LoadFileToString(Result, *Dir);
-        return Result;
+  // è¯»å–æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static FString ReadStringToFile(FString Dir) {
+    FString Result;
+    FFileHelper::LoadFileToString(Result, *Dir);
+    return Result;
+  }
+
+  // å†™å…¥æ–‡ä»¶ å®½å­—ç¬¦ UTF-16
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static void WriteStringToFile(FString FileName, FString content) {
+    FFileHelper::SaveStringToFile(content, *FileName);
+  }
+
+  // å†™å…¥æ–‡ä»¶ UTF-8
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static bool WriteStringToFileU8(FString FileName, FString content) {
+    return FFileHelper::SaveStringToFile(
+        content, *FileName, FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
+  }
+
+  // å¯»æ‰¾æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "File operation")
+  static TArray<FString> FindFilesTo(FString Path, FString Filter, bool Files,
+                                     bool Directory) {
+    TArray<FString> FilePathList;
+    FilePathList.Empty();
+    FFileManagerGeneric::Get().FindFilesRecursive(FilePathList, *Path, *Filter,
+                                                  Files, Directory);
+    return FilePathList;
+  }
+
+  // ç§»åŠ¨æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static bool MoveFileTo(FString To, FString From) {
+    return IFileManager::Get().Move(*To, *From);
+  }
+
+  // å¤åˆ¶æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static int32 CopyFileTo(FString To, FString From) {
+    return IFileManager::Get().Copy(*To, *From);
+  }
+
+  // åˆ é™¤æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static bool DeleteFileTo(FString FilePath) {
+    return IFileManager::Get().Delete(*FilePath);
+  }
+
+  // æ‰“å¼€æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static void OpenFile(FString FilePath) {
+    FPlatformProcess::CreateProc(*FilePath, nullptr, true, false, false,
+                                 nullptr, 0, nullptr, nullptr);
+  }
+
+  // åˆ›å»ºæ–‡ä»¶å¤¹
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static void CreateDic(FString filePath) {
+    IPlatformFile &PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+    PlatformFile.CreateDirectory(*filePath);
+  }
+
+  // åˆ é™¤æ–‡ä»¶å¤¹
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static void DeleteDic(FString filePath) {
+    IPlatformFile &PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+    PlatformFile.DeleteDirectory(*filePath);
+  }
+
+  // è·å–æ–‡ä»¶å¤§å°
+  UFUNCTION(BlueprintCallable, Category = "FileHandle")
+  static int64 GitFileSize(FString filePath) {
+    IPlatformFile &PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+    return PlatformFile.FileSize(*filePath);
+  }
+
+  // æŸ¥æ‰¾æ–‡ä»¶ç›®å½•ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, DisplayName = "FindFolder",
+            Category = "FileHandle")
+  static TArray<FString> FindFolder(FString Path, FString Filter, bool Files,
+                                    bool Directory) {
+    TArray<FString> FilePathList;
+    FilePathList.Empty();
+    FFileManagerGeneric::Get().FindFilesRecursive(FilePathList, *Path, *Filter,
+                                                  Files, Directory);
+    return FilePathList;
+  }
+
+  // æŸ¥æ‰¾æ–‡ä»¶ç›®å½•ä¸‹æ‰€æœ‰æ–‡ä»¶æ— æ³•åˆ é€‰æŸ¥æ‰¾
+  UFUNCTION(BlueprintCallable, DisplayName = "GetFolderFiles",
+            Category = "FileHandle")
+  static TArray<FString> GetFolderFiles(FString Path) {
+    TArray<FString> Files;
+    FPaths::NormalizeDirectoryName(Path);
+    IFileManager &FileManager = IFileManager::Get();
+    FString FinalPath = Path / TEXT("*");
+    FileManager.FindFiles(Files, *FinalPath, true, true);
+    return Files;
+  }
+
+  // å¤åˆ¶
+  UFUNCTION(BlueprintCallable, Category = "")
+  static void CopyMessageToClipboard(FString text) {
+    FPlatformMisc::ClipboardCopy(*text);
+  }
+
+  // ç²˜è´´
+  UFUNCTION(BlueprintCallable, Category = "")
+  static FString PasteMessageFromClipboard() {
+    FString ClipboardContent;
+    FPlatformMisc::ClipboardPaste(ClipboardContent);
+    return ClipboardContent;
+  }
+
+  // è·¯å¾„æ˜¯å¦æœ‰æ•ˆ
+  UFUNCTION(BlueprintCallable, Category = "")
+  static bool IsValidFilePath(const FString &FilePath) {
+    // å°è¯•ä½¿ç”¨ FileExists æ¥æ£€æŸ¥æ–‡ä»¶è·¯å¾„æ˜¯å¦æœ‰æ•ˆ
+    if (IFileManager::Get().FileExists(*FilePath)) {
+      return true;
+    }
+    return false;
+  }
+
+  // è·å–æŒ‡å®šè·¯å¾„çš„æ–‡ä»¶ åªèƒ½è·å–æ–‡ä»¶å¤¹
+  UFUNCTION(BlueprintCallable, Category = "")
+  static TArray<FString> GetFilesInDirectory(const FString &DirectoryPath) {
+    TArray<FString> Files;
+
+    if (FPaths::DirectoryExists(DirectoryPath)) {
+      FString SearchPath = FPaths::Combine(DirectoryPath, TEXT("*"));
+      TArray<FString> FoundFiles;
+      IFileManager::Get().FindFiles(FoundFiles, *SearchPath, false, true);
+
+      for (const FString &FoundFile : FoundFiles) {
+        Files.Add(FPaths::Combine(DirectoryPath, FoundFile));
+      }
     }
 
-    // Ğ´ÈëÎÄ¼ş ¿í×Ö·û UTF-16
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static void WriteStringToFile(FString FileName, FString content) {
-        FFileHelper::SaveStringToFile(content, *FileName);
+    return Files;
+  }
+
+  // è·å–æŒ‡å®šè·¯å¾„çš„æ–‡ä»¶ åªèƒ½è·å–mp3æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "")
+  static TArray<FString> GetMP3FilePaths(const FString &Directory) {
+    TArray<FString> MP3FilePaths;
+
+    // è·å–æŒ‡å®šç›®å½•ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
+    TArray<FString> Files;
+    IFileManager::Get().FindFilesRecursive(Files, *Directory, TEXT("*.mp3"),
+                                           true, false);
+
+    // å°†æ–‡ä»¶è·¯å¾„æ·»åŠ åˆ°æ•°ç»„ä¸­
+    for (const FString &FilePath : Files) {
+      MP3FilePaths.Add(FPaths::ConvertRelativePathToFull(FilePath));
     }
 
-    // Ğ´ÈëÎÄ¼ş UTF-8
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static bool WriteStringToFileU8(FString FileName, FString content) {
-        return FFileHelper::SaveStringToFile(
-            content, *FileName, FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
-    }
+    return MP3FilePaths;
+  }
 
-    // Ñ°ÕÒÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "File operation")
-    static TArray<FString> FindFilesTo(FString Path, FString Filter, bool Files,
-        bool Directory) {
-        TArray<FString> FilePathList;
-        FilePathList.Empty();
-        FFileManagerGeneric::Get().FindFilesRecursive(FilePathList, *Path, *Filter,
-            Files, Directory);
-        return FilePathList;
-    }
+  // ä»æ–‡ä»¶è·¯å¾„ä¸­æå–æ–‡ä»¶å
+  UFUNCTION(BlueprintCallable, Category = "")
+  static FString GetFileNameFromPath(const FString &FilePath) {
+    FString FileName = FPaths::GetBaseFilename(FilePath);
+    return FileName;
+  }
 
-    // ÒÆ¶¯ÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static bool MoveFileTo(FString To, FString From) {
-        return IFileManager::Get().Move(*To, *From);
+  // åˆ é™¤æ–‡ä»¶
+  UFUNCTION(BlueprintCallable, Category = "")
+  static bool DeleteFileAtPath(const FString &FilePath) {
+    // æ£€æŸ¥æ–‡ä»¶è·¯å¾„æ˜¯å¦å­˜åœ¨
+    if (IFileManager::Get().FileExists(*FilePath)) {
+      // å°è¯•åˆ é™¤æ–‡ä»¶
+      if (IFileManager::Get().Delete(*FilePath)) {
+        return true; // åˆ é™¤æˆåŠŸ
+      }
     }
+    return false; // åˆ é™¤å¤±è´¥
+  }
 
-    // ¸´ÖÆÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static int32 CopyFileTo(FString To, FString From) {
-        return IFileManager::Get().Copy(*To, *From);
-    }
+  // å¯åå°æ’­æ”¾
+  UFUNCTION(BlueprintCallable, Category = "")
+  static float SetSUVM() {
+    FApp::SetUnfocusedVolumeMultiplier(1.0f);
+    return FApp::GetUnfocusedVolumeMultiplier();
+  }
 
-    // É¾³ıÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static bool DeleteFileTo(FString FilePath) {
-        return IFileManager::Get().Delete(*FilePath);
-    }
+  // ä¿å­˜å­˜æ¡£
+  UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Save"))
+  static bool SaveConstraintArray(FString SaveDirectory, FString Filename,
+                                  TArray<FString> SaveText,
+                                  bool AllowOverWriting = false) {
+    SaveDirectory += "\\";
+    SaveDirectory += Filename;
 
-    // ´ò¿ªÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static void OpenFile(FString FilePath) {
-        FPlatformProcess::CreateProc(*FilePath, nullptr, true, false, false,
-            nullptr, 0, nullptr, nullptr);
-    }
-
-    // ´´½¨ÎÄ¼ş¼Ğ
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static void CreateDic(FString filePath) {
-        IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-        PlatformFile.CreateDirectory(*filePath);
-    }
-
-    // É¾³ıÎÄ¼ş¼Ğ
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static void DeleteDic(FString filePath) {
-        IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-        PlatformFile.DeleteDirectory(*filePath);
-    }
-
-    // »ñÈ¡ÎÄ¼ş´óĞ¡
-    UFUNCTION(BlueprintCallable, Category = "FileHandle")
-    static int64 GitFileSize(FString filePath) {
-        IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-        return PlatformFile.FileSize(*filePath);
-    }
-
-    // ²éÕÒÎÄ¼şÄ¿Â¼ÏÂµÄËùÓĞÎÄ¼ş
-    UFUNCTION(BlueprintCallable, DisplayName = "FindFolder",
-        Category = "FileHandle")
-    static TArray<FString> FindFolder(FString Path, FString Filter, bool Files,
-        bool Directory) {
-        TArray<FString> FilePathList;
-        FilePathList.Empty();
-        FFileManagerGeneric::Get().FindFilesRecursive(FilePathList, *Path, *Filter,
-            Files, Directory);
-        return FilePathList;
-    }
-
-    // ²éÕÒÎÄ¼şÄ¿Â¼ÏÂËùÓĞÎÄ¼şÎŞ·¨É¾Ñ¡²éÕÒ
-    UFUNCTION(BlueprintCallable, DisplayName = "GetFolderFiles",
-        Category = "FileHandle")
-    static TArray<FString> GetFolderFiles(FString Path) {
-        TArray<FString> Files;
-        FPaths::NormalizeDirectoryName(Path);
-        IFileManager& FileManager = IFileManager::Get();
-        FString FinalPath = Path / TEXT("*");
-        FileManager.FindFiles(Files, *FinalPath, true, true);
-        return Files;
-    }
-
-    // ¸´ÖÆ
-    UFUNCTION(BlueprintCallable, Category = "")
-    static void CopyMessageToClipboard(FString text) {
-        FPlatformMisc::ClipboardCopy(*text);
-    }
-
-    // Õ³Ìù
-    UFUNCTION(BlueprintCallable, Category = "")
-    static FString PasteMessageFromClipboard() {
-        FString ClipboardContent;
-        FPlatformMisc::ClipboardPaste(ClipboardContent);
-        return ClipboardContent;
-    }
-
-    // Â·¾¶ÊÇ·ñÓĞĞ§
-    UFUNCTION(BlueprintCallable, Category = "")
-    static bool IsValidFilePath(const FString& FilePath) {
-        // ³¢ÊÔÊ¹ÓÃ FileExists À´¼ì²éÎÄ¼şÂ·¾¶ÊÇ·ñÓĞĞ§
-        if (IFileManager::Get().FileExists(*FilePath)) {
-            return true;
-        }
+    if (!AllowOverWriting) {
+      if (FPlatformFileManager::Get().GetPlatformFile().FileExists(
+              *SaveDirectory)) {
         return false;
+      }
     }
 
-    // »ñÈ¡Ö¸¶¨Â·¾¶µÄÎÄ¼ş Ö»ÄÜ»ñÈ¡ÎÄ¼ş¼Ğ
-    UFUNCTION(BlueprintCallable, Category = "")
-    static TArray<FString> GetFilesInDirectory(const FString& DirectoryPath) {
-        TArray<FString> Files;
-
-        if (FPaths::DirectoryExists(DirectoryPath)) {
-            FString SearchPath = FPaths::Combine(DirectoryPath, TEXT("*"));
-            TArray<FString> FoundFiles;
-            IFileManager::Get().FindFiles(FoundFiles, *SearchPath, false, true);
-
-            for (const FString& FoundFile : FoundFiles) {
-                Files.Add(FPaths::Combine(DirectoryPath, FoundFile));
-            }
-        }
-
-        return Files;
+    FString FinalString = "";
+    for (FString &Each : SaveText) {
+      FinalString += Each;
+      FinalString += LINE_TERMINATOR;
     }
 
-    // »ñÈ¡Ö¸¶¨Â·¾¶µÄÎÄ¼ş Ö»ÄÜ»ñÈ¡mp3ÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "")
-    static TArray<FString> GetMP3FilePaths(const FString& Directory) {
-        TArray<FString> MP3FilePaths;
+    return FFileHelper::SaveStringToFile(
+        FinalString, *SaveDirectory, FFileHelper::EEncodingOptions::ForceUTF8);
+    return false;
+  }
 
-        // »ñÈ¡Ö¸¶¨Ä¿Â¼ÏÂµÄËùÓĞÎÄ¼ş
-        TArray<FString> Files;
-        IFileManager::Get().FindFilesRecursive(Files, *Directory, TEXT("*.mp3"),
-            true, false);
+  // åŠ è½½å­˜æ¡£
+  UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Load"))
+  static TArray<FString> LoadConstraintArray(FString FilePath) {
+    TArray<FString> OutData;
 
-        // ½«ÎÄ¼şÂ·¾¶Ìí¼Óµ½Êı×éÖĞ
-        for (const FString& FilePath : Files) {
-            MP3FilePaths.Add(FPaths::ConvertRelativePathToFull(FilePath));
-        }
+    std::string FilePathStr(TCHAR_TO_UTF8(*FilePath));
 
-        return MP3FilePaths;
+    FString FileContent;
+    if (FFileHelper::LoadFileToString(FileContent, *FilePath)) {
+      TArray<FString> Lines;
+      FileContent.ParseIntoArrayLines(Lines, false);
+      OutData.Append(Lines);
     }
 
-    // ´ÓÎÄ¼şÂ·¾¶ÖĞÌáÈ¡ÎÄ¼şÃû
-    UFUNCTION(BlueprintCallable, Category = "")
-    static FString GetFileNameFromPath(const FString& FilePath) {
-        FString FileName = FPaths::GetBaseFilename(FilePath);
-        return FileName;
+    return OutData;
+  }
+
+  // åˆ é™¤å­˜æ¡£
+  UFUNCTION(BlueprintCallable, Category = "Custom",
+            meta = (Keywords = "Delete"))
+  static bool DeleteFile(FString FilePath) {
+    IPlatformFile &PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+    if (PlatformFile.DeleteFile(*FilePath)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // ç”»çº¿
+  UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Draw"))
+  static TArray<ULineBatchComponent *> DrawRayLine(FVector StartPos,
+                                                   FVector EndPos,
+                                                   float fLifeTime,
+                                                   FLinearColor color) {
+    TArray<ULineBatchComponent *> LineColection;
+
+    ULineBatchComponent *LineBatcher =
+        GWorld->GetWorld()->PersistentLineBatcher;
+    const float LifeTime = fLifeTime;
+    if (LineBatcher != NULL) {
+      float LineLifeTime =
+          (LifeTime > 0.f) ? LifeTime : LineBatcher->DefaultLifeTime;
+
+      LineBatcher->DrawLine(StartPos, EndPos, color, 10, 2.0f, LineLifeTime);
+
+      LineColection.Add(LineBatcher);
+    }
+    return LineColection;
+  }
+
+  // åˆ çº¿
+  UFUNCTION(BlueprintCallable, Category = "Custom",
+            meta = (Keywords = "Destroy"))
+  static void DestoryLine(TArray<ULineBatchComponent *> LineList) {
+    for (int i = 0; i < LineList.Num(); i++) {
+      LineList[i]->Flush();
+    }
+  }
+
+  // è·å–è·¯å¾„ä¸‹çš„å­˜æ¡£åå­—ç»„
+  UFUNCTION(BlueprintCallable, Category = "Custom",
+            meta = (Keywords = "SavedFileName"))
+  static TArray<FString> GetAllSaveFileNames(const FString &Directory) {
+    TArray<FString> OutFileNames;
+    IPlatformFile &PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+    TArray<FString> FoundFiles;
+    PlatformFile.FindFilesRecursively(FoundFiles, *Directory, nullptr);
+    for (const FString &FoundFile : FoundFiles) {
+      if (PlatformFile.FileExists(*FoundFile)) {
+        OutFileNames.Add(FoundFile);
+      }
+    }
+    return OutFileNames;
+  }
+
+  // æå–è·¯å¾„æ–‡ä»¶åå­—
+  UFUNCTION(BlueprintCallable, Category = "Custom",
+            meta = (Keywords = "ExtraceSavedFileName"))
+  static FString GetFileNamePath(const FString &FilePath) {
+    FString FileNameWithoutExtension = FPaths::GetBaseFilename(FilePath);
+
+    return FileNameWithoutExtension;
+  }
+
+  // æå–å›¾ç‰‡
+  UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Image"))
+  static UTexture2D *LoadImageFromAbsolutePath(const FString &AbsolutePath) {
+    TArray<uint8> ImageData;
+    if (!FFileHelper::LoadFileToArray(ImageData, *AbsolutePath)) {
+      return nullptr;
     }
 
-    // É¾³ıÎÄ¼ş
-    UFUNCTION(BlueprintCallable, Category = "")
-    static bool DeleteFileAtPath(const FString& FilePath) {
-        // ¼ì²éÎÄ¼şÂ·¾¶ÊÇ·ñ´æÔÚ
-        if (IFileManager::Get().FileExists(*FilePath)) {
-            // ³¢ÊÔÉ¾³ıÎÄ¼ş
-            if (IFileManager::Get().Delete(*FilePath)) {
-                return true; // É¾³ı³É¹¦
-            }
-        }
-        return false; // É¾³ıÊ§°Ü
+    IImageWrapperModule &ImageWrapperModule =
+        FModuleManager::LoadModuleChecked<IImageWrapperModule>(
+            FName("ImageWrapper"));
+    EImageFormat ImageFormat = ImageWrapperModule.DetectImageFormat(
+        ImageData.GetData(), ImageData.Num());
+
+    TSharedPtr<IImageWrapper> ImageWrapper =
+        ImageWrapperModule.CreateImageWrapper(ImageFormat);
+    if (!ImageWrapper.IsValid() ||
+        !ImageWrapper->SetCompressed(ImageData.GetData(), ImageData.Num())) {
+      return nullptr;
     }
 
-    // ¿ÉºóÌ¨²¥·Å
-    UFUNCTION(BlueprintCallable, Category = "")
-    static float SetSUVM() {
-        FApp::SetUnfocusedVolumeMultiplier(1.0f);
-        return FApp::GetUnfocusedVolumeMultiplier();
+    TArray<uint8> UncompressedImageData;
+    if (!ImageWrapper->GetRaw(ERGBFormat::BGRA, 8, UncompressedImageData)) {
+      return nullptr;
     }
 
-    // ±£´æ´æµµ
-    UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Save"))
-    static bool SaveConstraintArray(FString SaveDirectory, FString Filename,
-        TArray<FString> SaveText,
-        bool AllowOverWriting = false) {
-        SaveDirectory += "\\";
-        SaveDirectory += Filename;
-
-        if (!AllowOverWriting) {
-            if (FPlatformFileManager::Get().GetPlatformFile().FileExists(
-                *SaveDirectory)) {
-                return false;
-            }
-        }
-
-        FString FinalString = "";
-        for (FString& Each : SaveText) {
-            FinalString += Each;
-            FinalString += LINE_TERMINATOR;
-        }
-
-        return FFileHelper::SaveStringToFile(
-            FinalString, *SaveDirectory, FFileHelper::EEncodingOptions::ForceUTF8);
-        return false;
+    UTexture2D *Texture = UTexture2D::CreateTransient(
+        ImageWrapper->GetWidth(), ImageWrapper->GetHeight(), PF_B8G8R8A8);
+    if (!Texture) {
+      return nullptr;
     }
 
-    // ¼ÓÔØ´æµµ
-    UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Load"))
-    static TArray<FString> LoadConstraintArray(FString FilePath) {
-        TArray<FString> OutData;
+    void *TextureData =
+        Texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
+    FMemory::Memcpy(TextureData, UncompressedImageData.GetData(),
+                    UncompressedImageData.Num());
+    Texture->PlatformData->Mips[0].BulkData.Unlock();
+    Texture->UpdateResource();
 
-        std::string FilePathStr(TCHAR_TO_UTF8(*FilePath));
+    return Texture;
+  }
 
-        FString FileContent;
-        if (FFileHelper::LoadFileToString(FileContent, *FilePath)) {
-            TArray<FString> Lines;
-            FileContent.ParseIntoArrayLines(Lines, false);
-            OutData.Append(Lines);
-        }
+  // æŒ‰ç…§UAIDæå–Actor
+  UFUNCTION(BlueprintCallable, Category = "Custom",
+            meta = (Keywords = "GetActor"))
+  static AActor *GetActorByName(TArray<AActor *> Actors,
+                                const FString &ActorName) {
+    FString Text = ActorName;
+    for (AActor *Actor : Actors) {
+      if (Actor && Actor->GetName() == ActorName) {
+        UE_LOG(LogTemp, Warning, TEXT("over: %s"), *Text);
+        return Actor;
+      }
+    }
+    UE_LOG(LogTemp, Warning, TEXT("missing: %s"), *Text);
+    return nullptr;
+  }
 
-        return OutData;
+  // æå–è§†é¢‘çº¹ç†
+  UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "media"))
+  static UMediaSource *
+  LoadMediaSourceFromAbsolutePath(const FString &AbsolutePath) {
+    TArray<uint8> MediaData;
+    if (!FFileHelper::LoadFileToArray(MediaData, *AbsolutePath)) {
+      return nullptr;
     }
 
-    // É¾³ı´æµµ
-    UFUNCTION(BlueprintCallable, Category = "Custom",
-        meta = (Keywords = "Delete"))
-    static bool DeleteFile(FString FilePath) {
-        IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-        if (PlatformFile.DeleteFile(*FilePath)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    UMediaSource *MediaSource =
+        NewObject<UFileMediaSource>(UFileMediaSource::StaticClass());
+    if (!MediaSource) {
+      return nullptr;
     }
 
-    // »­Ïß
-    UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Draw"))
-    static TArray<ULineBatchComponent*> DrawRayLine(FVector StartPos,
-        FVector EndPos,
-        float fLifeTime,
-        FLinearColor color) {
-        TArray<ULineBatchComponent*> LineColection;
-
-        ULineBatchComponent* LineBatcher =
-            GWorld->GetWorld()->PersistentLineBatcher;
-        const float LifeTime = fLifeTime;
-        if (LineBatcher != NULL) {
-            float LineLifeTime =
-                (LifeTime > 0.f) ? LifeTime : LineBatcher->DefaultLifeTime;
-
-            LineBatcher->DrawLine(StartPos, EndPos, color, 10, 2.0f, LineLifeTime);
-
-            LineColection.Add(LineBatcher);
-        }
-        return LineColection;
+    UFileMediaSource *FileMediaSource = Cast<UFileMediaSource>(MediaSource);
+    if (!FileMediaSource) {
+      return nullptr;
     }
 
-    // É¾Ïß
-    UFUNCTION(BlueprintCallable, Category = "Custom",
-        meta = (Keywords = "Destroy"))
-    static void DestoryLine(TArray<ULineBatchComponent*> LineList) {
-        for (int i = 0; i < LineList.Num(); i++) {
-            LineList[i]->Flush();
-        }
-    }
+    FileMediaSource->FilePath = AbsolutePath;
 
-    // »ñÈ¡Â·¾¶ÏÂµÄ´æµµÃû×Ö×é
-    UFUNCTION(BlueprintCallable, Category = "Custom",
-        meta = (Keywords = "SavedFileName"))
-    static TArray<FString> GetAllSaveFileNames(const FString& Directory) {
-        TArray<FString> OutFileNames;
-        IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-        TArray<FString> FoundFiles;
-        PlatformFile.FindFilesRecursively(FoundFiles, *Directory, nullptr);
-        for (const FString& FoundFile : FoundFiles) {
-            if (PlatformFile.FileExists(*FoundFile)) {
-                OutFileNames.Add(FoundFile);
-            }
-        }
-        return OutFileNames;
-    }
-
-    // ÌáÈ¡Â·¾¶ÎÄ¼şÃû×Ö
-    UFUNCTION(BlueprintCallable, Category = "Custom",
-        meta = (Keywords = "ExtraceSavedFileName"))
-    static FString GetFileNamePath(const FString& FilePath) {
-        FString FileNameWithoutExtension = FPaths::GetBaseFilename(FilePath);
-
-        return FileNameWithoutExtension;
-    }
-
-    // ÌáÈ¡Í¼Æ¬
-    UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Image"))
-    static UTexture2D* LoadImageFromAbsolutePath(const FString& AbsolutePath) {
-        TArray<uint8> ImageData;
-        if (!FFileHelper::LoadFileToArray(ImageData, *AbsolutePath)) {
-            return nullptr;
-        }
-
-        IImageWrapperModule& ImageWrapperModule =
-            FModuleManager::LoadModuleChecked<IImageWrapperModule>(
-                FName("ImageWrapper"));
-        EImageFormat ImageFormat = ImageWrapperModule.DetectImageFormat(
-            ImageData.GetData(), ImageData.Num());
-
-        TSharedPtr<IImageWrapper> ImageWrapper =
-            ImageWrapperModule.CreateImageWrapper(ImageFormat);
-        if (!ImageWrapper.IsValid() ||
-            !ImageWrapper->SetCompressed(ImageData.GetData(), ImageData.Num())) {
-            return nullptr;
-        }
-
-        TArray<uint8> UncompressedImageData;
-        if (!ImageWrapper->GetRaw(ERGBFormat::BGRA, 8, UncompressedImageData)) {
-            return nullptr;
-        }
-
-        UTexture2D* Texture = UTexture2D::CreateTransient(
-            ImageWrapper->GetWidth(), ImageWrapper->GetHeight(), PF_B8G8R8A8);
-        if (!Texture) {
-            return nullptr;
-        }
-
-        void* TextureData =
-            Texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
-        FMemory::Memcpy(TextureData, UncompressedImageData.GetData(),
-            UncompressedImageData.Num());
-        Texture->PlatformData->Mips[0].BulkData.Unlock();
-        Texture->UpdateResource();
-
-        return Texture;
-    }
-
-    // °´ÕÕUAIDÌáÈ¡Actor
-    UFUNCTION(BlueprintCallable, Category = "Custom",
-        meta = (Keywords = "GetActor"))
-    static AActor* GetActorByName(TArray<AActor*> Actors,
-        const FString& ActorName) {
-        FString Text = ActorName;
-        for (AActor* Actor : Actors) {
-            if (Actor && Actor->GetName() == ActorName) {
-                UE_LOG(LogTemp, Warning, TEXT("over: %s"), *Text);
-                return Actor;
-            }
-        }
-        UE_LOG(LogTemp, Warning, TEXT("missing: %s"), *Text);
-        return nullptr;
-    }
-
-    // ÌáÈ¡ÊÓÆµÎÆÀí
-    UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "media"))
-    static UMediaSource*
-        LoadMediaSourceFromAbsolutePath(const FString& AbsolutePath) {
-        TArray<uint8> MediaData;
-        if (!FFileHelper::LoadFileToArray(MediaData, *AbsolutePath)) {
-            return nullptr;
-        }
-
-        UMediaSource* MediaSource =
-            NewObject<UFileMediaSource>(UFileMediaSource::StaticClass());
-        if (!MediaSource) {
-            return nullptr;
-        }
-
-        UFileMediaSource* FileMediaSource = Cast<UFileMediaSource>(MediaSource);
-        if (!FileMediaSource) {
-            return nullptr;
-        }
-
-        FileMediaSource->FilePath = AbsolutePath;
-
-        return MediaSource;
-    }
+    return MediaSource;
+  }
 };
