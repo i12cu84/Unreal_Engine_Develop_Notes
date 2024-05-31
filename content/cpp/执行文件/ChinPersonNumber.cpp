@@ -46,7 +46,7 @@ bool validateIdCard(const std::string &idNumber)
 
 int main()
 {
-    std::string idNumber = "66666620231103"; // fron 14 num 666666-2023-11-03
+    std::string idNumber = "43042420030518"; // fron 14 num 666666-2023-11-03
     unsigned int n = 0;
     for (int i = 0; i < 10000; i++) // get last 4num ????
     {
