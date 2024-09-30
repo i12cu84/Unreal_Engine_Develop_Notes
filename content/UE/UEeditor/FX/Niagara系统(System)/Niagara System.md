@@ -44,9 +44,9 @@
         Loop Behavior       循环行为
             ->Infinite 无限循环
                 Loop Duration 持续时间
-                Recalculate Duration Each Loop
+                Recalculate Duration Each Loop 重新计算
             ->Once     仅执行一次
-                Loop Duration Mode
+                Loop Duration Mode 持续时间模式
                     ->Fixed 固定
                         Loop Duration 持续时间
                     ->Infinite 无限循环
@@ -87,7 +87,7 @@
     Spawn Probability 发射概率
     Spawn Group 粒子发射组
 ->Spawn Particles from Other Emitter 从其他发射器发射粒子
-    Attribute Reader
+    Attribute Reader  粒子读取
         Errors And Warnigns(粒子读取)
             Emitter Name  发射器名称
             ->点击Fix issue 修复(启用)
@@ -126,7 +126,7 @@
             ->Unset/(Mass of 1)  不设置
             ->Direct Set  直接设置
             ->Ramdom    随机
-    Sprite Attribute
+    Sprite Attribute   粒子属性
         Sprite Size Mode  粒子大小模式
             ->Unset  不设置
             ->Uniform  均分
@@ -192,7 +192,7 @@
         ->From Point 从点
             Velocity Speed 速度
             Constrain To Radius 约束到半径
-        ->In Cone
+        ->In Cone 在圆锥内
             Velocity Speed 速度
             Distribution Along Cone Axis 沿圆锥轴分布
             Speed Falloff From Cone Axis 速度落差
@@ -223,8 +223,8 @@
 ->Solve Forces and Velocity 解决力和速度
 
 渲染(Render)
-->Sprite Renderer
-->Light Renderer
+->Sprite Renderer Sprite渲染
+->Light Renderer Light渲染
     渲染光照 但无法在GPU Compute Sim中使用
 
   
