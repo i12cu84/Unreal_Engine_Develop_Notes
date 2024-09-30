@@ -1,5 +1,13 @@
 命令行执行自定义事件(类似于ue Editor 的cmd控制台命令)
 
+Debug Camera 打印相机信息
+
+终端命令台
+ToggleDebugCamera 打开相机调试
+Slomo
+obj dump /Path/To.Obj 打印一个对象的所有UPROPERTY
+obj refs name=/Path/To/Obj 列出该对象被引用的堆栈
+obj gc 强制触发一次垃圾收集
 
 <details>
 <summary>ce [事件名]</summary>
@@ -39,7 +47,7 @@ bDumpBufferVisualizationTargets|用一个布尔值(0或1)来控制是否要将GB
 
 更多指令内容:https://docs.unrealengine.com/4.27/en-US/TestingAndOptimization/PerformanceAndProfiling/StatCommands/
 
-~“键 调用控制台命令 
+~键 调用控制台命令 
 
 0，技巧
 
@@ -76,4 +84,3 @@ r.AOSpecularOcclusionMode —— 可以让 skylight 产生的 DFAO 产生更准�
 3，游戏类
 
 slomo —— 游戏运行速度（运行速度）
-
