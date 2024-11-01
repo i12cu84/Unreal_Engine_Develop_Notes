@@ -82,10 +82,8 @@ warning:4版本突发到5版本会有很大的变化(得不偿失,不建议跳)
 - MetaSound节点(Low Frequency Noise/Evaluate WaveTable/SuperOscillator(Stereo)/Perlin Noise(audio) -> Perlin噪点/低频率噪点/超级振荡器/评估波表)
 - 神经网络引擎(NNE)(!):Neural Network Engine(插件,试用中)
 - 更多相关内容传送阵:https://docs.unrealengine.com/5.2/zh-CN/unreal-engine-5.2-release-notes/
-and so on
 
 5.3
-
 - Nanite 几何体系统: 进一步改进了 Nanite 几何体系统，通过新的“细化”功能，可以更精细地控制细节层次。这使得开发者能够更灵活地管理细节级别，以适应不同性能要求。
 - Lumen 光线追踪: Lumen 光线追踪系统也得到了改进，提供了更好的光线追踪效果，并且优化了性能，使得更多场景能够使用实时光线追踪。
 - 基于节点的材料编辑器: 引入了一个全新的基于节点的材料编辑器，使得材料创建更加直观和高效。
@@ -99,5 +97,16 @@ and so on
 - 支持新的硬件和平台: 增加了对新的硬件和平台的支持，包括对苹果 M1 芯片的支持。
 - 多线程和并行处理: 增强了多线程和并行处理能力，提高了引擎的性能和效率。
 - 更多相关内容传送阵:https://docs.unrealengine.com/5.3/zh-CN/unreal-engine-5.3-release-notes/
+
+5.4
+
+- 动画工具集的更新：5.4版本对虚幻引擎内置的动画工具集进行了重大更新，允许用户直接在引擎中快速、轻松地绑定角色和制作动画，无需频繁切换到外部应用程序。这包括一个新的实验性模块化控制绑定功能，使用户能够通过模块化部件构建动画绑定，而不是复杂的详细图表。此外，自动重定向功能简化了双足角色动画的复用过程，提高了效率。
+- 性能和视觉保真度的提升：此版本还包括对性能和视觉保真度的改进，这些改进将使游戏开发者和各行各业的创作者受益。
+- 内部工具集的交付：Unreal Engine 5.4交付了一些内部使用的工具集，这些工具集曾用于制作和发布《Fortnite》第五章、《Rocket Racing》、《Fortnite Festival》和《LEGO Fortnite》。
+- 更多相关内容传送阵:https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-engine-5.4-release-notes?application_version=5.4
+
+5.5
+
+- Loading
 
 ‽

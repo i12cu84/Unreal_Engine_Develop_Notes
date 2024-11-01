@@ -14,16 +14,16 @@
 属性(Properties GPU/CPU)
     Local Space 粒子发射位移是否关联全局空间
     Determinism   是否使用 determinism 模式
-    Interpolated Spawning
+    Interpolated Spawning  粒子发射时是否插值
     Sim Target    选择CPU/GPU
-        ->CPU Sim
-        ->GPU Compute Sim
+        ->CPU Sim  CPU
+        ->GPU Compute Sim   GPU
     Calculate Bounds Mode  边界计算模式
         ->Dynamic         每秒计算边界
         ->Fixed           自设定特效边界范围
         ->Programmable    使用发射器属性数据接口从脚本设置边界
-    Requires Persistent IDs
-    Combine Event Spawn
+    Requires Persistent IDs  是否使用 determinism 模式
+    Combine Event Spawn   是否允许在发射器生成时发射粒子
 
 发射器摘要(Emitter Summary) ->在其他模块面板中右键点击"在发射器摘要中显示" 即可在此地显示选择的模块面板
 
@@ -230,3 +230,6 @@
   
 参考文献 【UE5& Niaraga特效基础教程.】 https://www.bilibili.com/video/BV1C84y1D7hd
 其中 包含 Acceleration Force / Aerodrynamic Drag Force / Curl Noise Force / Drag Force / Gravity Force
+
+微信 支付宝 米哈游 百度 拼多多 知乎 抖音 爱给网 b站 网易云音乐 qq 华为 高德 个人所得税
+银行 网易(永劫) 酷我音乐
