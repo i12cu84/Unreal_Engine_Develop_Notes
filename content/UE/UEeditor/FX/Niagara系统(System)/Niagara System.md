@@ -10,7 +10,7 @@
 系统更新
 
 ---
-
+```
 属性(Properties GPU/CPU)
     Local Space 粒子发射位移是否关联全局空间
     Determinism   是否使用 determinism 模式
@@ -226,10 +226,10 @@
 ->Sprite Renderer Sprite渲染
 ->Light Renderer Light渲染
     渲染光照 但无法在GPU Compute Sim中使用
-
+```
   
 参考文献 【UE5& Niaraga特效基础教程.】 https://www.bilibili.com/video/BV1C84y1D7hd
 其中 包含 Acceleration Force / Aerodrynamic Drag Force / Curl Noise Force / Drag Force / Gravity Force
 
-微信 支付宝 米哈游 百度 拼多多 知乎 抖音 爱给网 b站 网易云音乐 qq 华为 高德 个人所得税
-银行 网易(永劫) 酷我音乐
+微信 支付宝 米哈游 百度 拼多多 知乎 抖音 爱给网 b站 网易云音乐 qq 华为 高德 个人所得税 网易(永劫) 
+银行 酷我音乐 麦 肯
