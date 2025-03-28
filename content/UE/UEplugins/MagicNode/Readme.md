@@ -19,19 +19,15 @@ PublicDependencyModuleNames.AddRange -> 需要将"MagicNodeRuntime"模块包含�
 
 ```
 // Copyright Epic Games, Inc. All Rights Reserved.
-
 using UnrealBuildTool;
-
 public class MNTask : ModuleRules
 {
     public MNTask(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "EnhancedInput", "MagicNodeRuntime" });//添加了"MagicNodeRuntime"
     }
 }
-
 ```
 
 编译运行即可
@@ -39,7 +35,6 @@ public class MNTask : ModuleRules
 启用方式:
 
 蓝图节点拉出后 -> Magic Node 呼出蓝图节点使用
-
 
 具体使用方法解析:https://brunoxavierleite.com/2019/01/16/unreal-magic-nodes-programming/
 
