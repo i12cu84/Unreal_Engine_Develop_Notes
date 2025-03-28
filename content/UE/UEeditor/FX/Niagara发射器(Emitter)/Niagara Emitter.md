@@ -1,0 +1,1 @@
+这相当于是Niagara模块,展现一个特效的发射器,并没有SpaceLine,但可以在Niagara System中复用

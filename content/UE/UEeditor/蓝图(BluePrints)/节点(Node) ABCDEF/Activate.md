@@ -1,4 +1,4 @@
-激活组件
+使Effect特效启用(激活组件)
 
 ```
 // C:\Program Files\Epic Games\UE_5.2\Engine\Source\Runtime\Engine\Private\Components\ActorComponent.cpp
