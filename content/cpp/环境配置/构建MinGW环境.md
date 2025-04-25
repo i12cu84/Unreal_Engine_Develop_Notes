@@ -11,6 +11,7 @@ win+r 呼出cmd -> 输入gcc --version (显示版本则完成)
 另外:
 
 c++的mingw有很多下载版本，这些有什么区别呢？如下：
+```
 i686-13.2.0-release-posix-dwarf-msvcrt-rt_v11-rev0.7z
 i686-13.2.0-release-posix-dwarf-ucrt-rt_v11-rev0.7z
 i686-13.2.0-release-win32-dwarf-msvcrt-rt_v11-rev0.7z
@@ -19,6 +20,7 @@ x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev0.7z
 x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev0.7z
 x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev0.7z
 x86_64-13.2.0-release-win32-seh-ucrt-rt_v11-rev0.7z
+```
 
 这些版本的Mingw都是C/C++编译工具链的不同配置选项，其中包括架构（32位或64位）、C库（msvcrt或ucrt）、以及异常处理模型（dwarf或seh）。让我为你解释一下它们的区别：
 

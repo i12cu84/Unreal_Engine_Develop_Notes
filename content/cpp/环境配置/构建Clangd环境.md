@@ -90,7 +90,7 @@ MinGW-W64 解压后，将 mingw64 文件夹中的所有文件拷贝到 LLVM 的�
 
 测试相关
 如果 pc 上尚未安装 MSVC，例如 Visual Studio 20XX 之类的，用记事本或者其它的文本编辑器，随便写一段简单无误的代码 hello.cpp，如下：
-
+```
 #include <iostream>
 using namespace std;
 
@@ -99,6 +99,7 @@ int main()
     cout << "Hello World!" << endl;
     return 0;
 }
+```
 然后直接通过 dos 界面去编译，会报错，如下图示。
 
 
@@ -138,6 +139,7 @@ clang 编译时查找头文件和库文件
 
 
 vscode 打开文件夹
+```
 #include <iostream>
 using namespace std;
 
@@ -145,6 +147,7 @@ int main() {
     cout << "Come on HuaWei, Come on China" << endl;
     return 0;
 }
+```
 此时 test.cpp 的界面显示如下，可能在头文件、cout 和 endl 下会出现红色的波浪线。
 
 
@@ -170,7 +173,7 @@ vscode 的左侧会多出一个 .vscode 文件夹，文件夹里面有 tasks.jso
 
 生成 tasks.json
 自动生成的 tasks.json 如下：
-
+```
 {
     "tasks": [
         {
@@ -199,6 +202,7 @@ vscode 的左侧会多出一个 .vscode 文件夹，文件夹里面有 tasks.jso
     ],
     "version": "2.0.0"
 }
+```
 tasks.json 中的 type 是任务的类型。对自定义任务来说，type 可以是 shell 或 process。如果是 shell，命令被解释为 shell 命令（例如，bash、cmd 或 PowerShell）；否则，命令被解释为一个将要执行的进程。
 
 label 是用在用户界面的任务的标签。
@@ -210,7 +214,7 @@ label 是用在用户界面的任务的标签。
 
 创建 launch.json
 自动生成的 launch.json 文件如下。
-
+```
 {
     "configurations": [
         {
@@ -242,6 +246,7 @@ label 是用在用户界面的任务的标签。
     ],
     "version": "2.0.0"
 }
+```
 launch.json 中的 name 是对阅读者友好的名称，出现在调试启动配置下拉列表，如下图示。
 
 
@@ -253,7 +258,7 @@ request 是用于此次启动配置的请求类型。
 其它参数可以参考官方文档。
 
 修改 launch.json，如下所示。
-
+```
 {
     "configurations": [
         {
@@ -285,8 +290,9 @@ request 是用于此次启动配置的请求类型。
     ],
     "version": "2.0.0"
 }
+```
 再将 tasks.json 修改如下。
-
+```
 {
     "tasks": [
         {
@@ -332,6 +338,7 @@ request 是用于此次启动配置的请求类型。
     ],
     "version": "2.0.0"
 }
+```
 注意点
 
 tasks.json 中的 label 必须与 launch.json 中的 preLaunchTask 保持一致。
@@ -339,7 +346,7 @@ tasks.json 中的 label 必须与 launch.json 中的 preLaunchTask 保持一致�
 
 编译报错
 此时，再修改 test.cpp 成如下代码。
-
+```
 #include <iostream>
 using namespace std;
 
@@ -349,6 +356,7 @@ int main() {
     system("pause");
     return 0;
 }
+```
 再点击运行，选择以非调试模式运行，如下图示。
 
 
@@ -375,7 +383,7 @@ C 和 C++ 标准，选择 C17 和 C++17，如下图示。
 
 选择 c/c++ 标准
 此时 c_cpp_properties.json 文件中的内容如下：
-
+```
 {
     "configurations": [
         {
@@ -396,6 +404,7 @@ C 和 C++ 标准，选择 C17 和 C++17，如下图示。
     ],
     "version": 4
 }
+```
 test.cpp 界面的问题栏会提示如下错误。
 
 
@@ -417,7 +426,7 @@ test.cpp 界面的问题栏会提示如下错误。
 
 修改 IntelliSense 配置 中的包含路径
 此时，c_cpp_properties.json 中的 includePath 多了这些刚添加的路径，如下所示示。
-
+```
 {
     "configurations": [
         {
@@ -444,6 +453,7 @@ test.cpp 界面的问题栏会提示如下错误。
     ],
     "version": 4
 }
+```
 同时，之前 test.cpp 界面的问题栏会提示检测到#include错误随之消失，如下图示。
 
 
@@ -515,6 +525,7 @@ Clang_format_fallback Style 设置
 生成 .clang-format
 4、用文本编辑器打开 .clang-format，如下所示，可以修改里面的参数，进而变成自己想要的格式。
 
+```
 ---
 Language:        Cpp
 # BasedOnStyle:  LLVM
@@ -736,6 +747,7 @@ WhitespaceSensitiveMacros:
   - PP_STRINGIZE
   - STRINGIZE
 ...
+```
 
 设置 .clang-format 生效
 1、将生成的 .clang-format 文件拷贝一份放到当前的 workspace，如下图示。
@@ -793,7 +805,7 @@ WhitespaceSensitiveMacros:
 由于前面设置了保存时格式化文件、默认格式化以及 clangd path，因此当前的 settings.json 主要包含了这些项，如下图示。
 
 settings.json
-
+```
 {
     "workbench.colorTheme": "Default Dark+",
     "editor.formatOnSave": true,
@@ -802,6 +814,7 @@ settings.json
     },
     "clangd.path": "C:\\Users\\Administrator\\.vscode\\extensions\\ms-vscode.cpptools-1.14.5-win32-x64\\LLVM\\bin"
 }
+```
 下文会继续修改 settings.json 。
 
 好用的插件推荐
@@ -857,7 +870,7 @@ code runner 运行代码的几种方法
 
 代码修改，运行前自动保存
 此时的 settings.json 变为如下：
-
+```
 {
     "workbench.colorTheme": "Default Dark+",
     "editor.formatOnSave": true,
@@ -868,6 +881,7 @@ code runner 运行代码的几种方法
     "code-runner.saveAllFilesBeforeRun": true,
     "code-runner.saveFileBeforeRun": true
 }
+```
 代码在终端运行
 
 由于 vscode 内置了终端，因此可以通过修改 Code Runner 插件中的某些扩展设置，让代码在终端中运行。
@@ -881,7 +895,7 @@ code runner 运行代码的几种方法
 
 代码在终端中运行
 此时的 settings.json 变为如下：
-
+```
 {
     "workbench.colorTheme": "Default Dark+",
     "editor.formatOnSave": true,
@@ -893,6 +907,7 @@ code runner 运行代码的几种方法
     "code-runner.saveFileBeforeRun": true,
     "code-runner.runInTerminal": true
 }
+```
 修改对编译的设置
 
 Code Runner 插件可以修改编译选项，如下图示，在输入框中输入 executorMap，然后点击 Code-runner:Executor Map 下方的在 settings.json 中编辑。
@@ -914,7 +929,7 @@ settings.json 内容变化
 
 更改编译选项之后的编译结果
 由于当前只使用 C/C++ 编译代码，因此可以将 code-runner.executorMap 中其它部分删除，此时的 settings.json 变成如下所示：
-
+```
 {
     "workbench.colorTheme": "Default Dark+",
     "editor.formatOnSave": true,
@@ -930,6 +945,7 @@ settings.json 内容变化
         "cpp": "cd $dir && clang++ $fileName -o $fileNameWithoutExt.exe -Wall -g -Og -static-libgcc -fcolor-diagnostics --target=x86_64-w64-mingw -std=c++1z && $dir$fileNameWithoutExt"
     }
 }
+```
 tabnine
 
 tabnine 插件
