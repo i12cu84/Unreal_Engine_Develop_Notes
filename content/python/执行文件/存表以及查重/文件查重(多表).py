@@ -8,6 +8,7 @@ filepaths = [
     r"D:\Download\MovepackList\fileoutputE4.md",
     r"D:\Download\MovepackList\fileoutputE3.md",
 ]
+#该文件是同路径下  "输出文件列表(包含子目录,Markdown版本)(不分离版).py" 生成的
 
 # 用于存储文件名及其大小和来源的字典
 file_info = {}
