@@ -1,1 +1,0 @@
-强制转换为[type] (注意使用IsValid) ->　转换后可以使用[type]特定的API

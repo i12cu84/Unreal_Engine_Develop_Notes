@@ -1,0 +1,23 @@
+////////////////////////////////////////////////////////////////
+///		{MGC} : GENERATED SOURCE * Do NOT edit!
+////////////////////////////////////////////////////////////////
+
+#include "MGC_TestCode__CPP.h"
+
+void UMGC_TestCode__CPP::Execute(UObject* Context)
+{
+	Ensure(Context);
+	UE_LOG(LogTemp,Log,TEXT("%s"),TEXT("Hello World!"));
+}
+
+FName UMGC_TestCode__CPP::GetFNamesss(FName nm)
+{
+	return nm;
+}
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////

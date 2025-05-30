@@ -1,0 +1,18 @@
+////////////////////////////////////////////////////////////////
+///		{MGC} : GENERATED SOURCE * Do NOT edit!
+////////////////////////////////////////////////////////////////
+
+#include "MGC_PrintLogAllStrings__CPP.h"
+
+void UMGC_PrintLogAllStrings__CPP::Execute (
+	UObject* Context,
+	const TArray<FString> &Array
+) {
+	for (auto &Item : Array) {
+		LOG_MGC(Item);
+		LOG_MGC(1.0f,FColor::Blue,Item);
+	}
+}
+
+
+////////////////////////////////////////////////////////////////

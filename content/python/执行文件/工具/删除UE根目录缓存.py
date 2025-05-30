@@ -2,7 +2,7 @@ import os
 import shutil
 
 # 需要删除的文件夹列表
-folders_to_remove = ['.vs', 'Binaries', 'Intermediate', 'Saved']
+folders_to_remove = ['.vs', 'Binaries', 'Intermediate', 'Saved','DerivedDataCache','Build','Platforms']
 
 # 遍历并删除文件夹
 for folder in folders_to_remove:

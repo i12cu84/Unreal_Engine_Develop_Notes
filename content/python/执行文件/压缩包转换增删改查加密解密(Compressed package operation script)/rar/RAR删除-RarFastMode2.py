@@ -16,13 +16,14 @@ from collections import namedtuple
 
 # ===================== 用户配置区域 =====================
 rar_exe_path = r"C:\Program File\WinRAR\rar.exe"
-target_dir = r"C:\Users\chru\Desktop\1"
-delete_patterns = ["Saved", "Intermediate", "Build", "Binaries", ".vs", ".svn", "DerivedDataCache",
+target_dir = r"E:\Download"
+delete_patterns = ["Saved", "Intermediate", "Build", "Binaries", ".vs", ".svn", "DerivedDataCache","使用教程【必看】",
                    "Read me.rar", "更多免费软件素材1.jpg",
-                   "首页-虚幻4资源站-淘宝网.url", "2d素材库-传奇素材包-素材免费下载.url", "2d素材库素材免费下载.url", 
+                   "首页-虚幻4资源站-淘宝网.url", "2d素材库-传奇素材包-素材免费下载.url", "2d素材库素材免费下载.url", "3d模型-爱给模型库-素材免费下载.url","3d模型素材免费下载.url","51render.url",
                    "虚幻(UE)素材免费下载.url", "源码素材免费下载.url","CG3DA - 免费下载各类精品CG资源 .url",
-                   "爱给网-2d素材库-免费下载.txt", "爱给网-虚幻(UE)-免费下载.txt", "爱给网-源码-免费下载.txt",
-                   "UE4资源安装说明.txt","免责声明【必看】.txt","  UE多个高质量写实风景地貌场景模型_-传奇素材包-素材说明.txt"]
+                   "爱给网-2d素材库-免费下载.txt", "爱给网-虚幻(UE)-免费下载.txt", "爱给网-源码-免费下载.txt","必看!UE4资源使用说明.txt","爱给网-3d模型-免费下载.txt","免责声明.txt",
+                   "UE4资源安装说明.txt","免责声明【必看】.txt","  UE多个高质量写实风景地貌场景模型_-传奇素材包-素材说明.txt",
+                   "UE4库文件使用教程.docx"]
 silent_mode = True  # 静默模式开关
 REPORT_TYPE = "both"  # 报告类型: console/csv/both
 # ======================================================
@@ -215,3 +216,64 @@ if __name__ == "__main__":
     
     if csv_path:
         print(f"\n{'='*50}\nCSV报告路径: {os.path.abspath(csv_path)}\n{'='*50}")
+
+
+"""
+
+1. 问题定位
+现象：删除父目录后，子文件/目录因路径不存在导致删除失败（错误码10）
+
+根本原因：删除指令同时包含父子层级条目，WinRAR执行顺序不确定导致可能先删父级
+
+关键矛盾：需要保证删除顺序为先删子项再删父目录，或只删父目录自动包含子项
+
+2. 技术方案选择
+方案一：强制排序删除顺序（先文件后目录，深度优先）
+
+ 缺点：WinRAR命令行参数不支持排序控制，实现复杂
+
+方案二：智能过滤冗余条目（推荐）
+
+ 优势：仅保留最顶层待删条目，利用RAR自动删除子项的特性
+
+ 效果：避免同时操作父子层级，一劳永逸解决路径不存在问题
+
+3. 关键技术实现
+通过路径标准化和父目录存在性检查实现智能过滤：
+
+步骤1：路径标准化处理
+# 原始条目可能包含不同路径分隔符（如"A\B\C"或"A/B/C"）
+normalized = entry.replace('\\', '/').strip('/')
+# 示例转换：
+# "A\B\C.txt" → "A/B/C.txt"
+# "D/E/F/" → "D/E/F"
+步骤2：构建路径关系网
+normalized_dict = {}
+for entry in entries:
+    normalized = entry.replace('\\', '/').strip('/')
+    normalized_dict[normalized] = entry  # 保留原始格式
+步骤3：生成父目录链
+def get_parent_paths(normalized_path):
+    parts = normalized_path.split('/')
+    return ['/'.join(parts[:i+1]) for i in range(len(parts)-1)]
+
+# 示例：
+# 输入 "A/B/C.txt"
+# 输出 ["A", "A/B"]
+步骤4：双重存在性检查
+filtered_entries = []
+for norm_path in normalized_dict.keys():
+    # 忽略根目录
+    if not norm_path:
+        continue
+    
+    # 检查所有父目录是否存在于删除列表
+    parent_exist = any(
+        parent in normalized_dict 
+        for parent in get_parent_paths(norm_path)
+    )
+    
+    # 仅保留无父目录在列表中的条目
+    if not parent_exist:
+        filtered_entries.append(normalized_dict[norm_path])
+"""

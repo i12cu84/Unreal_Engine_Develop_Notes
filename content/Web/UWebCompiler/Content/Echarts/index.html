@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>主题河流图</title>
+    <script src="echarts.min.js"></script>
+</head>
+
+<body style="overflow: hidden;">
+    <div id="panel"
+        style="position: absolute;width: 100%;height: 100%;top: 50%;left: 50%;transform: translate(-50%, -50%);">
+    </div>
+    <script>
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] === variable) {
+                    return decodeURIComponent(pair[1].replace(/\+/g, '%20'));
+                }
+            }
+            return undefined;
+        }
+        
+        var myChart = echarts.init(document.getElementById("panel"));
+
+        var DataXAxis = getQueryVariable("DataXAxis");
+        var DataYAxis = getQueryVariable("DataYAxis");
+
+        var xAxisData = DataXAxis.split(",");
+
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line',
+                    lineStyle: {
+                        color: 'rgba(0,0,0,0.2)',
+                        width: 1,
+                        type: 'solid'
+                    }
+                }
+            },
+            legend: {
+                data: [ 'QG', 'SY', 'DD']
+            },
+            singleAxis: {
+                top: 50,
+                bottom: 50,
+                axisTick: {},
+                axisLabel: {},
+                type: 'time',
+                axisPointer: {
+                    animation: true,
+                    label: {
+                        show: true
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        type: 'dashed',
+                        opacity: 0.2
+                    }
+                }
+            },
+            series: [
+                {
+                    type: 'themeRiver',
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 20,
+                            shadowColor: 'rgba(0, 0, 0, 0.8)'
+                        }
+                    },
+                    data: [
+                        ['2015/11/08', 10, 'QG'],
+                        ['2015/11/09', 15, 'QG'],
+                        ['2015/11/10', 35, 'QG'],
+                        ['2015/11/11', 38, 'QG'],
+                        ['2015/11/12', 22, 'QG'],
+                        ['2015/11/08', 10, 'SY'],
+                        ['2015/11/09', 15, 'SY'],
+                        ['2015/11/10', 35, 'SY'],
+                        ['2015/11/11', 38, 'SY'],
+                        ['2015/11/12', 22, 'SY'],
+                        ['2015/11/08', 10, 'DD'],
+                        ['2015/11/09', 15, 'DD'],
+                        ['2015/11/10', 35, 'DD'],
+                        ['2015/11/11', 38, 'DD'],
+                        ['2015/11/12', 22, 'DD'],
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+    </script>
+</body>
+
+</html>

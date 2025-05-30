@@ -17,7 +17,7 @@ PublicDependencyModuleNames.AddRange -> 需要将"MagicNodeRuntime"模块包含�
 
 例如以下代码
 
-```
+```cpp
 // Copyright Epic Games, Inc. All Rights Reserved.
 using UnrealBuildTool;
 public class MNTask : ModuleRules
@@ -36,16 +36,16 @@ public class MNTask : ModuleRules
 
 蓝图节点拉出后 -> Magic Node 呼出蓝图节点使用
 
-具体使用方法解析:https://brunoxavierleite.com/2019/01/16/unreal-magic-nodes-programming/
+[具体使用方法解析](https://brunoxavierleite.com/2019/01/16/unreal-magic-nodes-programming/)
 
-解决与提交该插件问题论坛:https://forums.unrealengine.com/t/magic-nodes/121220/42
+[解决与提交该插件问题论坛](https://forums.unrealengine.com/t/magic-nodes/121220/42)
 
 
 1.始终必须使用“IMGC”宏声明标头
 此宏将调用 UFUNCTION（） 宏，并为 Execute 条目配置默认设置，以便可由蓝图调用。如果将 Asset Browser 的 View Options 配置为显示插件内容，则可以找到一些示例，例如以下打印节点
 
 .H
-```
+```cpp
 public:
 IMGC() static void Execute (
     UObject* Context,
@@ -53,7 +53,7 @@ IMGC() static void Execute (
 );
 ```
 .CPP
-```
+```cpp
 void FSelf::Execute (
     UObject* Context,
     const TArray<FString> &Array
@@ -70,7 +70,7 @@ void FSelf::Execute (
 虚幻引擎会检查输入是否为 const、是否为 value 或引用类型等。
 例如，这将是一个数组作为输入引用：
 
-```
+```cpp
 IMGC() static void Execute (
 	const TArray<FString> &ArrayIN
     //另外 TArray<FString> ArrayIN 也可以
@@ -79,7 +79,7 @@ IMGC() static void Execute (
 
 虽然这将是一个以数组作为输出引脚的节点：
 
-```
+```cpp
 IMGC() static void Execute (
 	TArray<FString> & ArrayOut
 )
@@ -87,4 +87,6 @@ IMGC() static void Execute (
 注意：
 
 请记住，这是说明性的，节点的每个 Execute（） 函数都必须包含一个
+
 UObject* Context
+

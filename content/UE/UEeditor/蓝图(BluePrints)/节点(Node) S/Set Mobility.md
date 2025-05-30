@@ -1,1 +1,0 @@
-设置指定组件(例如StaticMeshComponent)的可移动性(静态/固定/可移动)

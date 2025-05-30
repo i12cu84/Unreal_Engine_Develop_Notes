@@ -1,1 +1,0 @@
-在指定位置生成system(niagara system)

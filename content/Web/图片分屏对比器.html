@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* 控制面板样式 */
+        .controls {
+            text-align: center;
+            /* 控件居中显示 */
+            margin: 20px;
+            /* 外边距设置 */
+            font-family: Arial, sans-serif;
+            /* 统一字体 */
+        }
+
+        /* 主对比容器 */
+        .comparison-container {
+            position: relative;
+            /* 为子元素绝对定位提供基准 */
+            margin: 20px auto;
+            /* 上下边距20px，水平居中 */
+            overflow: hidden;
+            /* 隐藏溢出内容 */
+            background: #ddd;
+            /* 备用背景色 */
+            user-select: none;
+            /* 禁止文本选择 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* 图片容器通用样式 */
+        .image-container {
+            position: absolute;
+            /* 绝对定位布局 */
+            top: 0;
+            /* 顶部对齐 */
+            height: 100%;
+            /* 高度占满容器 */
+            overflow: hidden;
+            /* 隐藏溢出内容 */
+        }
+
+        /* 左侧图片容器特定样式 */
+        .image-container-left {
+            width: 50%;
+            /* 初始占50%宽度 */
+            left: 0;
+            /* 左对齐 */
+            z-index: 1;
+            /* 确保覆盖右侧图片 */
+        }
+
+        /* 右侧图片容器特定样式 */
+        .image-container-right {
+            left: 0;
+            /* 左对齐 */
+            width: 100%;
+            /* 初始占满容器 */
+        }
+
+        /* 图片通用样式 */
+        .image-container img {
+            position: absolute;
+            /* 绝对定位布局 */
+            height: 100%;
+            /* 高度占满容器 */
+            left: 0;
+            /* 左对齐 */
+            top: 0;
+            /* 顶部对齐 */
+            pointer-events: none;
+            /* 禁用图片鼠标事件 */
+            transition: object-fit 0.3s;
+            /* 切换填充模式时的过渡效果 */
+            user-select: none;
+            /* 禁止图片选择 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* 拖动把手样式 */
+        .handle {
+            position: absolute;
+            /* 绝对定位 */
+            left: 50%;
+            /* 初始居中定位 */
+            top: 0;
+            height: 100%;
+            /* 高度占满容器 */
+            width: 4px;
+            /* 把手宽度 */
+            background: #ffffff;
+            /* 把手颜色 */
+            cursor: col-resize;
+            /* 列调整光标 */
+            z-index: 2;
+            /* 确保在最顶层 */
+            transform: translateX(-50%);
+            /* 精确居中 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            /* 添加立体阴影 */
+        }
+
+        /* 把手中间的左右箭头 */
+        .handle::after {
+            content: '↔';
+            /* 使用Unicode双箭头符号 */
+            position: absolute;
+            top: 50%;
+            /* 垂直居中 */
+            left: 50%;
+            /* 水平居中 */
+            color: #ffffff;
+            /* 箭头颜色 */
+            font-size: 24px;
+            /* 箭头大小 */
+            transform: translate(-50%, -50%);
+            /* 精确居中 */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            /* 文字阴影 */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 控制面板区域 -->
+    <div class="controls">
+        <label>
+            <input type="checkbox" id="autoSize"> 自动适应图片尺寸
+        </label>
+        <label>
+            <input type="checkbox" id="stretchImages" checked> 拉伸图片填充容器
+        </label>
+    </div>
+
+    <!-- 主对比容器 -->
+    <div class="comparison-container">
+        <!-- 左侧图片容器 -->
+        <div class="image-container image-container-left">
+            <img src="../../assets/2024-08-06-11-57-28.png" alt="Before">
+        </div>
+        <!-- 右侧图片容器 -->
+        <div class="image-container image-container-right">
+            <img src="../../assets/2024-08-06-11-51-00.png" alt="After">
+        </div>
+        <!-- 可拖动的对比线 -->
+        <div class="handle"></div>
+    </div>
+
+    <script>
+        // 获取DOM元素引用
+        const container = document.querySelector('.comparison-container');  // 主容器
+        const leftContainer = document.querySelector('.image-container-left');  // 左侧图片容器
+        const handle = document.querySelector('.handle');  // 拖动把手
+        const images = document.querySelectorAll('img');  // 所有图片元素
+        const autoSizeCheckbox = document.getElementById('autoSize');  // 自适应尺寸复选框
+        const stretchCheckbox = document.getElementById('stretchImages');  // 拉伸图片复选框
+
+        // 初始化变量
+        let maxWidth = 0;            // 记录图片最大原始宽度
+        let maxHeight = 0;           // 记录图片最大原始高度
+        let imagesLoaded = 0;        // 已加载完成的图片计数器
+
+        // 图片加载监控
+        images.forEach(img => {
+            // 每张图片加载完成后更新最大尺寸
+            img.addEventListener('load', () => {
+                imagesLoaded++;
+                maxWidth = Math.max(maxWidth, img.naturalWidth);
+                maxHeight = Math.max(maxHeight, img.naturalHeight);
+
+                // 所有图片加载完成后初始化布局
+                if (imagesLoaded === images.length) {
+                    initContainerSize();
+                    initImageLayout();
+                }
+            });
+            img.setAttribute('draggable', 'false'); // 禁用图片的HTML5拖动
+        });
+
+        /**
+         * 初始化容器尺寸
+         * 根据自动适应复选框决定使用图片原始尺寸或固定尺寸
+         */
+        function initContainerSize() {
+            if (autoSizeCheckbox.checked) {
+                // 使用最大图片尺寸作为容器尺寸
+                container.style.width = `${maxWidth}px`;
+                container.style.height = `${maxHeight}px`;
+            } else {
+                // 使用固定容器尺寸
+                container.style.width = '800px';
+                container.style.height = '500px';
+            }
+        }
+
+        /**
+         * 初始化图片布局
+         * 根据拉伸复选框决定图片的填充方式
+         */
+        function initImageLayout() {
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+
+            images.forEach(img => {
+                if (stretchCheckbox.checked) {
+                    // 拉伸模式：完全填充容器
+                    img.style.objectFit = 'fill';
+                    img.style.width = `${containerWidth}px`;
+                    img.style.height = `${containerHeight}px`;
+                } else {
+                    // 保持比例模式：使用cover方式适配
+                    img.style.objectFit = 'cover';
+                    const ratio = Math.min(
+                        containerWidth / img.naturalWidth,
+                        containerHeight / img.naturalHeight
+                    );
+                    img.style.width = `${img.naturalWidth * ratio}px`;
+                    img.style.height = `${img.naturalHeight * ratio}px`;
+                }
+                // 重置图片位置
+                img.style.left = '0';
+                img.style.top = '0';
+            });
+        }
+
+        /**
+         * 更新布局位置
+         * @param {number} x - 鼠标在容器内的水平坐标
+         */
+        function updateLayout(x) {
+            // 限制x在容器范围内
+            x = Math.max(0, Math.min(x, container.offsetWidth));
+            leftContainer.style.width = `${x}px`;  // 设置左侧容器宽度
+            handle.style.left = `${x}px`;          // 同步移动把手位置
+        }
+
+        // 拖拽状态标志
+        let isDragging = false;
+
+        // 在容器上监听鼠标按下事件开始拖拽
+        container.addEventListener('mousedown', startDrag);
+
+        /**
+         * 开始拖拽处理
+         * @param {MouseEvent} e - 鼠标事件对象
+         */
+        function startDrag(e) {
+            e.preventDefault(); // 阻止默认行为
+            isDragging = true;   // 设置拖拽状态
+
+            // 立即更新一次位置
+            const rect = container.getBoundingClientRect();
+            updateLayout(e.clientX - rect.left);
+
+            // 添加移动和释放事件监听
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        /**
+         * 鼠标移动处理
+         * @param {MouseEvent} e - 鼠标事件对象
+         */
+        function moveHandler(e) {
+            if (!isDragging) return; // 非拖拽状态直接返回
+            e.preventDefault();
+
+            // 计算鼠标在容器内的相对位置
+            const rect = container.getBoundingClientRect();
+            updateLayout(e.clientX - rect.left);
+        }
+
+        /**
+         * 停止拖拽处理
+         */
+        function stopDrag() {
+            isDragging = false; // 清除拖拽状态
+            // 移除事件监听
+            document.removeEventListener('mousemove', moveHandler);
+        }
+
+        // 自适应复选框变化监听
+        autoSizeCheckbox.addEventListener('change', () => {
+            initContainerSize();     // 重新初始化容器尺寸
+            initImageLayout();      // 重新布局图片
+            updateLayout(container.offsetWidth / 2);  // 重置到中间位置
+        });
+
+        // 拉伸复选框变化监听
+        stretchCheckbox.addEventListener('change', () => {
+            initImageLayout();  // 重新布局图片
+            // 保持当前分割位置或重置到中间
+            updateLayout(parseFloat(leftContainer.style.width) || container.offsetWidth / 2);
+        });
+
+        // 窗口大小变化监听
+        window.addEventListener('resize', () => {
+            initImageLayout();  // 重新布局图片
+            // 保持当前分割比例或重置到中间
+            updateLayout(parseFloat(leftContainer.style.width) || container.offsetWidth / 2);
+        });
+    </script>
+</body>
+
+</html>

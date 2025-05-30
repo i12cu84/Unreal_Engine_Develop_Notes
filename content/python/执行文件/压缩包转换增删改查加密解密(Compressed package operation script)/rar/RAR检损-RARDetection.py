@@ -1,6 +1,6 @@
 """
-RAR文件加密脚本
-功能：对指定目录下的所有RAR文件进行加密打包，生成带密码保护的副本
+RAR文件检验损坏脚本
+功能：对指定目录下的所有RAR文件进行检验损坏，并输出损坏的文件列表
 """
 
 import os
@@ -9,99 +9,80 @@ from pathlib import Path
 from typing import List, Optional
 
 # ===================== 用户配置区域 =====================
-TARGET_DIRECTORY = r"C:\Users\chru\Desktop\UE-VRGK-v2-master"  # 目标目录
-ENCRYPTION_PASSWORD = "1234"                                  # 加密密码
-OUTPUT_SUFFIX = "_encrypted"                                  # 输出文件后缀
+TARGET_DIRECTORY = r"C:\Users\chru\Downloads\agw"  # 目标目录
 WINRAR_PATHS = [                                             # WinRAR可能路径
     r"C:\Program File\WinRAR\WinRar.exe"  # 容错可能的拼写错误
 ]
 # ======================================================
 
-def find_winrar_executable() -> str:
-    """定位WinRAR可执行文件路径"""
+def get_winrar_path() -> str:
+    """获取有效的WinRAR可执行文件路径"""
+    # 检查用户配置路径
     for path in WINRAR_PATHS:
         if os.path.isfile(path):
             return path
-    raise FileNotFoundError("未找到WinRAR可执行文件，请检查安装路径")
+    
+    for path in WINRAR_PATHS:
+        if os.path.isfile(path):
+            return path
+    
+    raise FileNotFoundError("无法找到WinRAR可执行文件，请检查安装或配置路径")
 
-def find_rar_files(directory: str) -> List[str]:
-    """查找目录及其子目录中的所有RAR文件"""
-    rar_files = []
-    for root, _, files in os.walk(directory):
-        for file in files:
-            if file.lower().endswith('.rar'):
-                full_path = os.path.join(root, file)
-                rar_files.append(full_path)
-    return rar_files
-
-def encrypt_rar(winrar_path: str, original_rar: str, password: str) -> Optional[str]:
-    """
-    使用WinRAR创建加密副本
-    返回新文件路径（成功时），None（失败时）
-    """
+def test_rar_file(winrar_path: str, rar_path: Path) -> bool:
+    """测试单个RAR文件是否损坏"""
     try:
-        original_path = Path(original_rar)
-        output_path = original_path.with_name(
-            f"{original_path.stem}{OUTPUT_SUFFIX}{original_path.suffix}"
-        )
-
-        # 构建WinRAR命令行参数
-        command = [
-            winrar_path,
-            "a",               # 添加文件到压缩包
-            "-ep",             # 排除基本路径
-            "-hp"+password,    # 加密文件和文件名
-            "-ibck",           # 后台运行
-            "-r",              # 递归子目录
-            "-y",              # 全部确认
-            str(output_path),  # 输出文件路径
-            str(original_path) # 源文件路径
-        ]
-
-        # 执行压缩命令
         result = subprocess.run(
-            command,
+            [winrar_path, 't', str(rar_path)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            check=True
+            creationflags=subprocess.CREATE_NO_WINDOW,
+            check=False
         )
-
-        if result.returncode == 0:
-            print(f"成功加密：{original_path} -> {output_path}")
-            return str(output_path)
-            
-    except subprocess.CalledProcessError as e:
-        print(f"加密失败【{original_rar}】: {e.stderr.decode('gbk')}")
+        return result.returncode != 0
     except Exception as e:
-        print(f"处理异常【{original_rar}】: {str(e)}")
+        print(f"测试文件 {rar_path} 时发生异常：{str(e)}")
+        return True  # 将异常情况视为损坏
+
+def find_damaged_rar_files(winrar_path: str, target_dir: Path) -> List[str]:
+    """查找损坏的RAR文件"""
+    damaged_files = []
     
-    return None
+    # 遍历所有RAR文件（包括子目录）
+    for rar_file in target_dir.rglob('*.rar'):
+        print(f"正在检测文件：{rar_file}...", end='', flush=True)
+        
+        if test_rar_file(winrar_path, rar_file):
+            print(" [损坏]")
+            damaged_files.append(str(rar_file))
+        else:
+            print(" [正常]")
+    
+    return damaged_files
 
 def main():
-    """主处理流程"""
     try:
-        # 验证WinRAR路径
-        winrar_path = find_winrar_executable()
-        print(f"找到WinRAR路径：{winrar_path}")
-
-        # 查找所有RAR文件
-        rar_files = find_rar_files(TARGET_DIRECTORY)
-        if not rar_files:
-            print("未找到需要处理的RAR文件")
-            return
-
-        print(f"发现{len(rar_files)}个需要处理的RAR文件")
-
-        # 处理每个文件
-        success_count = 0
-        for rar_file in rar_files:
-            if encrypt_rar(winrar_path, rar_file, ENCRYPTION_PASSWORD):
-                success_count += 1
-
-        print(f"处理完成，成功加密{success_count}/{len(rar_files)}个文件")
-
+        # 获取WinRAR路径
+        winrar_path = get_winrar_path()
+        print(f"使用的WinRAR路径：{winrar_path}")
+        
+        # 验证目标目录
+        target_dir = Path(TARGET_DIRECTORY)
+        if not target_dir.is_dir():
+            raise ValueError(f"目标路径 {TARGET_DIRECTORY} 不是有效目录")
+        
+        # 执行检测
+        damaged_files = find_damaged_rar_files(winrar_path, target_dir)
+        
+        # 输出结果
+        print("\n检测完成，损坏文件列表：")
+        if damaged_files:
+            for idx, file in enumerate(damaged_files, 1):
+                print(f"{idx}. {file}")
+        else:
+            print("未发现损坏的RAR文件")
+            
     except Exception as e:
-        print(f"程序异常终止: {str(e)}")
+        print(f"程序运行出错：{str(e)}")
 
 if __name__ == "__main__":
     main()
