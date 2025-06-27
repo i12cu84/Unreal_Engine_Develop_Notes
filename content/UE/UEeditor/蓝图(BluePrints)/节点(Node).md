@@ -343,6 +343,16 @@ Socket Name是附加目标的骨骼插槽名称
 
 
 <details>
+<summary>Check Component Owner</summary>
+<pre><code>
+检查组件是否属于指定的Actor(检查组件所有权)
+</code></pre>
+</details>
+
+
+
+
+<details>
 <summary>CLEAR</summary>
 <pre><code>
 清空
@@ -912,6 +922,16 @@ Widget -> Get Cached Geometry -> Get Absolute Size
 
 
 <details>
+<summary>Get Actor Scale 3D</summary>
+<pre><code>
+获取模型缩放
+</code></pre>
+</details>
+
+
+
+
+<details>
 <summary>Get All Actors Of Class with Tag</summary>
 <pre><code>
 获取存在指定Tag指定类的所有Actor
@@ -945,6 +965,16 @@ Widget -> Get Cached Geometry -> Get Absolute Size
 <summary>Get Blackboard Value as Actor</summary>
 <pre><code>
 从黑板获取所属Actor对象
+</code></pre>
+</details>
+
+
+
+
+<details>
+<summary>Get Bounding Box</summary>
+<pre><code>
+获取模型的边界盒
 </code></pre>
 </details>
 
