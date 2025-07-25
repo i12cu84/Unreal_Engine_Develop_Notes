@@ -1,0 +1,1337 @@
+1
+
+//Gender;None;Name;男
+//SkinMaterial;基础男性;Name;基础男性
+//FaceMorph;None;Scalar;0.0
+//SkinMaterial;面部疤痕A;Name;面部疤痕A
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;短发E
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;变异皮肤;Name;变异皮肤
+//SkinMaterial;污垢遮瑕膏2;Name;污垢遮瑕膏2
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;FullScale;Scalar;0.0
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Eyebrows_angle;Scalar;29.806923
+//FaceMorph;HeadFat;Scalar;-57.788944
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;OverlaySkinOpacity;Scalar;0.0
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;100.185135
+//SkinMaterial;Age;Scalar;92.19783
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;100.0
+//SkinMaterial;SkinPower;Scalar;117.111877
+//SkinMaterial;SkinSaturation;Scalar;100.0
+//SkinMaterial;DecalScale;Scalar;102.13208
+//SkinMaterial;DecalRotation;Scalar;54.810188
+//SkinMaterial;DecalOpacityExponent;Scalar;135.920441
+//SkinMaterial;DecalOffsetX;Scalar;-0.618825
+//SkinMaterial;DecalOffsetY;Scalar;-0.202809
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//FaceMorph;Teeth_Gap;Scalar;128.167145
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;62.999199
+//FaceMorph;Teeth_Incisors_Canines;Scalar;102.777054
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;0.0
+//HairMaterial;FringeTipScale;Scalar;0.0
+//HairMaterial;TipScale;Scalar;0.0
+//HairMaterial;Specular;Scalar;70.0
+//HairMaterial;Roughness;Scalar;40.0
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;Scatter;Scalar;31.049988
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//EyesMaterial;PupilScale;Scalar;63.200211
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;13.303364
+//BoneStructure;Scoliosis;Scalar;-13.448822
+//BoneStructure;Crooked Back;Scalar;107.146263
+//BoneStructure;Body Fat;Scalar;80.251251
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Breasts Scale;Scalar;100.0
+//BoneStructure;Shoulders Width;Scalar;0.0
+//BoneStructure;Shoulders Height;Scalar;0.0
+//BoneStructure;Shoulders Scale;Scalar;100.0
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Head Scale;Scalar;100.0
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.039546,G=0.019382,B=0.000000,A=1.000000)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//HairMaterial;Root Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.782459,B=0.492403,A=0.879834)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.312155)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.000000,B=0.000000,A=0.729972)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+//SkinMaterial;DecalTint;Color;(R=0.150000,G=0.000000,B=0.000000,A=2.000000)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.630525)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+
+2
+
+//Gender;None;Name;男
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛C;Name;睫毛C
+//EyebrowsMaterial;眉毛F;Name;眉毛F
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;变异皮肤;Name;变异皮肤
+//SkinMaterial;污垢遮瑕膏2;Name;污垢遮瑕膏2
+//SkinMaterial;基础男性;Name;基础男性
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;脏裹脚布
+//FaceMorph;Nose_Angle;Scalar;-0.85088
+//FaceMorph;Nose_Volume;Scalar;11.194658
+//FaceMorph;Nose_Length;Scalar;-103.053474
+//FaceMorph;Nose_Width;Scalar;-69.180252
+//FaceMorph;Nose_Position_V;Scalar;27.728916
+//FaceMorph;Jaw_Position_D;Scalar;26.478148
+//FaceMorph;Jaw_Length;Scalar;69.101311
+//FaceMorph;Ears_Pointy;Scalar;47.075489
+//FaceMorph;Ears_Angle;Scalar;-11.716545
+//FaceMorph;Ears_Size;Scalar;-55.351852
+//FaceMorph;Double_Chin;Scalar;-24.788851
+//FaceMorph;Chin_Shape;Scalar;61.158501
+//FaceMorph;Cheekbones_Width;Scalar;-67.113113
+//FaceMorph;Cheeks_Size;Scalar;43.747341
+//FaceMorph;Eyebrows_angle;Scalar;-51.076733
+//FaceMorph;HeadFat;Scalar;11.477017
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;OverlaySkinOpacity;Scalar;0.0
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;28.398138
+//SkinMaterial;Age;Scalar;92.19783
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;100.0
+//SkinMaterial;SkinPower;Scalar;117.111877
+//SkinMaterial;SkinSaturation;Scalar;100.0
+//FaceMorph;Nostrils_Width;Scalar;74.445435
+//FaceMorph;Nose_Columella_Height;Scalar;13.361096
+//FaceMorph;Nose_BulbousTip;Scalar;-21.068853
+//FaceMorph;Nostrils_Height;Scalar;-18.879206
+//FaceMorph;Nostrils_Flare;Scalar;25.630379
+//FaceMorph;Nose_TipHeight;Scalar;-26.279772
+//FaceMorph;Lips_Volume;Scalar;28.172993
+//FaceMorph;Mouth_size_h;Scalar;-54.827995
+//FaceMorph;Mouth_size_d;Scalar;-61.489319
+//FaceMorph;UpperLip_Size;Scalar;-29.930771
+//FaceMorph;LowerLip_Size;Scalar;-11.638439
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//BoneStructure;Head Scale;Scalar;92.111877
+//BoneStructure;Neck Length;Scalar;121.317116
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Shoulders Scale;Scalar;64.123245
+//BoneStructure;Shoulders Height;Scalar;0.0
+//BoneStructure;Shoulders Width;Scalar;0.0
+//BoneStructure;Breasts Scale;Scalar;100.0
+//BoneStructure;Legs Length;Scalar;97.985649
+//BoneStructure;Body Fat;Scalar;130.0
+//BoneStructure;Crooked Back;Scalar;90.473419
+//BoneStructure;Scoliosis;Scalar;-13.448822
+//FaceMorph;Eye_Size;Scalar;-17.389357
+//FaceMorph;Eyes_Depth;Scalar;-53.867603
+//EyesMaterial;LimbusDarkScale;Scalar;225.911041
+//EyesMaterial;Iris UV Radius;Scalar;15.216234
+//EyesMaterial;PupilScale;Scalar;58.376091
+//EyesMaterial;VeinsIntensity;Scalar;222.878387
+//HairMaterial;Scatter;Scalar;12.886757
+//HairMaterial;RootLength;Scalar;92.815483
+//HairMaterial;Roughness;Scalar;28.915749
+//HairMaterial;Specular;Scalar;59.343864
+//HairMaterial;TipScale;Scalar;-38.241875
+//HairMaterial;FringeTipScale;Scalar;-28.081656
+//HairMorphs;Length;Scalar;-71.653915
+//HairMorphs;Width;Scalar;79.923866
+//HairMaterial;FullScale;Scalar;0.0
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//BeardMaterial;Scatter;Scalar;20.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;FullScale;Scalar;0.0
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;Teeth_Incisors_Canines;Scalar;-24.173498
+//FaceMorph;Teeth_Inwards;Scalar;-200.0
+//FaceMorph;Teeth_UpperSize;Scalar;33.377411
+//FaceMorph;Teeth_LowerSize;Scalar;-70.483994
+//FaceMorph;Teeth_Gap;Scalar;200.0
+//SkinMaterial;DecalRoughness;Scalar;20.488819
+//SkinMaterial;DecalOffsetY;Scalar;-0.660427
+//SkinMaterial;DecalOffsetX;Scalar;-7.150287
+//SkinMaterial;DecalOpacityExponent;Scalar;105.967239
+//SkinMaterial;DecalRotation;Scalar;21.944878
+//SkinMaterial;DecalScale;Scalar;85.491417
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.402236,G=0.305644,B=0.248509,A=0.678216)
+//EyebrowsMaterial;Color;Color;(R=0.544741,G=0.238494,B=0.444240,A=0.763263)
+//HairMaterial;Tip Color;Color;(R=0.465732,G=0.744651,B=0.842374,A=0.507189)
+//HairMaterial;Root Color;Color;(R=0.465732,G=0.744651,B=0.842374,A=0.810299)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=0.759765,G=0.882236,B=0.274585,A=0.636072)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.312845,B=0.163674,A=3.936464)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.000000,B=0.000000,A=0.729972)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;DirtColor;Color;(R=0.271409,G=0.000000,B=0.000000,A=1.000000)
+//SkinMaterial;DecalTint;Color;(R=0.441727,G=0.281736,B=0.151573,A=0.997345)
+
+3
+
+//Gender;None;Name;男
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛C;Name;眉毛C
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏3;Name;污垢遮瑕膏3
+//SkinMaterial;基础男性;Name;基础男性
+//SkinMaterial;DecalScale;Scalar;100.0
+//SkinMaterial;DecalRotation;Scalar;23.392811
+//SkinMaterial;DecalOpacityExponent;Scalar;125.29982
+//SkinMaterial;DecalOffsetX;Scalar;-7.359919
+//SkinMaterial;DecalOffsetY;Scalar;-1.036467
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//FaceMorph;Teeth_Gap;Scalar;128.167145
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;62.999199
+//FaceMorph;Teeth_Incisors_Canines;Scalar;102.777054
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;FullScale;Scalar;0.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;0.0
+//HairMorphs;Width;Scalar;55.260422
+//HairMorphs;Length;Scalar;-59.552837
+//HairMaterial;FringeTipScale;Scalar;55.269386
+//HairMaterial;TipScale;Scalar;107.475708
+//HairMaterial;Specular;Scalar;30.324629
+//HairMaterial;Roughness;Scalar;46.786751
+//HairMaterial;RootLength;Scalar;102.364578
+//HairMaterial;Scatter;Scalar;71.53791
+//EyesMaterial;VeinsIntensity;Scalar;135.71524
+//EyesMaterial;PupilScale;Scalar;67.875458
+//EyesMaterial;Iris UV Radius;Scalar;13.65633
+//EyesMaterial;LimbusDarkScale;Scalar;224.049759
+//FaceMorph;Eyes_Depth;Scalar;-119.545486
+//FaceMorph;Eye_Size;Scalar;-71.054962
+//BoneStructure;Scoliosis;Scalar;-35.250263
+//BoneStructure;Crooked Back;Scalar;109.681961
+//BoneStructure;Body Fat;Scalar;130.0
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Breasts Scale;Scalar;100.0
+//BoneStructure;Shoulders Width;Scalar;-259.405579
+//BoneStructure;Shoulders Height;Scalar;-303.838257
+//BoneStructure;Shoulders Scale;Scalar;100.0
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Head Scale;Scalar;100.0
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;LowerLip_Size;Scalar;-32.662357
+//FaceMorph;UpperLip_Size;Scalar;-52.988781
+//FaceMorph;Mouth_size_d;Scalar;-26.072681
+//FaceMorph;Mouth_size_h;Scalar;-36.29628
+//FaceMorph;Lips_Volume;Scalar;-16.349257
+//FaceMorph;Nose_TipHeight;Scalar;-61.549484
+//FaceMorph;Nostrils_Flare;Scalar;14.631176
+//FaceMorph;Nostrils_Height;Scalar;-32.925468
+//FaceMorph;Nose_BulbousTip;Scalar;25.473965
+//FaceMorph;Nose_Columella_Height;Scalar;-11.723966
+//FaceMorph;Nostrils_Width;Scalar;68.227768
+//FaceMorph;Nose_Angle;Scalar;43.044781
+//FaceMorph;Nose_Volume;Scalar;48.754726
+//FaceMorph;Nose_Length;Scalar;-54.490005
+//FaceMorph;Nose_Width;Scalar;-40.667488
+//FaceMorph;Nose_Position_V;Scalar;84.136009
+//FaceMorph;Jaw_Position_D;Scalar;-10.142469
+//FaceMorph;Jaw_Length;Scalar;57.832897
+//FaceMorph;Ears_Pointy;Scalar;51.903439
+//FaceMorph;Ears_Angle;Scalar;-20.55452
+//FaceMorph;Ears_Size;Scalar;-37.216675
+//FaceMorph;Double_Chin;Scalar;37.392117
+//FaceMorph;Chin_Shape;Scalar;20.16387
+//FaceMorph;Cheekbones_Width;Scalar;62.106609
+//FaceMorph;Cheeks_Size;Scalar;18.286491
+//FaceMorph;Eyebrows_angle;Scalar;-45.932335
+//FaceMorph;HeadFat;Scalar;71.004959
+//SkinMaterial;OverlayNormalOpacity;Scalar;17.077164
+//SkinMaterial;DirtNormalIntensity;Scalar;126.978874
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;82.547508
+//SkinMaterial;Age;Scalar;87.957886
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;104.647469
+//SkinMaterial;SkinPower;Scalar;92.851929
+//SkinMaterial;SkinSaturation;Scalar;62.219704
+//SkinMaterial;DecalTint;Color;(R=0.604323,G=0.409080,B=0.270783,A=0.991710)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.630525)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.376385,G=0.454672,B=0.729839,A=0.585629)
+//EyebrowsMaterial;Color;Color;(R=0.677065,G=0.443594,B=0.495568,A=0.427198)
+//HairMaterial;Tip Color;Color;(R=0.581163,G=0.553069,B=0.760610,A=0.464493)
+//HairMaterial;Root Color;Color;(R=0.583456,G=0.643060,B=0.567350,A=0.492390)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=0.350004,G=0.384983,B=0.384769,A=0.897701)
+//EyesMaterial;IrisColor;Color;(R=0.154545,G=0.493192,B=0.503969,A=1.662476)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.033732,B=0.022682,A=0.566881)
+//SkinMaterial;SkinTint;Color;(R=0.460624,G=0.632752,B=0.552973,A=1.000000)
+
+4
+
+//Gender;None;Name;男
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;怪兽角A
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;旧长袍
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;长发D
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏4;Name;污垢遮瑕膏4
+//SkinMaterial;基础男性;Name;基础男性
+//SkinMaterial;DecalScale;Scalar;144.965546
+//SkinMaterial;DecalRotation;Scalar;42.11356
+//SkinMaterial;DecalOpacityExponent;Scalar;115.315422
+//SkinMaterial;DecalOffsetX;Scalar;-1.410881
+//SkinMaterial;DecalOffsetY;Scalar;0.87721
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//FaceMorph;Teeth_Gap;Scalar;18.110298
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;134.058456
+//FaceMorph;Teeth_Incisors_Canines;Scalar;200.0
+//FaceMorph;InnerMouth_Rotation;Scalar;51.37199
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;FullScale;Scalar;0.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;-32.838535
+//HairMorphs;Length;Scalar;84.124565
+//HairMaterial;FringeTipScale;Scalar;0.0
+//HairMaterial;TipScale;Scalar;0.0
+//HairMaterial;Specular;Scalar;70.0
+//HairMaterial;Roughness;Scalar;40.0
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;Scatter;Scalar;17.9235
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//EyesMaterial;PupilScale;Scalar;63.200211
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;13.303364
+//BoneStructure;Scoliosis;Scalar;0.0
+//BoneStructure;Crooked Back;Scalar;91.993523
+//BoneStructure;Body Fat;Scalar;80.251251
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Breasts Scale;Scalar;100.0
+//BoneStructure;Shoulders Width;Scalar;38.928223
+//BoneStructure;Shoulders Height;Scalar;-81.674812
+//BoneStructure;Shoulders Scale;Scalar;121.454308
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Head Scale;Scalar;103.639076
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Eyebrows_angle;Scalar;29.806923
+//FaceMorph;HeadFat;Scalar;-57.788944
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;181.416946
+//SkinMaterial;Age;Scalar;100.0
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;80.131744
+//SkinMaterial;SkinPower;Scalar;92.12841
+//SkinMaterial;SkinSaturation;Scalar;93.035904
+//SkinMaterial;DecalTint;Color;(R=0.471449,G=0.178585,B=0.186720,A=1.051367)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.688428)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.039546,G=0.019382,B=0.000000,A=1.000000)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//HairMaterial;Root Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.588980,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.848649,G=0.591743,B=0.530969,A=5.260273)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.964671,B=0.180141,A=0.879834)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.312155)
+//SkinMaterial;DirtColor;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.481246)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+5
+
+//Gender;None;Name;女
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//SkinMaterial;面部疤痕A;Name;面部疤痕A
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;短发E
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏2;Name;污垢遮瑕膏2
+//SkinMaterial;基础女性;Name;基础女性
+//SkinMaterial;DecalScale;Scalar;102.13208
+//SkinMaterial;DecalRotation;Scalar;54.810188
+//SkinMaterial;DecalOpacityExponent;Scalar;135.920441
+//SkinMaterial;DecalOffsetX;Scalar;-0.618825
+//SkinMaterial;DecalOffsetY;Scalar;-0.202809
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//FaceMorph;Teeth_Gap;Scalar;128.167145
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;62.999199
+//FaceMorph;Teeth_Incisors_Canines;Scalar;102.777054
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;FullScale;Scalar;0.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;0.0
+//HairMaterial;FringeTipScale;Scalar;0.0
+//HairMaterial;TipScale;Scalar;0.0
+//HairMaterial;Specular;Scalar;70.0
+//HairMaterial;Roughness;Scalar;40.0
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;Scatter;Scalar;31.049988
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//EyesMaterial;PupilScale;Scalar;63.200211
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;13.303364
+//BoneStructure;Scoliosis;Scalar;-13.448822
+//BoneStructure;Crooked Back;Scalar;107.146263
+//BoneStructure;Body Fat;Scalar;80.251251
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Breasts Scale;Scalar;20.0
+//BoneStructure;Shoulders Width;Scalar;0.0
+//BoneStructure;Shoulders Height;Scalar;0.0
+//BoneStructure;Shoulders Scale;Scalar;100.0
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Head Scale;Scalar;100.0
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Eyebrows_angle;Scalar;29.806923
+//FaceMorph;HeadFat;Scalar;-57.788944
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;100.185135
+//SkinMaterial;Age;Scalar;92.19783
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;100.0
+//SkinMaterial;SkinPower;Scalar;117.111877
+//SkinMaterial;SkinSaturation;Scalar;100.0
+//SkinMaterial;DecalTint;Color;(R=0.150000,G=0.000000,B=0.000000,A=2.000000)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.630525)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.039546,G=0.019382,B=0.000000,A=1.000000)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//HairMaterial;Root Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.782459,B=0.492403,A=0.879834)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.312155)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.000000,B=0.000000,A=0.729972)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+6
+
+//Gender;None;Name;女
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛C;Name;睫毛C
+//EyebrowsMaterial;眉毛F;Name;眉毛F
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏2;Name;污垢遮瑕膏2
+//SkinMaterial;基础女性;Name;基础女性
+//SkinMaterial;DecalScale;Scalar;85.491417
+//SkinMaterial;DecalRotation;Scalar;21.944878
+//SkinMaterial;DecalOpacityExponent;Scalar;105.967239
+//SkinMaterial;DecalOffsetX;Scalar;-7.150287
+//SkinMaterial;DecalOffsetY;Scalar;-0.660427
+//SkinMaterial;DecalRoughness;Scalar;20.488819
+//FaceMorph;Teeth_Gap;Scalar;200.0
+//FaceMorph;Teeth_LowerSize;Scalar;-70.483994
+//FaceMorph;Teeth_UpperSize;Scalar;33.377411
+//FaceMorph;Teeth_Inwards;Scalar;-200.0
+//FaceMorph;Teeth_Incisors_Canines;Scalar;-24.173498
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;FullScale;Scalar;0.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;0.0
+//HairMorphs;Width;Scalar;79.923866
+//HairMorphs;Length;Scalar;-71.653915
+//HairMaterial;FringeTipScale;Scalar;-28.081656
+//HairMaterial;TipScale;Scalar;-38.241875
+//HairMaterial;Specular;Scalar;59.343864
+//HairMaterial;Roughness;Scalar;28.915749
+//HairMaterial;RootLength;Scalar;92.815483
+//HairMaterial;Scatter;Scalar;12.886757
+//EyesMaterial;VeinsIntensity;Scalar;222.878387
+//EyesMaterial;PupilScale;Scalar;58.376091
+//EyesMaterial;Iris UV Radius;Scalar;15.216234
+//EyesMaterial;LimbusDarkScale;Scalar;225.911041
+//FaceMorph;Eyes_Depth;Scalar;-53.867603
+//FaceMorph;Eye_Size;Scalar;-17.389357
+//BoneStructure;Scoliosis;Scalar;-13.448822
+//BoneStructure;Crooked Back;Scalar;90.473419
+//BoneStructure;Body Fat;Scalar;130.0
+//BoneStructure;Legs Length;Scalar;97.985649
+//BoneStructure;Breasts Scale;Scalar;20.0
+//BoneStructure;Shoulders Width;Scalar;0.0
+//BoneStructure;Shoulders Height;Scalar;0.0
+//BoneStructure;Shoulders Scale;Scalar;64.123245
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;121.317116
+//BoneStructure;Head Scale;Scalar;92.111877
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;LowerLip_Size;Scalar;-11.638439
+//FaceMorph;UpperLip_Size;Scalar;-29.930771
+//FaceMorph;Mouth_size_d;Scalar;-61.489319
+//FaceMorph;Mouth_size_h;Scalar;-54.827995
+//FaceMorph;Lips_Volume;Scalar;28.172993
+//FaceMorph;Nose_TipHeight;Scalar;-26.279772
+//FaceMorph;Nostrils_Flare;Scalar;25.630379
+//FaceMorph;Nostrils_Height;Scalar;-18.879206
+//FaceMorph;Nose_BulbousTip;Scalar;-21.068853
+//FaceMorph;Nose_Columella_Height;Scalar;13.361096
+//FaceMorph;Nostrils_Width;Scalar;74.445435
+//FaceMorph;Nose_Angle;Scalar;-0.85088
+//FaceMorph;Nose_Volume;Scalar;11.194658
+//FaceMorph;Nose_Length;Scalar;-103.053474
+//FaceMorph;Nose_Width;Scalar;-69.180252
+//FaceMorph;Nose_Position_V;Scalar;27.728916
+//FaceMorph;Jaw_Position_D;Scalar;26.478148
+//FaceMorph;Jaw_Length;Scalar;69.101311
+//FaceMorph;Ears_Pointy;Scalar;47.075489
+//FaceMorph;Ears_Angle;Scalar;-11.716545
+//FaceMorph;Ears_Size;Scalar;-55.351852
+//FaceMorph;Double_Chin;Scalar;-24.788851
+//FaceMorph;Chin_Shape;Scalar;61.158501
+//FaceMorph;Cheekbones_Width;Scalar;-67.113113
+//FaceMorph;Cheeks_Size;Scalar;43.747341
+//FaceMorph;Eyebrows_angle;Scalar;-51.076733
+//FaceMorph;HeadFat;Scalar;11.477017
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;28.398138
+//SkinMaterial;Age;Scalar;92.19783
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;100.0
+//SkinMaterial;SkinPower;Scalar;117.111877
+//SkinMaterial;SkinSaturation;Scalar;100.0
+//SkinMaterial;DecalTint;Color;(R=0.441727,G=0.281736,B=0.151573,A=0.997345)
+//TeethMaterial;DirtColor;Color;(R=0.271409,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.402236,G=0.305644,B=0.248509,A=0.678216)
+//EyebrowsMaterial;Color;Color;(R=0.544741,G=0.238494,B=0.444240,A=0.763263)
+//HairMaterial;Tip Color;Color;(R=0.465732,G=0.744651,B=0.842374,A=0.507189)
+//HairMaterial;Root Color;Color;(R=0.465732,G=0.744651,B=0.842374,A=0.810299)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=0.759765,G=0.882236,B=0.274585,A=0.636072)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.312845,B=0.163674,A=3.936464)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.000000,B=0.000000,A=0.729972)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+7
+
+//Gender;None;Name;女
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛C;Name;眉毛C
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏3;Name;污垢遮瑕膏3
+//SkinMaterial;基础女性;Name;基础女性
+//SkinMaterial;DecalScale;Scalar;100.0
+//SkinMaterial;DecalRotation;Scalar;23.392811
+//SkinMaterial;DecalOpacityExponent;Scalar;125.29982
+//SkinMaterial;DecalOffsetX;Scalar;-7.359919
+//SkinMaterial;DecalOffsetY;Scalar;-1.036467
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//FaceMorph;Teeth_Gap;Scalar;128.167145
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;62.999199
+//FaceMorph;Teeth_Incisors_Canines;Scalar;102.777054
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;FullScale;Scalar;0.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;0.0
+//HairMorphs;Width;Scalar;55.260422
+//HairMorphs;Length;Scalar;-59.552837
+//HairMaterial;FringeTipScale;Scalar;55.269386
+//HairMaterial;TipScale;Scalar;107.475708
+//HairMaterial;Specular;Scalar;30.324629
+//HairMaterial;Roughness;Scalar;46.786751
+//HairMaterial;RootLength;Scalar;102.364578
+//HairMaterial;Scatter;Scalar;71.53791
+//EyesMaterial;VeinsIntensity;Scalar;135.71524
+//EyesMaterial;PupilScale;Scalar;67.875458
+//EyesMaterial;Iris UV Radius;Scalar;13.65633
+//EyesMaterial;LimbusDarkScale;Scalar;224.049759
+//FaceMorph;Eyes_Depth;Scalar;-119.545486
+//FaceMorph;Eye_Size;Scalar;-71.054962
+//BoneStructure;Scoliosis;Scalar;-35.250263
+//BoneStructure;Crooked Back;Scalar;109.681961
+//BoneStructure;Body Fat;Scalar;130.0
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Breasts Scale;Scalar;20.0
+//BoneStructure;Shoulders Width;Scalar;-259.405579
+//BoneStructure;Shoulders Height;Scalar;-303.838257
+//BoneStructure;Shoulders Scale;Scalar;100.0
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Head Scale;Scalar;100.0
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;LowerLip_Size;Scalar;-32.662357
+//FaceMorph;UpperLip_Size;Scalar;-52.988781
+//FaceMorph;Mouth_size_d;Scalar;-26.072681
+//FaceMorph;Mouth_size_h;Scalar;-36.296284
+//FaceMorph;Lips_Volume;Scalar;-16.349257
+//FaceMorph;Nose_TipHeight;Scalar;-61.549484
+//FaceMorph;Nostrils_Flare;Scalar;14.631176
+//FaceMorph;Nostrils_Height;Scalar;-32.925468
+//FaceMorph;Nose_BulbousTip;Scalar;25.473965
+//FaceMorph;Nose_Columella_Height;Scalar;-11.723966
+//FaceMorph;Nostrils_Width;Scalar;68.227768
+//FaceMorph;Nose_Angle;Scalar;43.044781
+//FaceMorph;Nose_Volume;Scalar;48.754726
+//FaceMorph;Nose_Length;Scalar;-54.490005
+//FaceMorph;Nose_Width;Scalar;-40.667488
+//FaceMorph;Nose_Position_V;Scalar;84.136009
+//FaceMorph;Jaw_Position_D;Scalar;-10.142469
+//FaceMorph;Jaw_Length;Scalar;57.832897
+//FaceMorph;Ears_Pointy;Scalar;51.903439
+//FaceMorph;Ears_Angle;Scalar;-20.55452
+//FaceMorph;Ears_Size;Scalar;-37.216675
+//FaceMorph;Double_Chin;Scalar;37.392117
+//FaceMorph;Chin_Shape;Scalar;20.16387
+//FaceMorph;Cheekbones_Width;Scalar;62.106609
+//FaceMorph;Cheeks_Size;Scalar;18.286491
+//FaceMorph;Eyebrows_angle;Scalar;-45.932335
+//FaceMorph;HeadFat;Scalar;71.004959
+//SkinMaterial;OverlayNormalOpacity;Scalar;17.077164
+//SkinMaterial;DirtNormalIntensity;Scalar;126.978874
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;82.547508
+//SkinMaterial;Age;Scalar;87.957886
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;104.647469
+//SkinMaterial;SkinPower;Scalar;92.851929
+//SkinMaterial;SkinSaturation;Scalar;62.219704
+//SkinMaterial;DecalTint;Color;(R=0.604323,G=0.409080,B=0.270783,A=0.991710)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.630525)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.376385,G=0.454672,B=0.729839,A=0.585629)
+//EyebrowsMaterial;Color;Color;(R=0.677065,G=0.443594,B=0.495568,A=0.427198)
+//HairMaterial;Tip Color;Color;(R=0.581163,G=0.553069,B=0.760610,A=0.464493)
+//HairMaterial;Root Color;Color;(R=0.583456,G=0.643060,B=0.567350,A=0.492390)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=0.350004,G=0.384983,B=0.384769,A=0.897701)
+//EyesMaterial;IrisColor;Color;(R=0.154545,G=0.493192,B=0.503969,A=1.662476)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.033732,B=0.022682,A=0.566881)
+//SkinMaterial;SkinTint;Color;(R=0.460624,G=0.632752,B=0.552973,A=1.000000)
+
+8
+
+//Gender;None;Name;女
+//FaceMorph;None;Scalar;0.0
+//Clothing;None;Name;怪兽角A
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;旧长袍
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;长发D
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏4;Name;污垢遮瑕膏4
+//SkinMaterial;基础女性;Name;基础女性
+//SkinMaterial;DecalScale;Scalar;144.965546
+//SkinMaterial;DecalRotation;Scalar;42.11356
+//SkinMaterial;DecalOpacityExponent;Scalar;115.315422
+//SkinMaterial;DecalOffsetX;Scalar;-1.410881
+//SkinMaterial;DecalOffsetY;Scalar;0.87721
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//FaceMorph;Teeth_Gap;Scalar;18.110298
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;134.058456
+//FaceMorph;Teeth_Incisors_Canines;Scalar;200.0
+//FaceMorph;InnerMouth_Rotation;Scalar;51.37199
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//BeardMaterial;FullScale;Scalar;0.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;Scatter;Scalar;20.0
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;FullScale;Scalar;-32.838535
+//HairMorphs;Length;Scalar;84.124565
+//HairMaterial;FringeTipScale;Scalar;0.0
+//HairMaterial;TipScale;Scalar;0.0
+//HairMaterial;Specular;Scalar;70.0
+//HairMaterial;Roughness;Scalar;40.0
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;Scatter;Scalar;17.9235
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//EyesMaterial;PupilScale;Scalar;63.200211
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;13.303364
+//BoneStructure;Scoliosis;Scalar;-13.448822
+//BoneStructure;Crooked Back;Scalar;90.724014
+//BoneStructure;Body Fat;Scalar;80.251251
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Breasts Scale;Scalar;20.0
+//BoneStructure;Shoulders Width;Scalar;0.0
+//BoneStructure;Shoulders Height;Scalar;0.0
+//BoneStructure;Shoulders Scale;Scalar;100.0
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Head Scale;Scalar;100.0
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Eyebrows_angle;Scalar;29.806923
+//FaceMorph;HeadFat;Scalar;-57.788944
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;181.416946
+//SkinMaterial;Age;Scalar;100.0
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;SkinBrightness;Scalar;80.131744
+//SkinMaterial;SkinPower;Scalar;92.12841
+//SkinMaterial;SkinSaturation;Scalar;93.035904
+//SkinMaterial;DecalTint;Color;(R=0.471449,G=0.178585,B=0.186720,A=1.051367)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.688428)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.039546,G=0.019382,B=0.000000,A=1.000000)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//HairMaterial;Root Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.588980,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.848649,G=0.591743,B=0.530969,A=5.260273)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.964671,B=0.180141,A=0.879834)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.312155)
+//SkinMaterial;DirtColor;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.481246)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+9
+
+//Gender;None;Name;女
+//SkinMaterial;基础女性;Name;基础女性
+//Clothing;None;Name;怪兽角A
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;旧长袍
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;长发D
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏4;Name;污垢遮瑕膏4
+//FaceMorph;None;Scalar;0.0
+//SkinMaterial;SkinSaturation;Scalar;93.035904
+//SkinMaterial;SkinPower;Scalar;92.12841
+//SkinMaterial;SkinBrightness;Scalar;80.131744
+//SkinMaterial;Roughness;Scalar;35.0
+//SkinMaterial;Age;Scalar;100.0
+//SkinMaterial;Muscles;Scalar;181.416946
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//FaceMorph;HeadFat;Scalar;-57.788944
+//FaceMorph;Eyebrows_angle;Scalar;29.806923
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//BoneStructure;Head Scale;Scalar;100.0
+//BoneStructure;Neck Length;Scalar;100.0
+//BoneStructure;Arms Length;Scalar;100.0
+//BoneStructure;Shoulders Scale;Scalar;100.0
+//BoneStructure;Shoulders Height;Scalar;0.0
+//BoneStructure;Shoulders Width;Scalar;0.0
+//BoneStructure;Breasts Scale;Scalar;20.0
+//BoneStructure;Legs Length;Scalar;100.0
+//BoneStructure;Body Fat;Scalar;80.251251
+//BoneStructure;Crooked Back;Scalar;90.724014
+//BoneStructure;Scoliosis;Scalar;-13.448822
+//FaceMorph;Eye_Size;Scalar;13.303364
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;PupilScale;Scalar;63.200211
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//HairMaterial;Scatter;Scalar;17.9235
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;RootLengthContrast;Scalar;0.0
+//HairMaterial;Roughness;Scalar;40.0
+//HairMaterial;Specular;Scalar;70.0
+//HairMaterial;TipScale;Scalar;0.0
+//HairMaterial;FringeTipScale;Scalar;0.0
+//HairMorphs;Length;Scalar;84.124565
+//HairMaterial;FullScale;Scalar;-32.838535
+//HairMaterial;ScraggleFreq;Scalar;675.846313
+//HairMaterial;ScraggleStrength;Scalar;84.149368
+//HairMaterial;WindMovementRange;Scalar;100.0
+//HairMaterial;ReflectionsFreq;Scalar;2000.0
+//HairMaterial;ReflectionsIntensity;Scalar;0.0
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//BeardMaterial;Scatter;Scalar;20.0
+//BeardMaterial;Roughness;Scalar;40.0
+//BeardMaterial;FullScale;Scalar;0.0
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;InnerMouth_Rotation;Scalar;51.37199
+//FaceMorph;Teeth_Incisors_Canines;Scalar;200.0
+//FaceMorph;Teeth_UpperSize;Scalar;134.058456
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_Gap;Scalar;18.110298
+//SkinMaterial;DecalRoughness;Scalar;30.000002
+//SkinMaterial;DecalOffsetY;Scalar;0.87721
+//SkinMaterial;DecalOffsetX;Scalar;-1.410881
+//SkinMaterial;DecalOpacityExponent;Scalar;115.315422
+//SkinMaterial;DecalRotation;Scalar;42.11356
+//SkinMaterial;DecalScale;Scalar;144.965546
+//SkinMaterial;DecalTint;Color;(R=0.471449,G=0.178585,B=0.186720,A=1.051367)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.688428)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;GumsTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//BeardMaterial;Root Color;Color;(R=0.100000,G=0.070000,B=0.047000,A=1.000000)
+//EyelashesMaterial;Color;Color;(R=0.039546,G=0.019382,B=0.000000,A=1.000000)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//HairMaterial;Root Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=1.000000)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.588980,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.848649,G=0.591743,B=0.530969,A=5.260273)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.964671,B=0.180141,A=0.879834)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.312155)
+//SkinMaterial;DirtColor;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.481246)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+10
+
+//Gender;None;Name;女
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;长袖衬衫（撕破的）
+//SkinMaterial;面部疤痕A;Name;面部疤痕A
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;长发D
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏2;Name;污垢遮瑕膏2
+//SkinMaterial;基础女性;Name;基础女性
+//FaceMorph;None;Scalar;0.0
+//SkinMaterial;DecalScale;Scalar;102.13208
+//SkinMaterial;DecalRotation;Scalar;54.810188
+//SkinMaterial;DecalOpacityExponent;Scalar;135.920441
+//SkinMaterial;DecalOffsetX;Scalar;-0.618825
+//SkinMaterial;DecalOffsetY;Scalar;-0.202809
+//FaceMorph;Teeth_Gap;Scalar;128.167145
+//FaceMorph;Teeth_LowerSize;Scalar;-9.124571
+//FaceMorph;Teeth_UpperSize;Scalar;62.999199
+//FaceMorph;Teeth_Incisors_Canines;Scalar;102.777054
+//FaceMorph;InnerMouth_Rotation;Scalar;64.083572
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;ReflectionsIntensity;Scalar;27.888752
+//HairMaterial;RootLengthContrast;Scalar;87.248901
+//HairMaterial;RootLength;Scalar;14.786339
+//HairMaterial;Specular;Scalar;45.809956
+//HairMaterial;Roughness;Scalar;31.60412
+//HairMaterial;Scatter;Scalar;19.583803
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//EyesMaterial;PupilScale;Scalar;63.200211
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;13.303364
+//BoneStructure;Crooked Back;Scalar;107.146263
+//BoneStructure;Body Fat;Scalar;80.251251
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Eyebrows_angle;Scalar;29.806923
+//FaceMorph;HeadFat;Scalar;-57.788944
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;100.185135
+//SkinMaterial;Age;Scalar;92.19783
+//SkinMaterial;SkinPower;Scalar;117.111877
+//SkinMaterial;DecalTint;Color;(R=0.150000,G=0.000000,B=0.000000,A=2.000000)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.630525)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=0.838536,G=0.556021,B=0.644485,A=0.316310)
+//HairMaterial;Root Color;Color;(R=0.319164,G=0.641631,B=0.924147,A=0.267798)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.782459,B=0.492403,A=0.879834)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.312155)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.000000,B=0.000000,A=0.729972)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+11
+
+//Gender;None;Name;男
+//Clothing;None;Name;怪兽角A
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;旧长袍
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;长发C
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏4;Name;污垢遮瑕膏4
+//SkinMaterial;基础男性;Name;基础男性
+//FaceMorph;None;Scalar;0.0
+//SkinMaterial;DecalScale;Scalar;113.212036
+//SkinMaterial;DecalRotation;Scalar;70.78653
+//SkinMaterial;DecalOpacityExponent;Scalar;115.315422
+//SkinMaterial;DecalOffsetX;Scalar;-2.503239
+//SkinMaterial;DecalOffsetY;Scalar;-3.491579
+//FaceMorph;Teeth_Gap;Scalar;116.118958
+//FaceMorph;Teeth_LowerSize;Scalar;64.178909
+//FaceMorph;Teeth_UpperSize;Scalar;111.747955
+//FaceMorph;Teeth_Incisors_Canines;Scalar;200.0
+//FaceMorph;InnerMouth_Rotation;Scalar;47.569012
+//FaceMorph;InnerMouth_PositionD;Scalar;-41.708542
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;ScraggleStrength;Scalar;56.95607
+//HairMaterial;ScraggleFreq;Scalar;369.821014
+//HairMaterial;FullScale;Scalar;-17.122137
+//HairMorphs;Width;Scalar;51.427841
+//HairMorphs;Length;Scalar;200.0
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;Specular;Scalar;40.34618
+//HairMaterial;Roughness;Scalar;32.259773
+//HairMaterial;Scatter;Scalar;10.40466
+//EyesMaterial;VeinsIntensity;Scalar;230.110794
+//EyesMaterial;PupilScale;Scalar;64.732231
+//EyesMaterial;Iris UV Radius;Scalar;18.165237
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;9.104025
+//BoneStructure;Crooked Back;Scalar;91.993523
+//BoneStructure;Shoulders Width;Scalar;38.928223
+//BoneStructure;Shoulders Height;Scalar;-81.674812
+//BoneStructure;Shoulders Scale;Scalar;121.454308
+//BoneStructure;Body Fat;Scalar;80.251251
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Eyebrows_angle;Scalar;89.967964
+//FaceMorph;HeadFat;Scalar;-57.788944
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.120028
+//SkinMaterial;DirtNormalIntensity;Scalar;44.045753
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;17.931765
+//SkinMaterial;Muscles;Scalar;181.416946
+//SkinMaterial;Age;Scalar;61.764191
+//SkinMaterial;Roughness;Scalar;30.511368
+//SkinMaterial;SkinBrightness;Scalar;90.764488
+//SkinMaterial;SkinPower;Scalar;113.475037
+//SkinMaterial;SkinSaturation;Scalar;93.035904
+//SkinMaterial;DecalTint;Color;(R=0.471449,G=0.178585,B=0.186720,A=1.051367)
+//TeethMaterial;DirtColor;Color;(R=0.082283,G=0.054480,B=0.031896,A=0.688428)
+//TeethMaterial;TongueTint;Color;(R=0.119406,G=0.000000,B=0.000000,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.246547)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=0.764340,G=0.213577,B=0.113698,A=0.179333)
+//HairMaterial;Root Color;Color;(R=0.892756,G=0.187894,B=0.079454,A=0.227846)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.848649,G=0.591743,B=0.530969,A=9.008678)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.964671,B=0.180141,A=1.015015)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.671961,B=0.627762,A=2.794821)
+//SkinMaterial;DirtColor;Color;(R=0.000000,G=0.000000,B=0.000000,A=0.650192)
+//SkinMaterial;SkinTint;Color;(R=0.622238,G=0.873619,B=1.000000,A=1.000000)
+
+12
+
+//Gender;None;Name;男
+//Clothing;None;Name;脏裹脚布
+//Clothing;None;Name;脏裤子
+//Clothing;None;Name;短袖T恤（撕破款）
+//SkinMaterial;面部伤口;Name;面部伤口
+//SkinMaterial;皮肤胡须A;Name;皮肤胡须A
+//EyelashesMaterial;睫毛A;Name;睫毛A
+//EyebrowsMaterial;眉毛E;Name;眉毛E
+//Clothing;None;Name;短发E
+//SkinMaterial;纹理皮肤2;Name;纹理皮肤2
+//SkinMaterial;污垢遮瑕膏2;Name;污垢遮瑕膏2
+//SkinMaterial;基础男性;Name;基础男性
+//FaceMorph;None;Scalar;0.0
+//SkinMaterial;DecalScale;Scalar;89.148125
+//SkinMaterial;DecalRotation;Scalar;16.857595
+//SkinMaterial;DecalOpacityExponent;Scalar;68.334328
+//SkinMaterial;DecalOffsetX;Scalar;-7.187109
+//SkinMaterial;DecalOffsetY;Scalar;-0.78439
+//FaceMorph;Teeth_Gap;Scalar;135.351486
+//FaceMorph;Teeth_LowerSize;Scalar;48.443233
+//FaceMorph;Teeth_UpperSize;Scalar;57.547234
+//FaceMorph;Teeth_Inwards;Scalar;-62.218834
+//FaceMorph;Teeth_Incisors_Canines;Scalar;165.074448
+//FaceMorph;InnerMouth_Rotation;Scalar;83.848557
+//FaceMorph;InnerMouth_PositionD;Scalar;5.170095
+//FaceMorph;Mouth_Open;Scalar;40.359695
+//SkinMaterial;BeardExponent;Scalar;245.834442
+//EyelashesMaterial;AlphaExponent;Scalar;124.874374
+//EyebrowsMaterial;AlphaExponent;Scalar;117.045761
+//HairMaterial;ReflectionsFreq;Scalar;2474.72583
+//HairMaterial;ReflectionsIntensity;Scalar;41.001831
+//HairMaterial;RootLength;Scalar;100.0
+//HairMaterial;Roughness;Scalar;20.676569
+//HairMaterial;Scatter;Scalar;31.049988
+//EyesMaterial;VeinsIntensity;Scalar;295.017975
+//EyesMaterial;PupilScale;Scalar;65.125618
+//EyesMaterial;Iris UV Radius;Scalar;15.000001
+//EyesMaterial;LimbusDarkScale;Scalar;215.000015
+//FaceMorph;Eyelids_Type;Scalar;-100.0
+//FaceMorph;Eyes_Depth;Scalar;123.089127
+//FaceMorph;Eye_Size;Scalar;13.303364
+//BoneStructure;Crooked Back;Scalar;107.146263
+//BoneStructure;Body Fat;Scalar;80.251251
+//FaceMorph;UpperLip_Height;Scalar;-1.084369
+//FaceMorph;Mouth_Height;Scalar;-39.592701
+//FaceMorph;Lips_Volume;Scalar;-43.824387
+//FaceMorph;Nose_TipHeight;Scalar;6.532669
+//FaceMorph;Nostrils_Flare;Scalar;-3.623378
+//FaceMorph;Nostrils_Height;Scalar;17.111874
+//FaceMorph;Nose_BulbousTip;Scalar;-19.280613
+//FaceMorph;Nose_Columella_Height;Scalar;39.962971
+//FaceMorph;Nostrils_Width;Scalar;-40.253902
+//FaceMorph;Nose_Angle;Scalar;64.929916
+//FaceMorph;Nose_Volume;Scalar;-67.098656
+//FaceMorph;Nose_Length;Scalar;-200.0
+//FaceMorph;Nose_Width;Scalar;115.472099
+//FaceMorph;Nose_Position_V;Scalar;-106.268188
+//FaceMorph;Jaw_Position_D;Scalar;46.918797
+//FaceMorph;Jaw_Length;Scalar;40.148109
+//FaceMorph;Chin_Shape;Scalar;45.040989
+//FaceMorph;Cheekbones_Width;Scalar;41.84079
+//FaceMorph;Ears_Angle;Scalar;23.882568
+//FaceMorph;Ears_Size;Scalar;46.733665
+//FaceMorph;Eyebrows_angle;Scalar;88.656677
+//FaceMorph;HeadFat;Scalar;-69.57444
+//SkinMaterial;OverlayNormalOpacity;Scalar;14.334832
+//SkinMaterial;DirtNormalIntensity;Scalar;66.172546
+//SkinMaterial;DirtExponent;Scalar;199.0
+//SkinMaterial;DirtRoughness;Scalar;5.815082
+//SkinMaterial;Muscles;Scalar;141.449585
+//SkinMaterial;Age;Scalar;92.19783
+//SkinMaterial;SkinPower;Scalar;120.468689
+//SkinMaterial;DecalTint;Color;(R=0.522525,G=0.323634,B=0.239596,A=1.857418)
+//TeethMaterial;DirtColor;Color;(R=0.110844,G=0.054480,B=0.031896,A=0.692998)
+//TeethMaterial;TongueTint;Color;(R=0.185773,G=0.000000,B=0.000000,A=1.000000)
+//TeethMaterial;TeethTint;Color;(R=1.000000,G=0.359116,B=0.202163,A=1.000000)
+//SkinMaterial;Lipstick;Color;(R=0.078039,G=0.000000,B=0.177486,A=0.051450)
+//SkinMaterial;Eyeshadow;Color;(R=0.078039,G=0.050414,B=0.166436,A=0.065185)
+//SkinMaterial;Eyeliner;Color;(R=0.000000,G=0.000000,B=0.010000,A=0.000000)
+//SkinMaterial;Blush;Color;(R=0.650000,G=0.220000,B=0.350000,A=0.000000)
+//SkinMaterial;BeardColor;Color;(R=0.072272,G=0.031896,B=0.022174,A=0.282459)
+//EyebrowsMaterial;Color;Color;(R=0.119475,G=0.127762,B=0.174724,A=1.000000)
+//HairMaterial;Tip Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=0.242114)
+//HairMaterial;Root Color;Color;(R=1.000000,G=1.000000,B=1.000000,A=0.156504)
+//EyesMaterial;Animated_Glow;Color;(R=1.000000,G=10.000000,B=0.000000,A=0.000000)
+//EyesMaterial;Iris Emissive Color;Color;(R=0.000000,G=0.000000,B=0.000000,A=6.782798)
+//EyesMaterial;ScleraColor;Color;(R=1.000000,G=0.587411,B=0.147943,A=0.929405)
+//EyesMaterial;IrisColor;Color;(R=1.000000,G=0.658753,B=0.000000,A=4.000000)
+//SkinMaterial;DirtColor;Color;(R=0.055939,G=0.000000,B=0.000000,A=0.935562)
+//SkinMaterial;SkinTint;Color;(R=0.487532,G=0.727242,B=0.875634,A=1.000000)

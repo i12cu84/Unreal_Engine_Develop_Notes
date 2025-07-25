@@ -52,6 +52,38 @@ scenecaptureca摄像头和流媒体视频
 
 # 启用
 
+1.
+
+场景运行日志报错:
+
+正在调用FindCollisionUV, 但项目设置中未启用"支持来自命中结果的UV". 要查找碰撞结果的UV, 必须进行此设置.
+
+->
+
 项目设置 -> 引擎 -> Phtsics -> 优化 -> 支持撞击结果的UV
 
 关卡Usecase_008B_LavaWorldSpace -> 需要添加ChasoVehiclesPlugin 插件才能运行
+
+2.
+
+场景运行输出报错:
+
+NinjaLive STATUS - WARNING
+
+AUTOFIND was unable to match USER defined "TraceChannel" NAME to existing, Project Defined TraceChannels.
+
+System falls back to "TraceChannel" and "CollisionChannel" ENUMS.
+
+Check NinjxLiveComponent /LiveCompatibility /PreferredTraceChannelName
+
+You could switch off this Message at NinjxLiveComponent /LiveDebug
+
+->
+
+项目设置 -> 引擎 -> Collision -> Obejct Channels -> 新建检测通道 -> 命名FluidTrace 默认响应忽略(Ignore)
+
+3.
+
+008B场景编译错误,是蓝图类Sedan_chaos产生错误
+
+加入ChaosVehiclesPlugin
