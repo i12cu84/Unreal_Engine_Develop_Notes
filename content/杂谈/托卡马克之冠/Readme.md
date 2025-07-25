@@ -1,11 +1,6 @@
 # 托卡马克之冠
 
 
-
-该源共计 1832个文件 82M大小
-
-
-
 主要内容:
 
 2020.4.21~2024.12.3知乎回答内容(无图压缩版)以及群聊聊天记录,信息略有折损
@@ -15,10 +10,6 @@
 
 
 [部分资料源镜像(含图无损版) 2.22G 来源(知乎)量子之橙](https://016yw-my.sharepoint.com/:f:/g/personal/tkmk_headns_com/EhTkh6HQp0ZDvMhlKpCOnWQB7dDROk5AsHvSbgPXhe_zLg?e=ZK0sSc)
-
-
-
-
 
 github作者:i12cu84 在源的基础上二次整理与排版.
 
