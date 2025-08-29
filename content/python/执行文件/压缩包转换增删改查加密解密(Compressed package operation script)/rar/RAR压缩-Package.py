@@ -11,6 +11,7 @@ EXCLUDE_LIST = [
     "Binaries",
     "DerivedDataCache",
     "Intermediate",
+    "PK",
     "Saved",
     "Build",
     "Platforms",
